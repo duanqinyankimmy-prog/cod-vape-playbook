@@ -1,0 +1,35 @@
+{
+  "build_command": "pnpm run build",
+  "capabilities": [],
+  "dev_command": "pnpm run dev",
+  "env_vars": {},
+  "experiments": null,
+  "git_remote": {
+    "repo_url": "s3://vida-prod-gitrepo/webdev-git/310519663279871613/Ypg5ZhcNc3Kv7oxxCKNagF",
+    "access_key_id": "ASIAZV3A2ECZPV2XSNH6",
+    "secret_access_key": "9ZRXhgnXBddMALsRF8FfN7EYSTNfsxNQyaa+nNIc",
+    "session_token": "IQoJb3JpZ2luX2VjEAcaCXVzLWVhc3QtMSJIMEYCIQC97o18X7aXKPMKWJK/hdDTQ8vVcQnjNiD9Gs5kN3IDdQIhAJUG4RVuW/yaSqIetqmDwDfVSPBN6B0h6NmMsrPLA5ETKv8DCND//////////wEQBBoMNjY1Mzg2MDk4ODY2IgyISk3E3BENRzVfa0Aq0wNULpFZi3svf4uT+aROj+sMj4bnGC5fpxKqdlUuBOdS/sy32ZnOuckKUrmIYRdQ3hTssRDqhYEH23FdcE0mKVgy3FpR0XKiTbWG9jEOvE7tKtH2ql1XizgCheUbenbrDtZ/FT13u98onURc6skRfjv+Us3+eE68bM4QijKApZNOjjRt3OWMcWAyYaBjuWcbDISFI6oDt4SHiXwlzJIfAWmgQPCkYLtCKPyDzovRuVot0klia6oaVAhoVWVfjY1t3WN7adWphA8PuuAUZUKOM1G8EGyH84MMbLeXNxKHLznDND5V4mk+5kksOK1Ou8wBFYpoVFwijINnQX6BO0U0XXU6zpKAslu0eo2Th8UYCpG862UukxrcZSPNk6vX2SLuhSXGcddm/MI+9YMDspDMMh6HAfaMSxpa65hyetsapM577wIcVkC2mRdMYYZ95FeomwcxabdYxht+AKOLOB0SGMz6WMVSAVg7D7hcvySkjhUBrao1pcFXKJDHFwuQ3l4fVJzn1wkX7zNm59HOkBn3IDMtQ7JlgSm089CFaksxhRWkYA3eQ2C5fBX/hA9ZAqLdB2BdO2peYaniIvXGjttPGo+6lByYIFoJ5IppurOXTGYCLAGpjDC8lrDQBjqcAb8WL+tBFSFtK/PZJv9xG+EzaXtptlEcIb/nrb8qPfgvB7haSj+PXMKRVY22/HLu4hrIe26tY/Shn4Qf33mhe9/B3cwwztC4hAQHpIqOw+LSz8nYJw35W27PO3ZNEgsNo5cMUX4Cj4SQKm4MfAN2vocVstJzWuIwCcKU5KIUL8jt6htJ0tMMdYOpeuXMT3WPtG4RdWolaDriMkdyQQ==",
+    "expiration": "2026-05-19T19:03:24.000Z"
+  },
+  "name": "cod-vape-playbook",
+  "path": "/home/ubuntu/cod-vape-playbook",
+  "port": 3000,
+  "secrets": {
+    "BUILT_IN_FORGE_API_KEY": "hYfdPWnJd8rWsj9tAFWePZ",
+    "BUILT_IN_FORGE_API_URL": "https://forge.manus.ai",
+    "JWT_SECRET": "aUrnoxr2PetGcwwD6LyF9d",
+    "OAUTH_SERVER_URL": "https://api.manus.im",
+    "OWNER_NAME": "XINGHUA YANG",
+    "OWNER_OPEN_ID": "WFkRc4AEgPhvRjue7dvdVn",
+    "VITE_ANALYTICS_ENDPOINT": "https://manus-analytics.com",
+    "VITE_ANALYTICS_WEBSITE_ID": "815f6f6c-3ec9-469c-8fea-d87ba6905d52",
+    "VITE_APP_ID": "Ypg5ZhcNc3Kv7oxxCKNagF",
+    "VITE_APP_LOGO": "",
+    "VITE_APP_TITLE": "东欧 COD 电子烟 WhatsApp 完整成交步骤",
+    "VITE_FRONTEND_FORGE_API_KEY": "anY4oAzYUYQFg5njzkLvW6",
+    "VITE_FRONTEND_FORGE_API_URL": "https://forge.manus.ai",
+    "VITE_OAUTH_PORTAL_URL": "https://manus.im"
+  },
+  "template_id": "web-static",
+  "test_command": "pnpm test"
+}
