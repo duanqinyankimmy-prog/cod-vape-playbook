@@ -1,204 +1,382 @@
 /**
- * Design Philosophy: WhatsApp Immersive (方案 C) — Enhanced
- * - Deep dark background (#0B141A) + WhatsApp green (#25D366) accent
- * - Simulated WhatsApp chat bubbles for scripts
- * - Features: Language toggle (EN/RO/PL), Step progress tracker, Script editor, Tag filter
- * - Space Grotesk (EN titles) + Noto Sans SC (CN body)
- * - Staggered entrance animations, copy-to-clipboard interaction
+ * Design Philosophy: WhatsApp Immersive (方案 C) — v3 Full Expansion
+ * - 6 languages: EN / RO / PL / HU / PT / CS + Chinese (ZH) reference column
+ * - Expanded scripts: 10 main steps + 5 bonus scenarios
+ * - Each step shows: 实战逻辑 | 话术 (selected lang) | 中文对照
+ * - Features: lang switcher, tag filter, search, progress tracker, script editor
  */
 
 import { useState, useCallback } from "react";
 import {
-  Check,
-  Copy,
-  MessageCircle,
-  TrendingUp,
-  Shield,
-  Zap,
-  ChevronDown,
-  ChevronUp,
-  Globe,
-  BarChart2,
-  Edit3,
-  X,
-  RotateCcw,
-  Search,
+  Check, Copy, MessageCircle, TrendingUp, Shield, Zap,
+  ChevronDown, ChevronUp, Globe, BarChart2, Edit3,
+  X, RotateCcw, Search, BookOpen,
 } from "lucide-react";
 import { toast } from "sonner";
 
-// ─── Data ────────────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
 
-type LangKey = "en" | "ro" | "pl";
+type LangKey = "en" | "ro" | "pl" | "hu" | "pt" | "cs";
 
 interface Section {
   title: string;
   subtitle: string;
   content: string[];
   scripts: Record<LangKey, string>;
+  zh: string;          // Chinese reference translation
   tag: string;
   tagColor: string;
+  bonus?: boolean;     // bonus scenario flag
 }
 
+// ─── Language metadata ────────────────────────────────────────────────────────
+
+const LANG_META: Record<LangKey, { label: string; flag: string; market: string }> = {
+  en: { label: "English",    flag: "🇬🇧", market: "通用" },
+  ro: { label: "Română",     flag: "🇷🇴", market: "罗马尼亚" },
+  pl: { label: "Polski",     flag: "🇵🇱", market: "波兰" },
+  hu: { label: "Magyar",     flag: "🇭🇺", market: "匈牙利" },
+  pt: { label: "Português",  flag: "🇵🇹", market: "葡萄牙/巴西" },
+  cs: { label: "Čeština",    flag: "🇨🇿", market: "捷克" },
+};
+
+// ─── All sections ─────────────────────────────────────────────────────────────
+
 const sections: Section[] = [
+  // ── Step 1 ──
   {
     title: "第一步：用户进入 WhatsApp",
-    subtitle: "3秒建立信任",
+    subtitle: "3秒建立信任，先安全感后产品",
     content: [
       "用户第一反应：像不像骗子。",
       "先建立安全感，而不是介绍产品。",
+      "回复速度要在1分钟内，越快越好。",
     ],
     scripts: {
-      en: `Hello 👋\nWelcome to CLOUD VAPE\n\n✅ Original Products\n✅ Fast Shipping\n✅ Cash on Delivery\n✅ Delivery in 24-72h\n\nWhich flavor do you want? 🔥`,
-      ro: `Bună 👋\nBun venit la CLOUD VAPE\n\n✅ Produse Originale\n✅ Livrare Rapidă\n✅ Plată la Livrare\n✅ Livrare în 24-72h\n\nCe aromă dorești? 🔥`,
-      pl: `Cześć 👋\nWitaj w CLOUD VAPE\n\n✅ Oryginalne Produkty\n✅ Szybka Wysyłka\n✅ Płatność przy Odbiorze\n✅ Dostawa w 24-72h\n\nJaki smak chcesz? 🔥`,
+      en: `Hello 👋 Welcome to CLOUD VAPE\n\n✅ 100% Original Products\n✅ Fast Shipping (24-72h)\n✅ Cash on Delivery — Pay when it arrives\n✅ Easy Returns\n\nWhich flavor are you looking for? 🔥`,
+      ro: `Bună 👋 Bun venit la CLOUD VAPE\n\n✅ Produse 100% Originale\n✅ Livrare Rapidă (24-72h)\n✅ Plată la Livrare — Plătești când ajunge\n✅ Returnare Ușoară\n\nCe aromă cauți? 🔥`,
+      pl: `Cześć 👋 Witaj w CLOUD VAPE\n\n✅ 100% Oryginalne Produkty\n✅ Szybka Wysyłka (24-72h)\n✅ Płatność przy Odbiorze — Płacisz gdy dotrze\n✅ Łatwe Zwroty\n\nJakiego smaku szukasz? 🔥`,
+      hu: `Szia 👋 Üdvözlünk a CLOUD VAPE-nél\n\n✅ 100% Eredeti Termékek\n✅ Gyors Szállítás (24-72h)\n✅ Utánvétes Fizetés — Fizetsz amikor megérkezik\n✅ Könnyű Visszaküldés\n\nMilyen ízet keresel? 🔥`,
+      pt: `Olá 👋 Bem-vindo à CLOUD VAPE\n\n✅ Produtos 100% Originais\n✅ Envio Rápido (24-72h)\n✅ Pagamento na Entrega — Paga quando chegar\n✅ Devoluções Fáceis\n\nQue sabor estás à procura? 🔥`,
+      cs: `Ahoj 👋 Vítej v CLOUD VAPE\n\n✅ 100% Originální Produkty\n✅ Rychlé Doručení (24-72h)\n✅ Platba při Doručení — Platíš až dorazí\n✅ Snadné Vrácení\n\nJakou příchuť hledáš? 🔥`,
     },
+    zh: `你好 👋 欢迎来到 CLOUD VAPE\n\n✅ 100% 正品\n✅ 快速发货（24-72小时）\n✅ 货到付款 — 收到再付\n✅ 轻松退换\n\n你在找什么口味？🔥`,
     tag: "破冰",
     tagColor: "bg-emerald-500/20 text-emerald-400",
   },
+
+  // ── Step 2 ──
   {
     title: "第二步：用户咨询价格",
-    subtitle: "热销感 → 套餐 → COD",
+    subtitle: "热销感 → 套餐 → COD → 推动下单",
     content: [
-      "不要只发价格。",
-      "正确顺序：热销感 → 套餐 → COD → 推动下单。",
+      "不要只发价格，先制造热销感。",
+      "套餐定价让3件看起来最划算。",
+      "结尾强调 COD，消除付款顾虑。",
     ],
     scripts: {
-      en: `This model is very popular now 🔥\n\n1 pcs — €29\n2 pcs — €39\n3 pcs — €49 ⭐ Best Seller\n\n✅ Original\n✅ Fast shipping\n✅ Cash on Delivery`,
-      ro: `Acest model este foarte popular acum 🔥\n\n1 buc — 149 lei\n2 buc — 199 lei\n3 buc — 249 lei ⭐ Cel mai vândut\n\n✅ Original\n✅ Livrare rapidă\n✅ Plată la livrare`,
-      pl: `Ten model jest teraz bardzo popularny 🔥\n\n1 szt — 130 zł\n2 szt — 170 zł\n3 szt — 210 zł ⭐ Bestseller\n\n✅ Oryginalny\n✅ Szybka wysyłka\n✅ Płatność przy odbiorze`,
+      en: `This model is 🔥 HOT right now!\n\n📦 1 pcs — €29\n📦 2 pcs — €39  (save €19)\n📦 3 pcs — €49  ⭐ BEST VALUE\n\n✅ Original  ✅ Fast shipping  ✅ Cash on Delivery\n\nMost customers go with 3 — same shipping, better price 😊`,
+      ro: `Acest model este 🔥 SUPER POPULAR acum!\n\n📦 1 buc — 149 lei\n📦 2 buc — 199 lei  (economisești 99 lei)\n📦 3 buc — 249 lei  ⭐ CEL MAI BUN PREȚ\n\n✅ Original  ✅ Livrare rapidă  ✅ Plată la livrare\n\nMajoritatea clienților aleg 3 — aceeași livrare, preț mai bun 😊`,
+      pl: `Ten model jest 🔥 MEGA POPULARNY teraz!\n\n📦 1 szt — 130 zł\n📦 2 szt — 170 zł  (oszczędzasz 90 zł)\n📦 3 szt — 210 zł  ⭐ NAJLEPSZA CENA\n\n✅ Oryginalny  ✅ Szybka wysyłka  ✅ Płatność przy odbiorze\n\nWiększość klientów bierze 3 — ta sama wysyłka, lepsza cena 😊`,
+      hu: `Ez a modell 🔥 NAGYON NÉPSZERŰ most!\n\n📦 1 db — 10 900 Ft\n📦 2 db — 14 900 Ft  (megtakarítasz 6 900 Ft-ot)\n📦 3 db — 18 900 Ft  ⭐ LEGJOBB ÁR\n\n✅ Eredeti  ✅ Gyors szállítás  ✅ Utánvétes fizetés\n\nA legtöbb vevő 3-at vesz — ugyanolyan szállítás, jobb ár 😊`,
+      pt: `Este modelo está 🔥 A VENDER MUITO agora!\n\n📦 1 un — €29\n📦 2 un — €39  (poupa €19)\n📦 3 un — €49  ⭐ MELHOR VALOR\n\n✅ Original  ✅ Envio rápido  ✅ Pagamento na entrega\n\nA maioria dos clientes leva 3 — mesmo envio, melhor preço 😊`,
+      cs: `Tento model je 🔥 SUPER POPULÁRNÍ teď!\n\n📦 1 ks — 720 Kč\n📦 2 ks — 980 Kč  (ušetříš 460 Kč)\n📦 3 ks — 1 220 Kč  ⭐ NEJLEPŠÍ CENA\n\n✅ Originální  ✅ Rychlé doručení  ✅ Platba při doručení\n\nVětšina zákazníků bere 3 — stejné doručení, lepší cena 😊`,
     },
+    zh: `这款现在 🔥 超级热销！\n\n📦 1个 — ¥210\n📦 2个 — ¥280（省¥140）\n📦 3个 — ¥350 ⭐ 最超值\n\n✅ 正品  ✅ 快速发货  ✅ 货到付款\n\n大多数客户选3个——运费一样，价格更划算 😊`,
     tag: "报价",
     tagColor: "bg-blue-500/20 text-blue-400",
   },
+
+  // ── Step 3 ──
   {
     title: "第三步：用户开始犹豫",
-    subtitle: "用短句建立信任",
+    subtitle: "短句建立信任，消除被骗顾虑",
     content: [
       "用户担心被骗，不是担心参数。",
-      "用短句建立信任。",
+      "用最短的话强调 COD 安全感。",
+      "不要长篇大论，3句话解决问题。",
     ],
     scripts: {
-      en: `Yes 👍\n\nYou only pay when the package arrives.\n\nNo online payment needed.`,
-      ro: `Da 👍\n\nPlătești doar când coletul ajunge la tine.\n\nNu este nevoie de plată online.`,
-      pl: `Tak 👍\n\nPłacisz tylko gdy paczka dotrze do Ciebie.\n\nBez płatności online.`,
+      en: `No worries at all 😊\n\nYou ONLY pay when the courier hands you the package.\n\nNo online payment. No risk. 100% safe. ✅`,
+      ro: `Nicio grijă 😊\n\nPlătești DOAR când curierul îți înmânează coletul.\n\nFără plată online. Fără risc. 100% sigur. ✅`,
+      pl: `Żadnych obaw 😊\n\nPłacisz TYLKO gdy kurier wręczy Ci paczkę.\n\nBez płatności online. Bez ryzyka. 100% bezpieczne. ✅`,
+      hu: `Semmi gond 😊\n\nCSAK akkor fizetsz, amikor a futár átadja a csomagot.\n\nNincs online fizetés. Nincs kockázat. 100% biztonságos. ✅`,
+      pt: `Sem preocupações 😊\n\nSÓ pagas quando o estafeta te entregar o pacote.\n\nSem pagamento online. Sem risco. 100% seguro. ✅`,
+      cs: `Žádné obavy 😊\n\nPlatíš POUZE když ti kurýr předá balíček.\n\nŽádná online platba. Žádné riziko. 100% bezpečné. ✅`,
     },
+    zh: `完全不用担心 😊\n\n你只需要在快递员把包裹交到你手上时付款。\n\n不需要网上支付。没有风险。100% 安全。✅`,
     tag: "信任",
     tagColor: "bg-yellow-500/20 text-yellow-400",
   },
+
+  // ── Step 4 ──
   {
     title: "第四步：制造成交压力",
-    subtitle: "库存感 + 时间感 + 发货感",
+    subtitle: "库存感 + 时间感 + 发货感三合一",
     content: [
       "用户不是不买，而是拖延。",
-      "制造库存感、时间感、发货感。",
+      "三个压力点同时出现效果最好。",
+      "不要用假促销，用真实的发货时效。",
     ],
     scripts: {
-      en: `🔥 This flavor is selling very fast today\n⏰ The discount ends tonight\n🚚 If you order now, we can ship today`,
-      ro: `🔥 Această aromă se vinde foarte repede azi\n⏰ Reducerea expiră în această seară\n🚚 Dacă comanzi acum, putem expedia azi`,
-      pl: `🔥 Ten smak sprzedaje się dziś bardzo szybko\n⏰ Zniżka kończy się dziś wieczorem\n🚚 Jeśli zamówisz teraz, możemy wysłać dziś`,
+      en: `⚠️ Quick update:\n\n🔥 This flavor is almost sold out today\n⏰ Our promo price ends at midnight\n🚚 Orders placed NOW ship same day\n\nDo you want me to reserve one for you? 👇`,
+      ro: `⚠️ Update rapid:\n\n🔥 Această aromă e aproape epuizată azi\n⏰ Prețul promoțional expiră la miezul nopții\n🚚 Comenzile plasate ACUM se expediază în aceeași zi\n\nVrei să îți rezerv una? 👇`,
+      pl: `⚠️ Szybka aktualizacja:\n\n🔥 Ten smak prawie się wyprzedał dziś\n⏰ Nasza cena promocyjna kończy się o północy\n🚚 Zamówienia złożone TERAZ wysyłamy tego samego dnia\n\nChcesz żebym zarezerwował dla Ciebie? 👇`,
+      hu: `⚠️ Gyors frissítés:\n\n🔥 Ez az íz ma majdnem elfogyott\n⏰ Az akciós ár éjfélkor lejár\n🚚 A MOST leadott rendeléseket aznap szállítjuk\n\nRezerváljak neked egyet? 👇`,
+      pt: `⚠️ Atualização rápida:\n\n🔥 Este sabor está quase esgotado hoje\n⏰ O nosso preço promocional termina à meia-noite\n🚚 Encomendas feitas AGORA são enviadas no mesmo dia\n\nQueres que reserve um para ti? 👇`,
+      cs: `⚠️ Rychlá aktualizace:\n\n🔥 Tato příchuť je dnes skoro vyprodaná\n⏰ Naše promo cena končí o půlnoci\n🚚 Objednávky zadané TEĎKA posíláme tentýž den\n\nChceš, abych ti jeden rezervoval? 👇`,
     },
+    zh: `⚠️ 快速提醒：\n\n🔥 这个口味今天快卖完了\n⏰ 促销价格今晚零点截止\n🚚 现在下单今天就发货\n\n要我帮你留一个吗？👇`,
     tag: "催单",
     tagColor: "bg-orange-500/20 text-orange-400",
   },
+
+  // ── Step 5 ──
   {
     title: "第五步：强推套餐",
-    subtitle: "提高利润核心",
+    subtitle: "社会认同 + 价值对比 = 多件成交",
     content: [
       "东欧 COD 利润核心是多件成交。",
-      '用"别人都这样买"推动。',
+      '用"别人都这样买"制造社会认同。',
+      "用运费对比强化3件的价值感。",
     ],
     scripts: {
-      en: `Most customers choose 3 pcs 👍\n\nThe shipping cost is almost the same and the price is much better.`,
-      ro: `Majoritatea clienților aleg 3 bucăți 👍\n\nCostul de livrare este aproape același, dar prețul este mult mai bun.`,
-      pl: `Większość klientów wybiera 3 sztuki 👍\n\nKoszt wysyłki jest prawie taki sam, a cena jest znacznie lepsza.`,
+      en: `Just so you know 👍\n\n90% of our customers choose the 3-pack.\n\nReason: shipping is the same price, so 3 pcs = much better value per piece.\n\nAnd if you love the flavor, you won't run out! 😄`,
+      ro: `Să știi 👍\n\n90% din clienții noștri aleg pachetul de 3.\n\nMotiv: livrarea costă la fel, deci 3 buc = valoare mult mai bună per bucată.\n\nȘi dacă îți place aroma, nu rămâi fără! 😄`,
+      pl: `Żebyś wiedział 👍\n\n90% naszych klientów wybiera pakiet 3 sztuk.\n\nPowód: wysyłka kosztuje tyle samo, więc 3 szt = znacznie lepsza wartość za sztukę.\n\nA jeśli polubisz smak, nie skończy ci się! 😄`,
+      hu: `Csak hogy tudd 👍\n\nVevőink 90%-a a 3 darabos csomagot választja.\n\nOk: a szállítás ugyanannyiba kerül, tehát 3 db = sokkal jobb ár darabonként.\n\nÉs ha szereted az ízt, nem fogy el! 😄`,
+      pt: `Para teres uma ideia 👍\n\n90% dos nossos clientes escolhem o pack de 3.\n\nRazão: o envio custa o mesmo, então 3 un = muito melhor valor por unidade.\n\nE se adorares o sabor, não ficas sem! 😄`,
+      cs: `Jen pro info 👍\n\n90% našich zákazníků si bere balíček 3 kusů.\n\nDůvod: doprava stojí stejně, takže 3 ks = mnohem lepší hodnota za kus.\n\nA pokud ti příchuť zachutná, nedojde ti! 😄`,
     },
+    zh: `告诉你一个情况 👍\n\n我们90%的客户都选3件装。\n\n原因：运费一样，所以3件=每件更划算。\n\n而且如果你喜欢这个口味，就不会用完了！😄`,
     tag: "套餐",
     tagColor: "bg-purple-500/20 text-purple-400",
   },
+
+  // ── Step 6 ──
   {
     title: "第六步：收地址成交",
-    subtitle: "直接收地址，不要闲聊",
+    subtitle: "直接收地址，不要继续闲聊",
     content: [
       "用户问发货/库存时，直接收地址。",
-      "不要继续闲聊。",
+      "不要继续闲聊，进入收单模式。",
+      "格式要清晰，减少用户填写错误。",
     ],
     scripts: {
-      en: `Perfect 👍\n\nPlease send:\n\nFull Name:\nPhone Number:\nCity:\nFull Address:\nPostal Code:\n\nWe will ship your order today 🚚`,
-      ro: `Perfect 👍\n\nTe rog trimite:\n\nNume Complet:\nNumăr de Telefon:\nOraș:\nAdresă Completă:\nCod Poștal:\n\nVom expedia comanda ta azi 🚚`,
-      pl: `Świetnie 👍\n\nProszę podaj:\n\nPełne Imię i Nazwisko:\nNumer Telefonu:\nMiasto:\nPełny Adres:\nKod Pocztowy:\n\nWyślemy Twoje zamówienie dziś 🚚`,
+      en: `Great choice! 🎉\n\nTo ship your order today, please send me:\n\n👤 Full Name:\n📱 Phone Number:\n🏙️ City:\n🏠 Full Address:\n📮 Postal Code:\n\nI'll confirm everything right away! ✅`,
+      ro: `Alegere excelentă! 🎉\n\nPentru a expedia comanda ta azi, te rog trimite-mi:\n\n👤 Nume Complet:\n📱 Număr de Telefon:\n🏙️ Oraș:\n🏠 Adresă Completă:\n📮 Cod Poștal:\n\nConfirm totul imediat! ✅`,
+      pl: `Świetny wybór! 🎉\n\nAby wysłać Twoje zamówienie dziś, proszę podaj mi:\n\n👤 Pełne Imię i Nazwisko:\n📱 Numer Telefonu:\n🏙️ Miasto:\n🏠 Pełny Adres:\n📮 Kod Pocztowy:\n\nPotwierdzę wszystko od razu! ✅`,
+      hu: `Remek választás! 🎉\n\nA mai szállításhoz kérlek küldd el:\n\n👤 Teljes Név:\n📱 Telefonszám:\n🏙️ Város:\n🏠 Teljes Cím:\n📮 Irányítószám:\n\nAzonnal megerősítem! ✅`,
+      pt: `Ótima escolha! 🎉\n\nPara enviar hoje, por favor envia-me:\n\n👤 Nome Completo:\n📱 Número de Telefone:\n🏙️ Cidade:\n🏠 Morada Completa:\n📮 Código Postal:\n\nConfirmo tudo imediatamente! ✅`,
+      cs: `Skvělá volba! 🎉\n\nPro dnešní odeslání mi prosím pošli:\n\n👤 Celé Jméno:\n📱 Telefonní Číslo:\n🏙️ Město:\n🏠 Celá Adresa:\n📮 PSČ:\n\nHned vše potvrdím! ✅`,
     },
+    zh: `好的！🎉\n\n为了今天发货，请告诉我：\n\n👤 全名：\n📱 手机号：\n🏙️ 城市：\n🏠 详细地址：\n📮 邮政编码：\n\n我马上确认！✅`,
     tag: "收单",
     tagColor: "bg-emerald-500/20 text-emerald-400",
   },
+
+  // ── Step 7 ──
   {
     title: "第七步：确认订单",
-    subtitle: "强化已经下单的心理",
+    subtitle: "强化已下单心理，降低后悔和拒收",
     content: [
-      '强化"已经下单"的心理。',
-      "降低后悔和拒收。",
+      '强化"已经下单"的心理锚点。',
+      "让客户感觉包裹已经在路上了。",
+      "加入预计到达时间增加真实感。",
     ],
     scripts: {
-      en: `Your order has been confirmed ✅\n\nWe will prepare the package today 🚚`,
-      ro: `Comanda ta a fost confirmată ✅\n\nVom pregăti coletul azi 🚚`,
-      pl: `Twoje zamówienie zostało potwierdzone ✅\n\nPrzygotujemy paczkę dziś 🚚`,
+      en: `✅ Order Confirmed!\n\nYour package is being prepared now 📦\nExpected delivery: 2-3 working days 🚚\n\nWe'll send you a tracking update once shipped.\n\nThank you for choosing CLOUD VAPE! 🙏`,
+      ro: `✅ Comandă Confirmată!\n\nColetul tău este pregătit acum 📦\nLivrare estimată: 2-3 zile lucrătoare 🚚\n\nÎți vom trimite actualizare de tracking după expediere.\n\nMulțumim că ai ales CLOUD VAPE! 🙏`,
+      pl: `✅ Zamówienie Potwierdzone!\n\nTwoja paczka jest teraz przygotowywana 📦\nSzacowana dostawa: 2-3 dni robocze 🚚\n\nWyślemy Ci aktualizację śledzenia po wysyłce.\n\nDziękujemy za wybór CLOUD VAPE! 🙏`,
+      hu: `✅ Rendelés Megerősítve!\n\nA csomagod most készül 📦\nVárható kézbesítés: 2-3 munkanap 🚚\n\nKüldünk egy nyomkövetési frissítést a feladás után.\n\nKöszönjük, hogy a CLOUD VAPE-t választottad! 🙏`,
+      pt: `✅ Encomenda Confirmada!\n\nO teu pacote está a ser preparado agora 📦\nEntrega prevista: 2-3 dias úteis 🚚\n\nEnviaremos uma atualização de rastreamento após o envio.\n\nObrigado por escolheres a CLOUD VAPE! 🙏`,
+      cs: `✅ Objednávka Potvrzena!\n\nTvůj balíček se právě připravuje 📦\nOčekávané doručení: 2-3 pracovní dny 🚚\n\nPo odeslání ti pošleme aktualizaci sledování.\n\nDíky, že jsi zvolil CLOUD VAPE! 🙏`,
     },
+    zh: `✅ 订单已确认！\n\n您的包裹正在打包中 📦\n预计到达：2-3个工作日 🚚\n\n发货后我们会发送快递单号给您。\n\n感谢选择 CLOUD VAPE！🙏`,
     tag: "确认",
     tagColor: "bg-teal-500/20 text-teal-400",
   },
+
+  // ── Step 8 ──
   {
     title: "第八步：发货后跟进",
-    subtitle: "持续建立真实感",
+    subtitle: "发快递单号，持续建立真实感",
     content: [
-      "持续建立真实感。",
-      "降低 COD 拒收。",
+      "发货后立即通知，建立真实感。",
+      "附上快递单号或快递公司名称。",
+      "告知大概到达时间，降低焦虑。",
     ],
     scripts: {
-      en: `Your package has been shipped 📦\n\nDelivery usually takes 1-3 working days.`,
-      ro: `Coletul tău a fost expediat 📦\n\nLivrarea durează de obicei 1-3 zile lucrătoare.`,
-      pl: `Twoja paczka została wysłana 📦\n\nDostawa zajmuje zazwyczaj 1-3 dni robocze.`,
+      en: `Your order is on its way! 🚚\n\nTracking: [TRACKING_NUMBER]\nCarrier: [CARRIER_NAME]\n\nYou can track it here: [TRACKING_LINK]\n\nExpected arrival: [DATE] 📅\n\nAny questions, just message me! 😊`,
+      ro: `Comanda ta este în drum! 🚚\n\nTracking: [NUMĂR_TRACKING]\nCurier: [NUME_CURIER]\n\nPoți urmări aici: [LINK_TRACKING]\n\nSosire estimată: [DATA] 📅\n\nOrice întrebări, scrie-mi! 😊`,
+      pl: `Twoje zamówienie jest w drodze! 🚚\n\nŚledzenie: [NUMER_ŚLEDZENIA]\nKurier: [NAZWA_KURIERA]\n\nMożesz śledzić tutaj: [LINK_ŚLEDZENIA]\n\nOczekiwane przybycie: [DATA] 📅\n\nJakieś pytania, napisz mi! 😊`,
+      hu: `A rendelésed úton van! 🚚\n\nNyomkövetés: [NYOMKÖVETÉSI_SZÁM]\nFutár: [FUTÁR_NEVE]\n\nKövesd nyomon itt: [NYOMKÖVETÉSI_LINK]\n\nVárható érkezés: [DÁTUM] 📅\n\nBármilyen kérdés esetén írj! 😊`,
+      pt: `A tua encomenda está a caminho! 🚚\n\nRastreamento: [NÚMERO_RASTREAMENTO]\nTransportadora: [NOME_TRANSPORTADORA]\n\nPodes rastrear aqui: [LINK_RASTREAMENTO]\n\nChegada prevista: [DATA] 📅\n\nQualquer dúvida, manda mensagem! 😊`,
+      cs: `Tvoje objednávka je na cestě! 🚚\n\nSledování: [ČÍSLO_SLEDOVÁNÍ]\nDopravce: [NÁZEV_DOPRAVCE]\n\nMůžeš sledovat zde: [ODKAZ_SLEDOVÁNÍ]\n\nOčekávaný příjezd: [DATUM] 📅\n\nJakékoliv dotazy, napiš mi! 😊`,
     },
+    zh: `您的订单已发出！🚚\n\n快递单号：[快递单号]\n快递公司：[快递公司]\n\n查询链接：[查询链接]\n\n预计到达：[日期] 📅\n\n有任何问题随时联系我！😊`,
     tag: "发货",
     tagColor: "bg-sky-500/20 text-sky-400",
   },
+
+  // ── Step 9 ──
   {
     title: "第九步：派送当天提醒",
-    subtitle: "明显降低拒收率",
+    subtitle: "提前通知准备现金，明显降低拒收率",
     content: [
-      "派送提醒能明显降低拒收率。",
-      "提前让客户准备现金。",
+      "派送提醒是降低拒收率最有效的动作。",
+      "提前让客户准备好现金。",
+      "强调今天到，制造期待感。",
     ],
     scripts: {
-      en: `Your package will arrive today 🚚\n\nPlease keep your phone available.`,
-      ro: `Coletul tău va ajunge azi 🚚\n\nTe rugăm să fii disponibil la telefon.`,
-      pl: `Twoja paczka dotrze dziś 🚚\n\nProszę być dostępnym pod telefonem.`,
+      en: `Hi! 👋 Great news!\n\nYour CLOUD VAPE order is out for delivery TODAY 🚚\n\nPlease:\n✅ Keep your phone on\n✅ Have [AMOUNT] cash ready for the courier\n✅ Be available at your address\n\nEnjoy your new vape! 🔥`,
+      ro: `Bună! 👋 Vești bune!\n\nComanda ta CLOUD VAPE este în livrare AZI 🚚\n\nTe rugăm:\n✅ Păstrează telefonul pornit\n✅ Pregătește [SUMĂ] lei cash pentru curier\n✅ Fii disponibil la adresa ta\n\nBucură-te de noul tău vape! 🔥`,
+      pl: `Cześć! 👋 Świetne wieści!\n\nTwoje zamówienie CLOUD VAPE jest dziś dostarczane 🚚\n\nProszę:\n✅ Trzymaj telefon włączony\n✅ Przygotuj [KWOTA] zł gotówki dla kuriera\n✅ Bądź dostępny pod swoim adresem\n\nCiesz się nowym vape'em! 🔥`,
+      hu: `Szia! 👋 Jó hírek!\n\nA CLOUD VAPE rendelésed MA kézbesítés alatt van 🚚\n\nKérjük:\n✅ Tartsd bekapcsolva a telefonod\n✅ Készíts elő [ÖSSZEG] Ft készpénzt a futárnak\n✅ Légy elérhető a címeden\n\nÉlvezd az új vape-ed! 🔥`,
+      pt: `Olá! 👋 Boas notícias!\n\nA tua encomenda CLOUD VAPE está em entrega HOJE 🚚\n\nPor favor:\n✅ Mantém o telemóvel ligado\n✅ Tem [VALOR] € em dinheiro para o estafeta\n✅ Está disponível no teu endereço\n\nDesfruta do teu novo vape! 🔥`,
+      cs: `Ahoj! 👋 Skvělé zprávy!\n\nTvoje objednávka CLOUD VAPE je dnes doručována 🚚\n\nProsím:\n✅ Nech telefon zapnutý\n✅ Připrav [ČÁSTKA] Kč hotovost pro kurýra\n✅ Buď dostupný na své adrese\n\nUžij si nový vape! 🔥`,
     },
+    zh: `嗨！👋 好消息！\n\n您的 CLOUD VAPE 订单今天配送 🚚\n\n请：\n✅ 保持手机开机\n✅ 准备好 [金额] 现金给快递员\n✅ 在家等候\n\n享受您的新电子烟！🔥`,
     tag: "提醒",
     tagColor: "bg-amber-500/20 text-amber-400",
   },
+
+  // ── Step 10 ──
   {
     title: "第十步：签收后做复购",
-    subtitle: "真正赚钱靠复购",
+    subtitle: "3-7天后跟进，真正赚钱靠复购",
     content: [
-      "真正赚钱靠复购。",
-      "3-7天后跟进。",
+      "真正赚钱靠复购，不是首单。",
+      "3-7天后跟进，问使用体验。",
+      "给专属折扣码，降低复购门槛。",
     ],
     scripts: {
-      en: `Hi 👋\n\nHow is the flavor? 🔥\n\nThis week we still have promo packs available.`,
-      ro: `Bună 👋\n\nCum este aroma? 🔥\n\nAceastă săptămână mai avem pachete promoționale disponibile.`,
-      pl: `Cześć 👋\n\nJak smak? 🔥\n\nW tym tygodniu mamy jeszcze dostępne pakiety promocyjne.`,
+      en: `Hey [Name]! 👋\n\nHow are you enjoying the vape? 😊\n\nWe just got NEW flavors in stock 🔥\n\nAs a returning customer, here's your exclusive discount:\n🎁 Code: VAPE15 → 15% OFF your next order\n\nValid this week only! Want to see the new flavors? 👇`,
+      ro: `Hei [Nume]! 👋\n\nCum îți place vape-ul? 😊\n\nTocmai am primit AROME NOI în stoc 🔥\n\nCa client fidel, iată reducerea ta exclusivă:\n🎁 Cod: VAPE15 → 15% REDUCERE la următoarea comandă\n\nValabil doar această săptămână! Vrei să vezi aromele noi? 👇`,
+      pl: `Hej [Imię]! 👋\n\nJak ci się podoba vape? 😊\n\nWłaśnie dostaliśmy NOWE smaki na stanie 🔥\n\nJako stały klient, oto twój ekskluzywny rabat:\n🎁 Kod: VAPE15 → 15% ZNIŻKI na następne zamówienie\n\nWażny tylko w tym tygodniu! Chcesz zobaczyć nowe smaki? 👇`,
+      hu: `Hé [Név]! 👋\n\nHogy tetszik a vape? 😊\n\nÉppen kaptunk ÚJ ízeket készletre 🔥\n\nVisszatérő vevőként itt a kizárólagos kedvezményed:\n🎁 Kód: VAPE15 → 15% KEDVEZMÉNY a következő rendelésre\n\nCsak ezen a héten érvényes! Szeretnéd látni az új ízeket? 👇`,
+      pt: `Ei [Nome]! 👋\n\nComo estás a gostar do vape? 😊\n\nAcabámos de receber NOVOS sabores em stock 🔥\n\nComo cliente fiel, aqui está o teu desconto exclusivo:\n🎁 Código: VAPE15 → 15% DESCONTO na próxima encomenda\n\nVálido só esta semana! Queres ver os novos sabores? 👇`,
+      cs: `Hej [Jméno]! 👋\n\nJak ti chutná vape? 😊\n\nPrávě jsme dostali NOVÉ příchutě na sklad 🔥\n\nJako věrný zákazník máš exkluzivní slevu:\n🎁 Kód: VAPE15 → 15% SLEVA na příští objednávku\n\nPlatí jen tento týden! Chceš vidět nové příchutě? 👇`,
     },
+    zh: `嗨 [姓名]！👋\n\n电子烟用得怎么样？😊\n\n我们刚到了新口味 🔥\n\n作为老客户，这是您的专属优惠：\n🎁 优惠码：VAPE15 → 下单立减15%\n\n本周有效！想看看新口味吗？👇`,
     tag: "复购",
     tagColor: "bg-rose-500/20 text-rose-400",
   },
+
+  // ─── BONUS SCENARIOS ──────────────────────────────────────────────────────
+
+  {
+    title: "加餐A：用户说太贵了",
+    subtitle: "价值重构 + COD 安全感化解价格异议",
+    content: [
+      "不要直接降价，先重构价值。",
+      "用每天成本对比让价格显得合理。",
+      "再次强调 COD 零风险。",
+    ],
+    scripts: {
+      en: `I totally understand 😊\n\nLet me put it this way:\n3 pcs = €49 ÷ 90 days = less than €0.55/day\n\nThat's cheaper than a coffee ☕\n\nAnd remember — you pay ZERO upfront.\nOnly cash when it arrives. 100% risk-free ✅`,
+      ro: `Înțeleg perfect 😊\n\nLasă-mă să îți explic altfel:\n3 buc = 249 lei ÷ 90 zile = mai puțin de 2.8 lei/zi\n\nMai ieftin decât o cafea ☕\n\nȘi ține minte — plătești ZERO în avans.\nDoar cash când ajunge. 100% fără risc ✅`,
+      pl: `Doskonale rozumiem 😊\n\nPozwól, że to ujmę inaczej:\n3 szt = 210 zł ÷ 90 dni = mniej niż 2.3 zł/dzień\n\nTaniej niż kawa ☕\n\nI pamiętaj — płacisz ZERO z góry.\nTylko gotówka gdy dotrze. 100% bez ryzyka ✅`,
+      hu: `Teljesen értem 😊\n\nHadd fogalmazzam meg másképp:\n3 db = 18 900 Ft ÷ 90 nap = kevesebb mint 210 Ft/nap\n\nOlcsóbb mint egy kávé ☕\n\nÉs ne feledd — NULLÁT fizetsz előre.\nCsak készpénz amikor megérkezik. 100% kockázatmentes ✅`,
+      pt: `Percebo perfeitamente 😊\n\nDeixa-me colocar de outra forma:\n3 un = €49 ÷ 90 dias = menos de €0.55/dia\n\nMais barato que um café ☕\n\nE lembra — pagas ZERO adiantado.\nSó dinheiro quando chegar. 100% sem risco ✅`,
+      cs: `Naprosto chápu 😊\n\nDovolte mi to říct jinak:\n3 ks = 1 220 Kč ÷ 90 dní = méně než 14 Kč/den\n\nLevnější než káva ☕\n\nA pamatuj — platíš NULA předem.\nJen hotovost když dorazí. 100% bez rizika ✅`,
+    },
+    zh: `完全理解您的想法 😊\n\n换个角度看：\n3个 = ¥350 ÷ 90天 = 每天不到¥4\n\n比一杯奶茶还便宜 ☕\n\n而且记住——您不需要提前付任何钱。\n收到货再付现金。100% 零风险 ✅`,
+    tag: "异议",
+    tagColor: "bg-pink-500/20 text-pink-400",
+    bonus: true,
+  },
+
+  {
+    title: "加餐B：用户收货后拒绝付款",
+    subtitle: "冷静处理，保住关系，争取二次机会",
+    content: [
+      "不要情绪化，保持专业态度。",
+      "给出一个台阶，让用户有理由接受。",
+      "记录此号码，下次要求预付定金。",
+    ],
+    scripts: {
+      en: `Hi, I understand 😊\n\nNo problem at all — please just return the package to the courier unopened.\n\nIf you change your mind, I'm always here.\nNext time I can offer you a special deal 🎁\n\nHave a great day! 👋`,
+      ro: `Bună, înțeleg 😊\n\nNicio problemă — te rog doar returnează coletul curierului neoprit.\n\nDacă te răzgândești, sunt mereu aici.\nData viitoare îți pot oferi o ofertă specială 🎁\n\nO zi bună! 👋`,
+      pl: `Cześć, rozumiem 😊\n\nŻaden problem — proszę tylko zwróć paczkę kurierowi nieotwartą.\n\nJeśli zmienisz zdanie, zawsze tu jestem.\nNastępnym razem mogę zaoferować specjalną ofertę 🎁\n\nMiłego dnia! 👋`,
+      hu: `Szia, értem 😊\n\nSemmi gond — kérlek csak add vissza a csomagot a futárnak bontatlanul.\n\nHa meggondolod magad, mindig itt vagyok.\nLegközelebb különleges ajánlatot tudok adni 🎁\n\nSzép napot! 👋`,
+      pt: `Olá, percebo 😊\n\nSem problema — por favor devolve o pacote ao estafeta sem abrir.\n\nSe mudares de ideias, estou sempre aqui.\nDa próxima vez posso oferecer um negócio especial 🎁\n\nBom dia! 👋`,
+      cs: `Ahoj, chápu 😊\n\nŽádný problém — prosím jen vrať balíček kurýrovi neotevřený.\n\nPokud si to rozmyslíš, jsem vždy tady.\nPříště ti mohu nabídnout speciální deal 🎁\n\nHezký den! 👋`,
+    },
+    zh: `你好，我理解 😊\n\n完全没问题——请把包裹原封不动退还给快递员就好。\n\n如果您改变主意，我随时在这里。\n下次我可以给您一个特别优惠 🎁\n\n祝您愉快！👋`,
+    tag: "拒收",
+    tagColor: "bg-red-500/20 text-red-400",
+    bonus: true,
+  },
+
+  {
+    title: "加餐C：用户询问真假/正品",
+    subtitle: "用证据说话，不要只说是正品",
+    content: [
+      "不要只说是正品，要提供证据。",
+      "发仓库视频/开箱视频效果最好。",
+      "强调 COD 本身就是最好的保障。",
+    ],
+    scripts: {
+      en: `Great question! 👍\n\nAll our products are 100% original:\n✅ We buy directly from authorized distributors\n✅ Every product has a QR verification code\n✅ You can check authenticity on the brand's website\n\nAnd the best proof? 👇\nYou pay ONLY when you receive it.\nIf it's fake — don't pay. Simple as that! 💪`,
+      ro: `Întrebare bună! 👍\n\nToate produsele noastre sunt 100% originale:\n✅ Cumpărăm direct de la distribuitori autorizați\n✅ Fiecare produs are cod QR de verificare\n✅ Poți verifica autenticitatea pe site-ul brandului\n\nȘi cea mai bună dovadă? 👇\nPlătești DOAR când primești.\nDacă e fals — nu plătești. Simplu! 💪`,
+      pl: `Świetne pytanie! 👍\n\nWszystkie nasze produkty są w 100% oryginalne:\n✅ Kupujemy bezpośrednio od autoryzowanych dystrybutorów\n✅ Każdy produkt ma kod QR do weryfikacji\n✅ Możesz sprawdzić autentyczność na stronie marki\n\nA najlepszy dowód? 👇\nPłacisz TYLKO gdy otrzymasz.\nJeśli jest fałszywy — nie płacisz. Proste! 💪`,
+      hu: `Jó kérdés! 👍\n\nMinden termékünk 100% eredeti:\n✅ Közvetlenül engedélyezett forgalmazóktól vásárolunk\n✅ Minden terméknek van QR ellenőrző kódja\n✅ A márka weboldalán ellenőrizheted a hitelességet\n\nÉs a legjobb bizonyíték? 👇\nCsak akkor fizetsz, amikor megkapod.\nHa hamis — nem fizetsz. Ilyen egyszerű! 💪`,
+      pt: `Boa pergunta! 👍\n\nTodos os nossos produtos são 100% originais:\n✅ Compramos diretamente de distribuidores autorizados\n✅ Cada produto tem código QR de verificação\n✅ Podes verificar a autenticidade no site da marca\n\nE a melhor prova? 👇\nPagas APENAS quando recebes.\nSe for falso — não pagas. Simples assim! 💪`,
+      cs: `Skvělá otázka! 👍\n\nVšechny naše produkty jsou 100% originální:\n✅ Nakupujeme přímo od autorizovaných distributorů\n✅ Každý produkt má QR ověřovací kód\n✅ Pravost si můžeš ověřit na webu značky\n\nA nejlepší důkaz? 👇\nPlatíš POUZE když dostaneš.\nPokud je falešný — neplatíš. Jednoduché! 💪`,
+    },
+    zh: `好问题！👍\n\n我们所有产品都是100%正品：\n✅ 直接从授权经销商进货\n✅ 每件产品都有防伪二维码\n✅ 可在品牌官网验证真伪\n\n最好的证明？👇\n您只需要在收到货时付款。\n如果是假货——不用付钱。就这么简单！💪`,
+    tag: "验真",
+    tagColor: "bg-cyan-500/20 text-cyan-400",
+    bonus: true,
+  },
+
+  {
+    title: "加餐D：用户长时间不回复",
+    subtitle: "温和唤醒，不要催促，给出新理由",
+    content: [
+      "不要发你还在吗这种催促消息。",
+      "给出一个新的理由让用户回复。",
+      "最多跟进2次，避免被拉黑。",
+    ],
+    scripts: {
+      en: `Hey! 👋 Just checking in 😊\n\nWe just got a NEW flavor you might love:\n🍓 Strawberry Watermelon — just arrived!\n\nAlso, our 3-pack promo is still running this week.\n\nLet me know if you have any questions! 🔥`,
+      ro: `Hei! 👋 Doar o verificare 😊\n\nTocmai am primit o AROMĂ NOUĂ care ți-ar putea plăcea:\n🍓 Căpșuni Pepene — tocmai a sosit!\n\nDe asemenea, promoția noastră 3-pack rulează încă această săptămână.\n\nSpune-mi dacă ai întrebări! 🔥`,
+      pl: `Hej! 👋 Tylko sprawdzam 😊\n\nWłaśnie dostaliśmy NOWY smak, który możesz pokochać:\n🍓 Truskawka Arbuz — właśnie przyszedł!\n\nTakże nasza promocja 3-pack trwa jeszcze w tym tygodniu.\n\nDaj znać jeśli masz pytania! 🔥`,
+      hu: `Hé! 👋 Csak ellenőrzöm 😊\n\nÉppen kaptunk egy ÚJ ízt, amit szerethetsz:\n🍓 Eper Görögdinnye — éppen megérkezett!\n\nEmellett a 3-as csomag promónk még ezen a héten fut.\n\nSzólj ha kérdésed van! 🔥`,
+      pt: `Ei! 👋 Só a verificar 😊\n\nAcabámos de receber um NOVO sabor que podes adorar:\n🍓 Morango Melancia — acabou de chegar!\n\nTambém, a nossa promoção de 3 unidades ainda está a decorrer esta semana.\n\nDiz-me se tiveres alguma dúvida! 🔥`,
+      cs: `Hej! 👋 Jen se ptám 😊\n\nPrávě jsme dostali NOVOU příchuť, která by se ti mohla líbit:\n🍓 Jahoda Meloun — právě dorazila!\n\nTaké naše 3-kusová promo stále běží tento týden.\n\nDej vědět pokud máš otázky! 🔥`,
+    },
+    zh: `嗨！👋 来问一下 😊\n\n我们刚到了一款你可能会喜欢的新口味：\n🍓 草莓西瓜——刚到货！\n\n另外，我们的3件套优惠本周还在进行中。\n\n有任何问题随时告诉我！🔥`,
+    tag: "唤醒",
+    tagColor: "bg-violet-500/20 text-violet-400",
+    bonus: true,
+  },
+
+  {
+    title: "加餐E：节假日促销话术",
+    subtitle: "节日氛围 + 限时优惠 = 冲动消费高峰",
+    content: [
+      "节假日是冲动消费最高峰。",
+      "用节日氛围包装促销，不显得强推。",
+      "限时+限量双重压力效果最好。",
+    ],
+    scripts: {
+      en: `🎉 Happy [HOLIDAY]!\n\nTo celebrate, we're running a SPECIAL OFFER:\n\n🎁 Buy 2 get 1 FREE\n🚚 Free shipping today only\n💰 Cash on Delivery as always\n\nThis offer expires at midnight tonight!\n\nWant to grab yours before it's gone? 👇`,
+      ro: `🎉 [SĂRBĂTOARE] Fericit!\n\nPentru a sărbători, avem o OFERTĂ SPECIALĂ:\n\n🎁 Cumperi 2 primești 1 GRATUIT\n🚚 Livrare gratuită doar azi\n💰 Plată la livrare ca întotdeauna\n\nOferta expiră la miezul nopții!\n\nVrei să îl iei înainte să se termine? 👇`,
+      pl: `🎉 Wesołego [ŚWIĘTO]!\n\nAby świętować, mamy SPECJALNĄ OFERTĘ:\n\n🎁 Kup 2 dostań 1 GRATIS\n🚚 Darmowa wysyłka tylko dziś\n💰 Płatność przy odbiorze jak zawsze\n\nOferta wygasa o północy!\n\nChcesz wziąć swój zanim zniknie? 👇`,
+      hu: `🎉 Boldog [ÜNNEP]!\n\nAz ünneplés alkalmából KÜLÖNLEGES AJÁNLATUNK van:\n\n🎁 Vegyél 2-t kapj 1-et INGYEN\n🚚 Ingyenes szállítás csak ma\n💰 Utánvétes fizetés mint mindig\n\nAz ajánlat éjfélkor lejár!\n\nSzeretné megszerezni mielőtt elfogy? 👇`,
+      pt: `🎉 Feliz [FERIADO]!\n\nPara celebrar, temos uma OFERTA ESPECIAL:\n\n🎁 Compra 2 leva 1 GRÁTIS\n🚚 Envio grátis só hoje\n💰 Pagamento na entrega como sempre\n\nA oferta expira à meia-noite!\n\nQueres o teu antes de acabar? 👇`,
+      cs: `🎉 Šťastný [SVÁTEK]!\n\nPro oslavu máme SPECIÁLNÍ NABÍDKU:\n\n🎁 Kup 2 dostaneš 1 ZDARMA\n🚚 Doprava zdarma jen dnes\n💰 Platba při doručení jako vždy\n\nNabídka vyprší o půlnoci!\n\nChceš si vzít svůj než zmizí? 👇`,
+    },
+    zh: `🎉 [节日]快乐！\n\n为了庆祝，我们有特别优惠：\n\n🎁 买2送1\n🚚 今天免运费\n💰 货到付款一如既往\n\n优惠今晚零点截止！\n\n想在卖完之前抢到吗？👇`,
+    tag: "节促",
+    tagColor: "bg-yellow-500/20 text-yellow-400",
+    bonus: true,
+  },
 ];
 
-const ALL_TAGS = ["全部", ...Array.from(new Set(sections.map((s) => s.tag)))];
-
-const LANG_LABELS: Record<LangKey, string> = {
-  en: "English",
-  ro: "Română",
-  pl: "Polski",
-};
+const ALL_TAGS = ["全部", "主流程", ...Array.from(new Set(sections.map((s) => s.tag)))];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -220,11 +398,7 @@ function CopyButton({ text }: { text: string }) {
       className="copy-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
         bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all duration-150"
     >
-      {copied ? (
-        <><Check size={13} className="text-emerald-400" />已复制</>
-      ) : (
-        <><Copy size={13} />复制话术</>
-      )}
+      {copied ? <><Check size={13} className="text-emerald-400" />已复制</> : <><Copy size={13} />复制</>}
     </button>
   );
 }
@@ -233,6 +407,7 @@ interface StepCardProps {
   section: Section;
   index: number;
   lang: LangKey;
+  showZh: boolean;
   completed: boolean;
   onToggleComplete: () => void;
   customScript: string | null;
@@ -240,41 +415,25 @@ interface StepCardProps {
   onResetScript: () => void;
 }
 
-function StepCard({
-  section,
-  index,
-  lang,
-  completed,
-  onToggleComplete,
-  customScript,
-  onSaveScript,
-  onResetScript,
-}: StepCardProps) {
+function StepCard({ section, index, lang, showZh, completed, onToggleComplete, customScript, onSaveScript, onResetScript }: StepCardProps) {
   const [expanded, setExpanded] = useState(true);
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState("");
 
   const displayScript = customScript ?? section.scripts[lang];
 
-  const startEdit = () => {
-    setDraft(displayScript);
-    setEditing(true);
-  };
-  const saveEdit = () => {
-    onSaveScript(draft);
-    setEditing(false);
-    toast.success("话术已保存");
-  };
+  const startEdit = () => { setDraft(displayScript); setEditing(true); };
+  const saveEdit = () => { onSaveScript(draft); setEditing(false); toast.success("话术已保存"); };
   const cancelEdit = () => setEditing(false);
 
   return (
     <div
       className={`animate-fade-in-up stagger-${Math.min(index + 1, 10)} rounded-2xl overflow-hidden border transition-all duration-300
-        ${completed
+        ${section.bonus ? "border-dashed border-white/15 hover:border-white/25" : completed
           ? "border-[#25D366]/50 shadow-[0_0_20px_rgba(37,211,102,0.10)]"
           : "border-white/8 hover:border-[#25D366]/25 hover:shadow-[0_0_30px_rgba(37,211,102,0.07)]"
         }`}
-      style={{ background: "#111B21" }}
+      style={{ background: section.bonus ? "#0E1A20" : "#111B21" }}
     >
       {/* Header */}
       <div
@@ -282,58 +441,44 @@ function StepCard({
         style={{ background: "rgba(11,20,26,0.6)" }}
         onClick={() => setExpanded((v) => !v)}
       >
-        {/* Step badge / complete toggle */}
         <button
           onClick={(e) => { e.stopPropagation(); onToggleComplete(); }}
-          className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 transition-all duration-200
-            ${completed
-              ? "bg-[#25D366] text-[#0B141A] shadow-[0_0_12px_rgba(37,211,102,0.5)]"
-              : "bg-[#25D366] text-[#0B141A]"
-            }`}
-          title={completed ? "标记为未完成" : "标记为已完成"}
+          className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 transition-all duration-200
+            ${completed ? "bg-[#25D366] text-[#0B141A] shadow-[0_0_12px_rgba(37,211,102,0.5)]" : "bg-[#25D366] text-[#0B141A]"}`}
           style={{ fontFamily: "'Space Grotesk', sans-serif" }}
         >
-          {completed ? <Check size={16} strokeWidth={3} /> : index + 1}
+          {completed ? <Check size={15} strokeWidth={3} /> : section.bonus ? "+" : index + 1}
         </button>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <h2
-              className={`text-base font-700 leading-tight transition-colors duration-200 ${completed ? "text-white/50 line-through" : "text-white"}`}
+              className={`text-base font-700 leading-tight transition-colors duration-200 ${completed ? "text-white/40 line-through" : "text-white"}`}
               style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif" }}
             >
               {section.title}
             </h2>
-            <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${section.tagColor}`}>
-              {section.tag}
-            </span>
-            {customScript && (
-              <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-violet-500/20 text-violet-400">
-                已自定义
-              </span>
-            )}
+            <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${section.tagColor}`}>{section.tag}</span>
+            {section.bonus && <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-white/10 text-white/40">加餐</span>}
+            {customScript && <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-violet-500/20 text-violet-400">已自定义</span>}
           </div>
-          <p className="text-xs text-white/45 mt-0.5">{section.subtitle}</p>
+          <p className="text-xs text-white/40 mt-0.5">{section.subtitle}</p>
         </div>
 
-        <div className="text-white/30 flex-shrink-0">
-          {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-        </div>
+        <div className="text-white/25 flex-shrink-0">{expanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}</div>
       </div>
 
       {/* Body */}
       {expanded && (
-        <div className="grid lg:grid-cols-2 gap-0 step-card-grid">
-          {/* Left: Logic */}
-          <div className="p-5 border-r border-white/8">
-            <h3 className="text-[10px] font-600 uppercase tracking-widest text-[#25D366] mb-3">
-              实战逻辑
-            </h3>
-            <ul className="space-y-2.5">
+        <div>
+          {/* Logic row */}
+          <div className="px-5 pt-4 pb-3 border-b border-white/6">
+            <h3 className="text-[10px] font-600 uppercase tracking-widest text-[#25D366] mb-2.5">实战逻辑</h3>
+            <ul className="flex flex-wrap gap-x-6 gap-y-1.5">
               {section.content.map((item, idx) => (
-                <li key={idx} className="flex items-start gap-2.5 text-sm text-white/70 leading-relaxed">
-                  <span className="mt-0.5 w-4 h-4 rounded-full bg-[#25D366]/15 border border-[#25D366]/35 flex items-center justify-center flex-shrink-0">
-                    <Check size={8} className="text-[#25D366]" />
+                <li key={idx} className="flex items-start gap-2 text-xs text-white/65 leading-relaxed">
+                  <span className="mt-0.5 w-3.5 h-3.5 rounded-full bg-[#25D366]/15 border border-[#25D366]/35 flex items-center justify-center flex-shrink-0">
+                    <Check size={7} className="text-[#25D366]" />
                   </span>
                   <span>{item}</span>
                 </li>
@@ -341,94 +486,97 @@ function StepCard({
             </ul>
           </div>
 
-          {/* Right: Script */}
-          <div className="p-5">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-[10px] font-600 uppercase tracking-widest text-[#25D366]">
-                高转化话术
-              </h3>
-              <div className="flex items-center gap-2">
-                {customScript && (
-                  <button
-                    onClick={onResetScript}
-                    className="copy-btn flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium
-                      bg-white/8 hover:bg-white/15 text-white/50 hover:text-white/80 transition-all duration-150"
-                    title="恢复默认话术"
-                  >
-                    <RotateCcw size={11} />
-                    恢复默认
+          {/* Script + ZH side by side */}
+          <div className={`grid gap-0 ${showZh ? "lg:grid-cols-2" : "grid-cols-1"}`}>
+            {/* Script panel */}
+            <div className={`p-5 ${showZh ? "border-r border-white/8" : ""}`}>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-[10px] font-600 uppercase tracking-widest text-[#25D366]">
+                  {LANG_META[lang].flag} {LANG_META[lang].label} 话术
+                </h3>
+                <div className="flex items-center gap-1.5">
+                  {customScript && (
+                    <button onClick={onResetScript} className="copy-btn flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs bg-white/8 hover:bg-white/15 text-white/45 hover:text-white/70 transition-all">
+                      <RotateCcw size={10} />恢复
+                    </button>
+                  )}
+                  <button onClick={startEdit} className="copy-btn flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs bg-violet-500/15 hover:bg-violet-500/25 text-violet-400 transition-all">
+                    <Edit3 size={10} />编辑
                   </button>
-                )}
-                <button
-                  onClick={startEdit}
-                  className="copy-btn flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium
-                    bg-violet-500/15 hover:bg-violet-500/25 text-violet-400 hover:text-violet-300 transition-all duration-150"
-                  title="编辑话术"
-                >
-                  <Edit3 size={11} />
-                  编辑
-                </button>
-                <CopyButton text={displayScript} />
+                  <CopyButton text={displayScript} />
+                </div>
+              </div>
+
+              <div className="rounded-xl overflow-hidden bg-[#0B141A] border border-white/6">
+                <div className="flex items-center gap-2 px-3 py-2 bg-[#202C33] border-b border-white/8">
+                  <div className="w-5 h-5 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
+                    <MessageCircle size={10} className="text-[#0B141A]" />
+                  </div>
+                  <span className="text-xs text-white/55 font-medium">CLOUD VAPE</span>
+                  <div className="ml-auto flex items-center gap-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#25D366]" />
+                    <span className="text-[10px] text-[#25D366]">online</span>
+                  </div>
+                </div>
+                <div className="p-3 min-h-[60px]">
+                  {editing ? (
+                    <div className="space-y-2">
+                      <textarea
+                        className="w-full bg-[#202C33] text-white/90 text-xs rounded-lg p-3 border border-white/10 focus:border-[#25D366]/50 outline-none resize-none leading-relaxed"
+                        style={{ fontFamily: "'JetBrains Mono', monospace", minHeight: "110px" }}
+                        value={draft}
+                        onChange={(e) => setDraft(e.target.value)}
+                        autoFocus
+                      />
+                      <div className="flex gap-2 justify-end">
+                        <button onClick={cancelEdit} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-white/8 hover:bg-white/15 text-white/55 hover:text-white transition-all">
+                          <X size={10} />取消
+                        </button>
+                        <button onClick={saveEdit} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-[#25D366]/20 hover:bg-[#25D366]/30 text-[#25D366] transition-all">
+                          <Check size={10} />保存
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex justify-end">
+                      <div className="bubble-out max-w-[90%] px-3 py-2">
+                        <pre className="text-xs text-white/90 whitespace-pre-wrap leading-relaxed" style={{ fontFamily: "'JetBrains Mono', 'Noto Sans SC', monospace" }}>
+                          {displayScript}
+                        </pre>
+                        <div className="flex justify-end mt-1"><span className="text-[10px] text-white/35">✓✓</span></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* WhatsApp window */}
-            <div className="rounded-xl overflow-hidden bg-[#0B141A] border border-white/6">
-              {/* Header bar */}
-              <div className="flex items-center gap-2 px-3 py-2 bg-[#202C33] border-b border-white/8">
-                <div className="w-5 h-5 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
-                  <MessageCircle size={10} className="text-[#0B141A]" />
+            {/* Chinese reference panel */}
+            {showZh && (
+              <div className="p-5">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-[10px] font-600 uppercase tracking-widest text-amber-400">🇨🇳 中文对照</h3>
+                  <CopyButton text={section.zh} />
                 </div>
-                <span className="text-xs text-white/60 font-medium">CLOUD VAPE</span>
-                <div className="ml-auto flex items-center gap-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#25D366]" />
-                  <span className="text-[10px] text-[#25D366]">online</span>
-                </div>
-              </div>
-
-              {/* Chat area */}
-              <div className="p-3 min-h-[70px]">
-                {editing ? (
-                  <div className="space-y-2">
-                    <textarea
-                      className="w-full bg-[#202C33] text-white/90 text-xs rounded-lg p-3 border border-white/10 focus:border-[#25D366]/50 outline-none resize-none leading-relaxed"
-                      style={{ fontFamily: "'JetBrains Mono', monospace", minHeight: "120px" }}
-                      value={draft}
-                      onChange={(e) => setDraft(e.target.value)}
-                      autoFocus
-                    />
-                    <div className="flex gap-2 justify-end">
-                      <button
-                        onClick={cancelEdit}
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-white/8 hover:bg-white/15 text-white/60 hover:text-white transition-all"
-                      >
-                        <X size={11} />取消
-                      </button>
-                      <button
-                        onClick={saveEdit}
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-[#25D366]/20 hover:bg-[#25D366]/30 text-[#25D366] transition-all"
-                      >
-                        <Check size={11} />保存
-                      </button>
+                <div className="rounded-xl overflow-hidden bg-[#0B141A] border border-white/6">
+                  <div className="flex items-center gap-2 px-3 py-2 bg-[#1A1A0A] border-b border-white/8">
+                    <div className="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0">
+                      <BookOpen size={10} className="text-[#0B141A]" />
                     </div>
+                    <span className="text-xs text-amber-400/70 font-medium">中文参考译文</span>
                   </div>
-                ) : (
-                  <div className="flex justify-end">
-                    <div className="bubble-out max-w-[88%] px-3 py-2">
-                      <pre
-                        className="text-xs text-white/90 whitespace-pre-wrap leading-relaxed"
-                        style={{ fontFamily: "'JetBrains Mono', 'Noto Sans SC', monospace" }}
-                      >
-                        {displayScript}
-                      </pre>
-                      <div className="flex justify-end mt-1">
-                        <span className="text-[10px] text-white/40">✓✓</span>
+                  <div className="p-3">
+                    <div className="flex justify-start">
+                      <div className="bubble-in max-w-[90%] px-3 py-2">
+                        <pre className="text-xs text-white/80 whitespace-pre-wrap leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
+                          {section.zh}
+                        </pre>
                       </div>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       )}
@@ -436,47 +584,28 @@ function StepCard({
   );
 }
 
-// ─── Progress Bar ─────────────────────────────────────────────────────────────
-
-function ProgressPanel({
-  completed,
-  total,
-  onReset,
-}: {
-  completed: number;
-  total: number;
-  onReset: () => void;
-}) {
+function ProgressPanel({ completed, total, onReset }: { completed: number; total: number; onReset: () => void }) {
   const pct = Math.round((completed / total) * 100);
   return (
     <div className="rounded-2xl border border-white/8 p-5 bg-[#111B21]">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <BarChart2 size={16} className="text-[#25D366]" />
-          <span className="text-sm font-600 text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            今日成交进度
-          </span>
+          <BarChart2 size={15} className="text-[#25D366]" />
+          <span className="text-sm font-600 text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>今日成交进度</span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-white/50">
+          <span className="text-sm text-white/45">
             <span className="text-[#25D366] font-700">{completed}</span> / {total} 步
           </span>
-          <button
-            onClick={onReset}
-            className="text-xs text-white/30 hover:text-white/60 transition-colors flex items-center gap-1"
-          >
-            <RotateCcw size={11} />
-            重置
+          <button onClick={onReset} className="text-xs text-white/25 hover:text-white/55 transition-colors flex items-center gap-1">
+            <RotateCcw size={10} />重置
           </button>
         </div>
       </div>
       <div className="h-2 rounded-full bg-white/8 overflow-hidden">
-        <div
-          className="h-full rounded-full transition-all duration-500 progress-shimmer"
-          style={{ width: `${pct}%` }}
-        />
+        <div className="h-full rounded-full transition-all duration-500 progress-shimmer" style={{ width: `${pct}%` }} />
       </div>
-      <div className="mt-2 text-xs text-white/35 text-right">{pct}% 完成</div>
+      <div className="mt-1.5 text-xs text-white/30 text-right">{pct}% 完成</div>
     </div>
   );
 }
@@ -485,6 +614,7 @@ function ProgressPanel({
 
 export default function Home() {
   const [lang, setLang] = useState<LangKey>("en");
+  const [showZh, setShowZh] = useState(true);
   const [activeTag, setActiveTag] = useState("全部");
   const [searchQuery, setSearchQuery] = useState("");
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
@@ -493,8 +623,7 @@ export default function Home() {
   const toggleComplete = useCallback((idx: number) => {
     setCompletedSteps((prev) => {
       const next = new Set(prev);
-      if (next.has(idx)) next.delete(idx);
-      else next.add(idx);
+      if (next.has(idx)) next.delete(idx); else next.add(idx);
       return next;
     });
   }, []);
@@ -504,165 +633,138 @@ export default function Home() {
   }, []);
 
   const resetScript = useCallback((idx: number) => {
-    setCustomScripts((prev) => {
-      const next = { ...prev };
-      delete next[idx];
-      return next;
-    });
+    setCustomScripts((prev) => { const next = { ...prev }; delete next[idx]; return next; });
     toast.success("已恢复默认话术");
   }, []);
-
-  const resetProgress = () => {
-    setCompletedSteps(new Set());
-    toast.success("进度已重置");
-  };
 
   const filteredSections = sections
     .map((s, i) => ({ ...s, originalIndex: i }))
     .filter((s) => {
-      const matchTag = activeTag === "全部" || s.tag === activeTag;
+      if (activeTag === "主流程") return !s.bonus;
+      if (activeTag !== "全部" && s.tag !== activeTag) return false;
       const q = searchQuery.toLowerCase();
-      const matchSearch =
-        !q ||
+      if (!q) return true;
+      return (
         s.title.toLowerCase().includes(q) ||
         s.subtitle.toLowerCase().includes(q) ||
         s.tag.toLowerCase().includes(q) ||
-        s.scripts[lang].toLowerCase().includes(q);
-      return matchTag && matchSearch;
+        s.scripts[lang].toLowerCase().includes(q) ||
+        s.zh.toLowerCase().includes(q)
+      );
     });
 
   return (
     <div className="min-h-screen" style={{ background: "#0B141A" }}>
-      {/* ── Hero ── */}
+      {/* Hero */}
       <div className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37,211,102,0.12) 0%, transparent 70%)",
-          }}
-        />
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-10 relative">
-          {/* Badge */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37,211,102,0.12) 0%, transparent 70%)" }} />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8 relative">
           <div className="animate-fade-in-up flex justify-center mb-5">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#25D366]/30 bg-[#25D366]/10 text-[#25D366] text-sm font-medium">
               <MessageCircle size={14} />
-              WhatsApp COD 实战手册 · 东欧市场
+              WhatsApp COD 实战手册 · 东欧市场 · 15套话术
             </span>
           </div>
 
-          {/* Title */}
-          <div className="animate-fade-in-up stagger-1 text-center mb-10">
-            <h1
-              className="text-4xl sm:text-5xl lg:text-6xl font-800 text-white leading-tight mb-4"
-              style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif", fontWeight: 800 }}
-            >
-              东欧 COD 电子烟
-              <br />
+          <div className="animate-fade-in-up stagger-1 text-center mb-8">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-800 text-white leading-tight mb-4" style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif", fontWeight: 800 }}>
+              东欧 COD 电子烟<br />
               <span style={{ color: "#25D366" }}>WhatsApp 完整成交步骤</span>
             </h1>
-            <p
-              className="text-base text-white/50 max-w-2xl mx-auto leading-relaxed"
-              style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-            >
+            <p className="text-base text-white/50 max-w-2xl mx-auto leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
               降低被骗感 → 建立真实感 → 制造热销感 → 推动立即下单 → 降低拒收 → 做复购
             </p>
           </div>
 
           {/* Core principles */}
-          <div className="animate-fade-in-up stagger-2 grid sm:grid-cols-3 gap-3 mb-8">
+          <div className="animate-fade-in-up stagger-2 grid sm:grid-cols-3 gap-3 mb-6">
             {[
-              { icon: <Shield size={18} />, title: "核心1：降低风险", desc: "不断强调 COD / Pay when received", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
-              { icon: <TrendingUp size={18} />, title: "核心2：建立信任", desc: "回复快、像真人、强调热销", color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
-              { icon: <Zap size={18} />, title: "核心3：推动下单", desc: "制造库存感和时效感", color: "text-orange-400", bg: "bg-orange-500/10 border-orange-500/20" },
+              { icon: <Shield size={16} />, title: "核心1：降低风险", desc: "不断强调 COD / Pay when received", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
+              { icon: <TrendingUp size={16} />, title: "核心2：建立信任", desc: "回复快、像真人、强调热销", color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
+              { icon: <Zap size={16} />, title: "核心3：推动下单", desc: "制造库存感和时效感", color: "text-orange-400", bg: "bg-orange-500/10 border-orange-500/20" },
             ].map((item, i) => (
               <div key={i} className={`rounded-2xl p-4 border ${item.bg} flex items-start gap-3`}>
                 <div className={`mt-0.5 flex-shrink-0 ${item.color}`}>{item.icon}</div>
                 <div>
-                  <h3 className={`font-700 text-sm ${item.color}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-white/45 mt-1 leading-relaxed">{item.desc}</p>
+                  <h3 className={`font-700 text-sm ${item.color}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{item.title}</h3>
+                  <p className="text-xs text-white/40 mt-0.5 leading-relaxed">{item.desc}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* ── Toolbar ── */}
-          <div className="animate-fade-in-up stagger-3 flex flex-wrap gap-3 items-center">
-            {/* Language switcher */}
-            <div className="flex items-center gap-1 bg-[#111B21] border border-white/8 rounded-xl p-1">
-              <Globe size={13} className="text-white/40 ml-1.5 mr-0.5" />
-              {(["en", "ro", "pl"] as LangKey[]).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLang(l)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-600 transition-all duration-150 ${
-                    lang === l
-                      ? "bg-[#25D366] text-[#0B141A]"
-                      : "text-white/50 hover:text-white hover:bg-white/8"
-                  }`}
-                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                >
-                  {LANG_LABELS[l]}
-                </button>
-              ))}
+          {/* Toolbar */}
+          <div className="animate-fade-in-up stagger-3 space-y-3">
+            {/* Row 1: language + ZH toggle + search */}
+            <div className="flex flex-wrap gap-2 items-center">
+              {/* Language switcher */}
+              <div className="flex items-center gap-1 bg-[#111B21] border border-white/8 rounded-xl p-1">
+                <Globe size={12} className="text-white/35 ml-1.5 mr-0.5 flex-shrink-0" />
+                {(["en", "ro", "pl", "hu", "pt", "cs"] as LangKey[]).map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => setLang(l)}
+                    className={`px-2.5 py-1.5 rounded-lg text-xs font-600 transition-all duration-150 flex items-center gap-1 ${lang === l ? "bg-[#25D366] text-[#0B141A]" : "text-white/45 hover:text-white hover:bg-white/8"}`}
+                    style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                    title={LANG_META[l].market}
+                  >
+                    <span>{LANG_META[l].flag}</span>
+                    <span className="hidden sm:inline">{LANG_META[l].label}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* ZH toggle */}
+              <button
+                onClick={() => setShowZh((v) => !v)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-600 border transition-all duration-150 ${showZh ? "bg-amber-500/20 border-amber-500/40 text-amber-400" : "bg-transparent border-white/10 text-white/40 hover:text-white/60 hover:border-white/20"}`}
+                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              >
+                🇨🇳 中文对照 {showZh ? "开" : "关"}
+              </button>
+
+              {/* Search */}
+              <div className="flex items-center gap-2 bg-[#111B21] border border-white/8 rounded-xl px-3 py-2 flex-1 min-w-[160px] max-w-xs">
+                <Search size={12} className="text-white/30 flex-shrink-0" />
+                <input
+                  type="text"
+                  placeholder="搜索步骤或话术…"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="bg-transparent text-xs text-white/75 placeholder-white/25 outline-none w-full"
+                  style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+                />
+                {searchQuery && <button onClick={() => setSearchQuery("")} className="text-white/25 hover:text-white/55"><X size={11} /></button>}
+              </div>
             </div>
 
-            {/* Search */}
-            <div className="flex items-center gap-2 bg-[#111B21] border border-white/8 rounded-xl px-3 py-2 flex-1 min-w-[160px] max-w-xs">
-              <Search size={13} className="text-white/35 flex-shrink-0" />
-              <input
-                type="text"
-                placeholder="搜索步骤或话术…"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent text-xs text-white/80 placeholder-white/30 outline-none w-full"
-                style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-              />
-              {searchQuery && (
-                <button onClick={() => setSearchQuery("")} className="text-white/30 hover:text-white/60">
-                  <X size={12} />
-                </button>
-              )}
-            </div>
-
-            {/* Tag filter */}
+            {/* Row 2: tag filter */}
             <div className="flex items-center gap-1.5 flex-wrap">
               {ALL_TAGS.map((tag) => (
                 <button
                   key={tag}
                   onClick={() => setActiveTag(tag)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-600 transition-all duration-150 border ${
-                    activeTag === tag
-                      ? "bg-[#25D366] text-[#0B141A] border-[#25D366]"
-                      : "bg-transparent text-white/45 border-white/10 hover:border-white/25 hover:text-white/70"
-                  }`}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-600 transition-all duration-150 border ${activeTag === tag ? "bg-[#25D366] text-[#0B141A] border-[#25D366]" : "bg-transparent text-white/40 border-white/10 hover:border-white/22 hover:text-white/65"}`}
                   style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif" }}
                 >
                   {tag}
                 </button>
               ))}
+              <span className="text-xs text-white/25 ml-1">共 {filteredSections.length} 条</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Main content ── */}
+      {/* Main content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        {/* Progress panel */}
-        <div className="mb-5">
-          <ProgressPanel
-            completed={completedSteps.size}
-            total={sections.length}
-            onReset={resetProgress}
-          />
+        <div className="mb-4">
+          <ProgressPanel completed={completedSteps.size} total={sections.length} onReset={() => { setCompletedSteps(new Set()); toast.success("进度已重置"); }} />
         </div>
 
-        {/* Step cards */}
         {filteredSections.length === 0 ? (
-          <div className="text-center py-20 text-white/30">
-            <Search size={32} className="mx-auto mb-3 opacity-40" />
+          <div className="text-center py-20 text-white/25">
+            <Search size={30} className="mx-auto mb-3 opacity-40" />
             <p className="text-sm">没有找到匹配的步骤</p>
           </div>
         ) : (
@@ -673,6 +775,7 @@ export default function Home() {
                 section={section}
                 index={section.originalIndex}
                 lang={lang}
+                showZh={showZh}
                 completed={completedSteps.has(section.originalIndex)}
                 onToggleComplete={() => toggleComplete(section.originalIndex)}
                 customScript={customScripts[section.originalIndex] ?? null}
@@ -684,58 +787,33 @@ export default function Home() {
         )}
       </div>
 
-      {/* ── Formula footer ── */}
+      {/* Formula footer */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div
-          className="animate-fade-in-up rounded-3xl p-8 sm:p-10 relative overflow-hidden"
-          style={{
-            background: "linear-gradient(135deg, #005C4B 0%, #128C7E 50%, #25D366 100%)",
-          }}
-        >
-          <div
-            className="absolute inset-0 opacity-15 pointer-events-none"
-            style={{
-              backgroundImage:
-                "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")",
-            }}
-          />
-          <h2
-            className="text-2xl sm:text-3xl font-800 text-white mb-8 relative"
-            style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif", fontWeight: 800 }}
-          >
+        <div className="animate-fade-in-up rounded-3xl p-8 sm:p-10 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #005C4B 0%, #128C7E 50%, #25D366 100%)" }}>
+          <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")" }} />
+          <h2 className="text-2xl sm:text-3xl font-800 text-white mb-8 relative" style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif", fontWeight: 800 }}>
             东欧 COD 真正的成交公式
           </h2>
           <div className="grid sm:grid-cols-2 gap-5 relative">
             <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-5">
-              <h3 className="text-base font-700 text-white/90 mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                ❌ 错误方式
-              </h3>
-              <div className="space-y-2 text-white/65 text-sm">
-                {["一直介绍产品参数", "长篇介绍品牌故事", "只发价格", "等用户主动下单"].map((t) => (
-                  <p key={t}>{t}</p>
-                ))}
+              <h3 className="text-base font-700 text-white/90 mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>❌ 错误方式</h3>
+              <div className="space-y-2 text-white/60 text-sm">
+                {["一直介绍产品参数", "长篇介绍品牌故事", "只发价格", "等用户主动下单", "被拒收后情绪化回复"].map((t) => <p key={t}>{t}</p>)}
               </div>
             </div>
             <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-5">
-              <h3 className="text-base font-700 text-white mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                ✅ 正确方式
-              </h3>
+              <h3 className="text-base font-700 text-white mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>✅ 正确方式</h3>
               <div className="space-y-2 text-white text-sm">
-                {["强调 COD 安全感", "建立真实商家感", "制造热销与库存压力", "主动推动立即成交"].map((t) => (
-                  <p key={t}>{t}</p>
-                ))}
+                {["强调 COD 安全感", "建立真实商家感", "制造热销与库存压力", "主动推动立即成交", "派送当天提醒降低拒收"].map((t) => <p key={t}>{t}</p>)}
               </div>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-white/20 text-center relative">
-            <p
-              className="text-2xl sm:text-3xl font-800 text-white"
-              style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif", fontWeight: 800 }}
-            >
+            <p className="text-2xl sm:text-3xl font-800 text-white" style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif", fontWeight: 800 }}>
               信任感 ＞ 产品参数
             </p>
-            <p className="text-lg mt-2 text-white/75" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
-              COD 安全感 ＞ 品牌故事
+            <p className="text-lg mt-2 text-white/70" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
+              COD 安全感 ＞ 品牌故事 ＞ 价格优惠
             </p>
           </div>
         </div>

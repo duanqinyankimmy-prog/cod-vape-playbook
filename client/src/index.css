@@ -285,11 +285,31 @@
 /* ── Mobile card layout fix ── */
 @media (max-width: 1023px) {
   .step-card-grid {
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
   }
-  .step-card-grid > div:first-child {
-    border-right: none;
+  .step-card-grid > div {
+    border-right: none !important;
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
+  .step-card-grid > div:last-child {
+    border-bottom: none;
+  }
+}
+
+/* ── Language flag tooltip ── */
+[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -1.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 50;
 }
