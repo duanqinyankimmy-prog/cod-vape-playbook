@@ -21,12 +21,15 @@ type LangKey = "en" | "ro" | "pl" | "hu" | "pt" | "cs";
 interface Section {
   title: string;
   subtitle: string;
-  content: string[];
+  content: string[];       // 实战逻辑
+  psychology?: string[];   // 用户心理
+  signals?: string[];      // 成交信号 / 核心目标
+  antipattern?: string;    // 错误方式说明
   scripts: Record<LangKey, string>;
-  zh: string;          // Chinese reference translation
+  zh: string;              // Chinese reference translation
   tag: string;
   tagColor: string;
-  bonus?: boolean;     // bonus scenario flag
+  bonus?: boolean;         // bonus scenario flag
 }
 
 // ─── Language metadata ────────────────────────────────────────────────────────
@@ -61,6 +64,7 @@ const sections: Section[] = [
       cs: `Ahoj 👋 Vítej v CLOUD VAPE\n\n✅ 100% Originální Produkty\n✅ Rychlé Doručení (24-72h)\n✅ Platba při Doručení — Platíš až dorazí\n✅ Snadné Vrácení\n\nJakou příchuť hledáš? 🔥`,
     },
     zh: `你好 👋 欢迎来到 CLOUD VAPE\n\n✅ 100% 正品\n✅ 快速发货（24-72小时）\n✅ 货到付款 — 收到再付\n✅ 轻松退换\n\n你在找什么口味？🔥`,
+    psychology: ["会不会被骗", "能不能货到付款", "有没有真实发货", "回复是不是机器人"],
     tag: "破冰",
     tagColor: "bg-emerald-500/20 text-emerald-400",
   },
@@ -105,6 +109,8 @@ const sections: Section[] = [
       cs: `Žádné obavy 😊\n\nPlatíš POUZE když ti kurýr předá balíček.\n\nŽádná online platba. Žádné riziko. 100% bezpečné. ✅`,
     },
     zh: `完全不用担心 😊\n\n你只需要在快递员把包裹交到你手上时付款。\n\n不需要网上支付。没有风险。100% 安全。✅`,
+    psychology: ["会不会先付款被骗", "这个商家靠不靠谱", "这个产品是真的吗"],
+    antipattern: "不要长篇介绍公司历史和资质。用户真正担心的是：先付款被骗。",
     tag: "信任",
     tagColor: "bg-yellow-500/20 text-yellow-400",
   },
@@ -149,6 +155,7 @@ const sections: Section[] = [
       cs: `Jen pro info 👍\n\n90% našich zákazníků si bere balíček 3 kusů.\n\nDůvod: doprava stojí stejně, takže 3 ks = mnohem lepší hodnota za kus.\n\nA pokud ti příchuť zachutná, nedojde ti! 😄`,
     },
     zh: `告诉你一个情况 👍\n\n我们90%的客户都选3件装。\n\n原因：运费一样，所以3件=每件更划算。\n\n而且如果你喜欢这个口味，就不会用完了！😄`,
+    signals: ["COD 运费高，单件利润低", "多件才真正赚錢", "用社会认同推动多件成交"],
     tag: "套餐",
     tagColor: "bg-purple-500/20 text-purple-400",
   },
@@ -171,6 +178,7 @@ const sections: Section[] = [
       cs: `Skvělá volba! 🎉\n\nPro dnešní odeslání mi prosím pošli:\n\n👤 Celé Jméno:\n📱 Telefonní Číslo:\n🏙️ Město:\n🏠 Celá Adresa:\n📮 PSČ:\n\nHned vše potvrdím! ✅`,
     },
     zh: `好的！🎉\n\n为了今天发货，请告诉我：\n\n👤 全名：\n📱 手机号：\n🏙️ 城市：\n🏠 详细地址：\n📮 邮政编码：\n\n我马上确认！✅`,
+    signals: ["还有货吗？", "今天能发吗？", "多久到？", "怎么下单？"],
     tag: "收单",
     tagColor: "bg-emerald-500/20 text-emerald-400",
   },
@@ -193,6 +201,7 @@ const sections: Section[] = [
       cs: `✅ Objednávka Potvrzena!\n\nTvůj balíček se právě připravuje 📦\nOčekávané doručení: 2-3 pracovní dny 🚚\n\nPo odeslání ti pošleme aktualizaci sledování.\n\nDíky, že jsi zvolil CLOUD VAPE! 🙏`,
     },
     zh: `✅ 订单已确认！\n\n您的包裹正在打包中 📦\n预计到达：2-3个工作日 🚚\n\n发货后我们会发送快递单号给您。\n\n感谢选择 CLOUD VAPE！🙏`,
+    signals: ["持续联系用户", "强化已经下单心理", "增加真实发货感"],
     tag: "确认",
     tagColor: "bg-teal-500/20 text-teal-400",
   },
@@ -215,6 +224,7 @@ const sections: Section[] = [
       cs: `Tvoje objednávka je na cestě! 🚚\n\nSledování: [ČÍSLO_SLEDOVÁNÍ]\nDopravce: [NÁZEV_DOPRAVCE]\n\nMůžeš sledovat zde: [ODKAZ_SLEDOVÁNÍ]\n\nOčekávaný příjezd: [DATUM] 📅\n\nJakékoliv dotazy, napiš mi! 😊`,
     },
     zh: `您的订单已发出！🚚\n\n快递单号：[快递单号]\n快递公司：[快递公司]\n\n查询链接：[查询链接]\n\n预计到达：[日期] 📅\n\n有任何问题随时联系我！😊`,
+    signals: ["发货后立即通知，建立真实感", "附上快递单号或快递公司名称", "告知大概到达时间，降低焦虑"],
     tag: "发货",
     tagColor: "bg-sky-500/20 text-sky-400",
   },
@@ -237,6 +247,7 @@ const sections: Section[] = [
       cs: `Ahoj! 👋 Skvělé zprávy!\n\nTvoje objednávka CLOUD VAPE je dnes doručována 🚚\n\nProsím:\n✅ Nech telefon zapnutý\n✅ Připrav [ČÁSTKA] Kč hotovost pro kurýra\n✅ Buď dostupný na své adrese\n\nUžij si nový vape! 🔥`,
     },
     zh: `嗨！👋 好消息！\n\n您的 CLOUD VAPE 订单今天配送 🚚\n\n请：\n✅ 保持手机开机\n✅ 准备好 [金额] 现金给快递员\n✅ 在家等候\n\n享受您的新电子烟！🔥`,
+    psychology: ["客户可能已忘记订单", "派送当天提前告知最有效", "让客户提前准备现金是降低拒收的核心动作"],
     tag: "提醒",
     tagColor: "bg-amber-500/20 text-amber-400",
   },
@@ -259,6 +270,7 @@ const sections: Section[] = [
       cs: `Hej [Jméno]! 👋\n\nJak ti chutná vape? 😊\n\nPrávě jsme dostali NOVÉ příchutě na sklad 🔥\n\nJako věrný zákazník máš exkluzivní slevu:\n🎁 Kód: VAPE15 → 15% SLEVA na příští objednávku\n\nPlatí jen tento týden! Chceš vidět nové příchutě? 👇`,
     },
     zh: `嗨 [姓名]！👋\n\n电子烟用得怎么样？😊\n\n我们刚到了新口味 🔥\n\n作为老客户，这是您的专属优惠：\n🎁 优惠码：VAPE15 → 下单立减15%\n\n本周有效！想看看新口味吗？👇`,
+    signals: ["真正赚钱靠复购，不是首单", "3-7天后跟进，不要直接推销", "先问体验再推活动"],
     tag: "复购",
     tagColor: "bg-rose-500/20 text-rose-400",
   },
@@ -471,19 +483,60 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
       {/* Body */}
       {expanded && (
         <div>
-          {/* Logic row */}
-          <div className="px-5 pt-4 pb-3 border-b border-white/6">
-            <h3 className="text-[10px] font-600 uppercase tracking-widest text-[#25D366] mb-2.5">实战逻辑</h3>
-            <ul className="flex flex-wrap gap-x-6 gap-y-1.5">
-              {section.content.map((item, idx) => (
-                <li key={idx} className="flex items-start gap-2 text-xs text-white/65 leading-relaxed">
-                  <span className="mt-0.5 w-3.5 h-3.5 rounded-full bg-[#25D366]/15 border border-[#25D366]/35 flex items-center justify-center flex-shrink-0">
-                    <Check size={7} className="text-[#25D366]" />
-                  </span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+          {/* Logic + insights row */}
+          <div className="px-5 pt-4 pb-3 border-b border-white/6 space-y-3">
+            {/* 实战逻辑 */}
+            <div>
+              <h3 className="text-[10px] font-600 uppercase tracking-widest text-[#25D366] mb-2">实战逻辑</h3>
+              <ul className="flex flex-wrap gap-x-6 gap-y-1.5">
+                {section.content.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2 text-xs text-white/65 leading-relaxed">
+                    <span className="mt-0.5 w-3.5 h-3.5 rounded-full bg-[#25D366]/15 border border-[#25D366]/35 flex items-center justify-center flex-shrink-0">
+                      <Check size={7} className="text-[#25D366]" />
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* 用户心理 */}
+            {section.psychology && section.psychology.length > 0 && (
+              <div>
+                <h3 className="text-[10px] font-600 uppercase tracking-widest text-blue-400 mb-2">用户心理</h3>
+                <ul className="flex flex-wrap gap-x-5 gap-y-1.5">
+                  {section.psychology.map((item, idx) => (
+                    <li key={idx} className="flex items-center gap-1.5 text-xs text-blue-300/70">
+                      <span className="text-blue-400 text-[10px]">💭</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 成交信号 / 核心目标 */}
+            {section.signals && section.signals.length > 0 && (
+              <div>
+                <h3 className="text-[10px] font-600 uppercase tracking-widest text-orange-400 mb-2">成交信号 / 核心目标</h3>
+                <ul className="flex flex-wrap gap-x-5 gap-y-1.5">
+                  {section.signals.map((item, idx) => (
+                    <li key={idx} className="flex items-center gap-1.5 text-xs text-orange-300/70">
+                      <span className="text-orange-400 text-[10px]">⚡</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 错误方式 */}
+            {section.antipattern && (
+              <div className="rounded-lg px-3 py-2 bg-red-500/8 border border-red-500/20">
+                <span className="text-[10px] font-600 uppercase tracking-widest text-red-400 mr-2">❌ 错误方式</span>
+                <span className="text-xs text-red-300/70">{section.antipattern}</span>
+              </div>
+            )}
           </div>
 
           {/* Script + ZH side by side */}
