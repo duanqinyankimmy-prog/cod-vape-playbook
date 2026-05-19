@@ -408,7 +408,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       onClick={handleCopy}
       className="copy-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-        bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all duration-150"
+        bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800 transition-all duration-150"
     >
       {copied ? <><Check size={13} className="text-emerald-400" />已复制</> : <><Copy size={13} />复制</>}
     </button>
@@ -441,22 +441,22 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
   return (
     <div
       className={`animate-fade-in-up stagger-${Math.min(index + 1, 10)} rounded-2xl overflow-hidden border transition-all duration-300
-        ${section.bonus ? "border-dashed border-white/15 hover:border-white/25" : completed
-          ? "border-[#25D366]/50 shadow-[0_0_20px_rgba(37,211,102,0.10)]"
-          : "border-white/8 hover:border-[#25D366]/25 hover:shadow-[0_0_30px_rgba(37,211,102,0.07)]"
+        ${section.bonus ? "border-dashed border-slate-200 hover:border-slate-300" : completed
+          ? "border-[#128C7E]/50 shadow-[0_4px_20px_rgba(18,140,126,0.12)]"
+          : "border-slate-200 hover:border-[#128C7E]/30 hover:shadow-[0_4px_20px_rgba(18,140,126,0.08)]"
         }`}
-      style={{ background: section.bonus ? "#0E1A20" : "#111B21" }}
+      style={{ background: section.bonus ? "#F8FAFC" : "#FFFFFF" }}
     >
       {/* Header */}
       <div
-        className="px-5 py-4 border-b border-white/8 flex items-center gap-3 cursor-pointer select-none"
-        style={{ background: "rgba(11,20,26,0.6)" }}
+        className="px-5 py-4 border-b border-slate-100 flex items-center gap-3 cursor-pointer select-none"
+        style={{ background: "rgba(248,250,252,0.95)" }}
         onClick={() => setExpanded((v) => !v)}
       >
         <button
           onClick={(e) => { e.stopPropagation(); onToggleComplete(); }}
           className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 transition-all duration-200
-            ${completed ? "bg-[#25D366] text-[#0B141A] shadow-[0_0_12px_rgba(37,211,102,0.5)]" : "bg-[#25D366] text-[#0B141A]"}`}
+            ${completed ? "bg-[#128C7E] text-white shadow-[0_0_12px_rgba(18,140,126,0.4)]" : "bg-[#128C7E] text-white"}`}
           style={{ fontFamily: "'Space Grotesk', sans-serif" }}
         >
           {completed ? <Check size={15} strokeWidth={3} /> : section.bonus ? "+" : index + 1}
@@ -465,34 +465,34 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <h2
-              className={`text-base font-700 leading-tight transition-colors duration-200 ${completed ? "text-white/40 line-through" : "text-white"}`}
+              className={`text-base font-700 leading-tight transition-colors duration-200 ${completed ? "text-slate-400 line-through" : "text-slate-800"}`}
               style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif" }}
             >
               {section.title}
             </h2>
             <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${section.tagColor}`}>{section.tag}</span>
-            {section.bonus && <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-white/10 text-white/40">加餐</span>}
+            {section.bonus && <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-slate-100 text-slate-500">加餐</span>}
             {customScript && <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-violet-500/20 text-violet-400">已自定义</span>}
           </div>
-          <p className="text-xs text-white/40 mt-0.5">{section.subtitle}</p>
+          <p className="text-xs text-slate-400 mt-0.5">{section.subtitle}</p>
         </div>
 
-        <div className="text-white/25 flex-shrink-0">{expanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}</div>
+        <div className="text-slate-400 flex-shrink-0">{expanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}</div>
       </div>
 
       {/* Body */}
       {expanded && (
         <div>
           {/* Logic + insights row */}
-          <div className="px-5 pt-4 pb-3 border-b border-white/6 space-y-3">
+          <div className="px-5 pt-4 pb-3 border-b border-slate-100 space-y-3">
             {/* 实战逻辑 */}
             <div>
-              <h3 className="text-[10px] font-600 uppercase tracking-widest text-[#25D366] mb-2">实战逻辑</h3>
+              <h3 className="text-[10px] font-600 uppercase tracking-widest text-[#128C7E] mb-2">实战逻辑</h3>
               <ul className="flex flex-wrap gap-x-6 gap-y-1.5">
                 {section.content.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-xs text-white/65 leading-relaxed">
-                    <span className="mt-0.5 w-3.5 h-3.5 rounded-full bg-[#25D366]/15 border border-[#25D366]/35 flex items-center justify-center flex-shrink-0">
-                      <Check size={7} className="text-[#25D366]" />
+                  <li key={idx} className="flex items-start gap-2 text-xs text-slate-600 leading-relaxed">
+                    <span className="mt-0.5 w-3.5 h-3.5 rounded-full bg-[#128C7E]/15 border border-[#128C7E]/35 flex items-center justify-center flex-shrink-0">
+                      <Check size={7} className="text-[#128C7E]" />
                     </span>
                     <span>{item}</span>
                   </li>
@@ -506,7 +506,7 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
                 <h3 className="text-[10px] font-600 uppercase tracking-widest text-blue-400 mb-2">用户心理</h3>
                 <ul className="flex flex-wrap gap-x-5 gap-y-1.5">
                   {section.psychology.map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-1.5 text-xs text-blue-300/70">
+                    <li key={idx} className="flex items-center gap-1.5 text-xs text-blue-600">
                       <span className="text-blue-400 text-[10px]">💭</span>
                       <span>{item}</span>
                     </li>
@@ -521,7 +521,7 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
                 <h3 className="text-[10px] font-600 uppercase tracking-widest text-orange-400 mb-2">成交信号 / 核心目标</h3>
                 <ul className="flex flex-wrap gap-x-5 gap-y-1.5">
                   {section.signals.map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-1.5 text-xs text-orange-300/70">
+                    <li key={idx} className="flex items-center gap-1.5 text-xs text-orange-600">
                       <span className="text-orange-400 text-[10px]">⚡</span>
                       <span>{item}</span>
                     </li>
@@ -532,9 +532,9 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
 
             {/* 错误方式 */}
             {section.antipattern && (
-              <div className="rounded-lg px-3 py-2 bg-red-500/8 border border-red-500/20">
+              <div className="rounded-lg px-3 py-2 bg-red-50 border border-red-200">
                 <span className="text-[10px] font-600 uppercase tracking-widest text-red-400 mr-2">❌ 错误方式</span>
-                <span className="text-xs text-red-300/70">{section.antipattern}</span>
+                <span className="text-xs text-red-600">{section.antipattern}</span>
               </div>
             )}
           </div>
@@ -542,50 +542,50 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
           {/* Script + ZH side by side */}
           <div className={`grid gap-0 ${showZh ? "lg:grid-cols-2" : "grid-cols-1"}`}>
             {/* Script panel */}
-            <div className={`p-5 ${showZh ? "border-r border-white/8" : ""}`}>
+            <div className={`p-5 ${showZh ? "border-r border-slate-100" : ""}`}>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-[10px] font-600 uppercase tracking-widest text-[#25D366]">
+                <h3 className="text-[10px] font-600 uppercase tracking-widest text-[#128C7E]">
                   {LANG_META[lang].flag} {LANG_META[lang].label} 话术
                 </h3>
                 <div className="flex items-center gap-1.5">
                   {customScript && (
-                    <button onClick={onResetScript} className="copy-btn flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs bg-white/8 hover:bg-white/15 text-white/45 hover:text-white/70 transition-all">
+                    <button onClick={onResetScript} className="copy-btn flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-700 transition-all">
                       <RotateCcw size={10} />恢复
                     </button>
                   )}
-                  <button onClick={startEdit} className="copy-btn flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs bg-violet-500/15 hover:bg-violet-500/25 text-violet-400 transition-all">
+                  <button onClick={startEdit} className="copy-btn flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs bg-violet-50 hover:bg-violet-100 text-violet-600 transition-all">
                     <Edit3 size={10} />编辑
                   </button>
                   <CopyButton text={displayScript} />
                 </div>
               </div>
 
-              <div className="rounded-xl overflow-hidden bg-[#0B141A] border border-white/6">
-                <div className="flex items-center gap-2 px-3 py-2 bg-[#202C33] border-b border-white/8">
-                  <div className="w-5 h-5 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
-                    <MessageCircle size={10} className="text-[#0B141A]" />
+              <div className="rounded-xl overflow-hidden bg-[#F0F2F5] border border-slate-200">
+                <div className="flex items-center gap-2 px-3 py-2 bg-[#128C7E] border-b border-[#128C7E]/20">
+                  <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <MessageCircle size={10} className="text-white" />
                   </div>
-                  <span className="text-xs text-white/55 font-medium">CLOUD VAPE</span>
+                  <span className="text-xs text-white/90 font-medium">CLOUD VAPE</span>
                   <div className="ml-auto flex items-center gap-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#25D366]" />
-                    <span className="text-[10px] text-[#25D366]">online</span>
+                    <span className="text-[10px] text-green-300">online</span>
                   </div>
                 </div>
                 <div className="p-3 min-h-[60px]">
                   {editing ? (
                     <div className="space-y-2">
                       <textarea
-                        className="w-full bg-[#202C33] text-white/90 text-xs rounded-lg p-3 border border-white/10 focus:border-[#25D366]/50 outline-none resize-none leading-relaxed"
+                        className="w-full bg-white text-slate-800 text-xs rounded-lg p-3 border border-slate-200 focus:border-[#128C7E]/50 outline-none resize-none leading-relaxed"
                         style={{ fontFamily: "'JetBrains Mono', monospace", minHeight: "110px" }}
                         value={draft}
                         onChange={(e) => setDraft(e.target.value)}
                         autoFocus
                       />
                       <div className="flex gap-2 justify-end">
-                        <button onClick={cancelEdit} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-white/8 hover:bg-white/15 text-white/55 hover:text-white transition-all">
+                        <button onClick={cancelEdit} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-700 transition-all">
                           <X size={10} />取消
                         </button>
-                        <button onClick={saveEdit} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-[#25D366]/20 hover:bg-[#25D366]/30 text-[#25D366] transition-all">
+                        <button onClick={saveEdit} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-[#128C7E]/15 hover:bg-[#128C7E]/25 text-[#128C7E] transition-all">
                           <Check size={10} />保存
                         </button>
                       </div>
@@ -593,10 +593,10 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
                   ) : (
                     <div className="flex justify-end">
                       <div className="bubble-out max-w-[90%] px-3 py-2">
-                        <pre className="text-xs text-white/90 whitespace-pre-wrap leading-relaxed" style={{ fontFamily: "'JetBrains Mono', 'Noto Sans SC', monospace" }}>
+                        <pre className="text-xs text-slate-800 whitespace-pre-wrap leading-relaxed" style={{ fontFamily: "'JetBrains Mono', 'Noto Sans SC', monospace" }}>
                           {displayScript}
                         </pre>
-                        <div className="flex justify-end mt-1"><span className="text-[10px] text-white/35">✓✓</span></div>
+                        <div className="flex justify-end mt-1"><span className="text-[10px] text-slate-400">✓✓</span></div>
                       </div>
                     </div>
                   )}
@@ -611,17 +611,17 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
                   <h3 className="text-[10px] font-600 uppercase tracking-widest text-amber-400">🇨🇳 中文对照</h3>
                   <CopyButton text={section.zh} />
                 </div>
-                <div className="rounded-xl overflow-hidden bg-[#0B141A] border border-white/6">
-                  <div className="flex items-center gap-2 px-3 py-2 bg-[#1A1A0A] border-b border-white/8">
+                <div className="rounded-xl overflow-hidden bg-[#F0F2F5] border border-slate-200">
+                  <div className="flex items-center gap-2 px-3 py-2 bg-amber-500 border-b border-amber-400/20">
                     <div className="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0">
-                      <BookOpen size={10} className="text-[#0B141A]" />
+                      <BookOpen size={10} className="text-white" />
                     </div>
-                    <span className="text-xs text-amber-400/70 font-medium">中文参考译文</span>
+                    <span className="text-xs text-white/90 font-medium">中文参考译文</span>
                   </div>
                   <div className="p-3">
                     <div className="flex justify-start">
                       <div className="bubble-in max-w-[90%] px-3 py-2">
-                        <pre className="text-xs text-white/80 whitespace-pre-wrap leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
+                        <pre className="text-xs text-slate-700 whitespace-pre-wrap leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
                           {section.zh}
                         </pre>
                       </div>
@@ -640,25 +640,25 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
 function ProgressPanel({ completed, total, onReset }: { completed: number; total: number; onReset: () => void }) {
   const pct = Math.round((completed / total) * 100);
   return (
-    <div className="rounded-2xl border border-white/8 p-5 bg-[#111B21]">
+    <div className="rounded-2xl border border-slate-200 p-5 bg-white shadow-sm">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <BarChart2 size={15} className="text-[#25D366]" />
-          <span className="text-sm font-600 text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>今日成交进度</span>
+          <BarChart2 size={15} className="text-[#128C7E]" />
+          <span className="text-sm font-600 text-slate-700" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>今日成交进度</span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-white/45">
-            <span className="text-[#25D366] font-700">{completed}</span> / {total} 步
+          <span className="text-sm text-slate-500">
+            <span className="text-[#128C7E] font-700">{completed}</span> / {total} 步
           </span>
-          <button onClick={onReset} className="text-xs text-white/25 hover:text-white/55 transition-colors flex items-center gap-1">
+          <button onClick={onReset} className="text-xs text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-1">
             <RotateCcw size={10} />重置
           </button>
         </div>
       </div>
-      <div className="h-2 rounded-full bg-white/8 overflow-hidden">
+      <div className="h-2 rounded-full bg-slate-100 overflow-hidden">
         <div className="h-full rounded-full transition-all duration-500 progress-shimmer" style={{ width: `${pct}%` }} />
       </div>
-      <div className="mt-1.5 text-xs text-white/30 text-right">{pct}% 完成</div>
+      <div className="mt-1.5 text-xs text-slate-400 text-right">{pct}% 完成</div>
     </div>
   );
 }
@@ -707,24 +707,24 @@ export default function Home() {
     });
 
   return (
-    <div className="min-h-screen" style={{ background: "#0B141A" }}>
+    <div className="min-h-screen" style={{ background: "#F0F2F5" }}>
       {/* Hero */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37,211,102,0.12) 0%, transparent 70%)" }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(18,140,126,0.10) 0%, transparent 70%)" }} />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8 relative">
           <div className="animate-fade-in-up flex justify-center mb-5">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#25D366]/30 bg-[#25D366]/10 text-[#25D366] text-sm font-medium">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#128C7E]/30 bg-[#128C7E]/10 text-[#128C7E] text-sm font-medium">
               <MessageCircle size={14} />
               WhatsApp COD 实战手册 · 东欧市场 · 15套话术
             </span>
           </div>
 
           <div className="animate-fade-in-up stagger-1 text-center mb-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-800 text-white leading-tight mb-4" style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif", fontWeight: 800 }}>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-800 text-slate-800 leading-tight mb-4" style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif", fontWeight: 800 }}>
               东欧 COD 电子烟<br />
-              <span style={{ color: "#25D366" }}>WhatsApp 完整成交步骤</span>
+              <span style={{ color: "#128C7E" }}>WhatsApp 完整成交步骤</span>
             </h1>
-            <p className="text-base text-white/50 max-w-2xl mx-auto leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
+            <p className="text-base text-slate-500 max-w-2xl mx-auto leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
               降低被骗感 → 建立真实感 → 制造热销感 → 推动立即下单 → 降低拒收 → 做复购
             </p>
           </div>
@@ -740,7 +740,7 @@ export default function Home() {
                 <div className={`mt-0.5 flex-shrink-0 ${item.color}`}>{item.icon}</div>
                 <div>
                   <h3 className={`font-700 text-sm ${item.color}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{item.title}</h3>
-                  <p className="text-xs text-white/40 mt-0.5 leading-relaxed">{item.desc}</p>
+                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -751,13 +751,13 @@ export default function Home() {
             {/* Row 1: language + ZH toggle + search */}
             <div className="flex flex-wrap gap-2 items-center">
               {/* Language switcher */}
-              <div className="flex items-center gap-1 bg-[#111B21] border border-white/8 rounded-xl p-1">
-                <Globe size={12} className="text-white/35 ml-1.5 mr-0.5 flex-shrink-0" />
+              <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
+                <Globe size={12} className="text-slate-400 ml-1.5 mr-0.5 flex-shrink-0" />
                 {(["en", "ro", "pl", "hu", "pt", "cs"] as LangKey[]).map((l) => (
                   <button
                     key={l}
                     onClick={() => setLang(l)}
-                    className={`px-2.5 py-1.5 rounded-lg text-xs font-600 transition-all duration-150 flex items-center gap-1 ${lang === l ? "bg-[#25D366] text-[#0B141A]" : "text-white/45 hover:text-white hover:bg-white/8"}`}
+                    className={`px-2.5 py-1.5 rounded-lg text-xs font-600 transition-all duration-150 flex items-center gap-1 ${lang === l ? "bg-[#128C7E] text-white" : "text-slate-500 hover:text-slate-700 hover:bg-slate-100"}`}
                     style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                     title={LANG_META[l].market}
                   >
@@ -770,24 +770,24 @@ export default function Home() {
               {/* ZH toggle */}
               <button
                 onClick={() => setShowZh((v) => !v)}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-600 border transition-all duration-150 ${showZh ? "bg-amber-500/20 border-amber-500/40 text-amber-400" : "bg-transparent border-white/10 text-white/40 hover:text-white/60 hover:border-white/20"}`}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-600 border transition-all duration-150 ${showZh ? "bg-amber-50 border-amber-400 text-amber-600" : "bg-white border-slate-200 text-slate-400 hover:text-slate-600 hover:border-slate-300"}`}
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
                 🇨🇳 中文对照 {showZh ? "开" : "关"}
               </button>
 
               {/* Search */}
-              <div className="flex items-center gap-2 bg-[#111B21] border border-white/8 rounded-xl px-3 py-2 flex-1 min-w-[160px] max-w-xs">
-                <Search size={12} className="text-white/30 flex-shrink-0" />
+              <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-3 py-2 flex-1 min-w-[160px] max-w-xs shadow-sm">
+                <Search size={12} className="text-slate-400 flex-shrink-0" />
                 <input
                   type="text"
                   placeholder="搜索步骤或话术…"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-transparent text-xs text-white/75 placeholder-white/25 outline-none w-full"
+                  className="bg-transparent text-xs text-slate-700 placeholder-slate-300 outline-none w-full"
                   style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
                 />
-                {searchQuery && <button onClick={() => setSearchQuery("")} className="text-white/25 hover:text-white/55"><X size={11} /></button>}
+                {searchQuery && <button onClick={() => setSearchQuery("")} className="text-slate-300 hover:text-slate-500"><X size={11} /></button>}
               </div>
             </div>
 
@@ -797,13 +797,13 @@ export default function Home() {
                 <button
                   key={tag}
                   onClick={() => setActiveTag(tag)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-600 transition-all duration-150 border ${activeTag === tag ? "bg-[#25D366] text-[#0B141A] border-[#25D366]" : "bg-transparent text-white/40 border-white/10 hover:border-white/22 hover:text-white/65"}`}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-600 transition-all duration-150 border ${activeTag === tag ? "bg-[#128C7E] text-white border-[#128C7E]" : "bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:text-slate-700"}`}
                   style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif" }}
                 >
                   {tag}
                 </button>
               ))}
-              <span className="text-xs text-white/25 ml-1">共 {filteredSections.length} 条</span>
+              <span className="text-xs text-slate-400 ml-1">共 {filteredSections.length} 条</span>
             </div>
           </div>
         </div>
@@ -816,7 +816,7 @@ export default function Home() {
         </div>
 
         {filteredSections.length === 0 ? (
-          <div className="text-center py-20 text-white/25">
+          <div className="text-center py-20 text-slate-400">
             <Search size={30} className="mx-auto mb-3 opacity-40" />
             <p className="text-sm">没有找到匹配的步骤</p>
           </div>
@@ -842,7 +842,7 @@ export default function Home() {
 
       {/* Formula footer */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="animate-fade-in-up rounded-3xl p-8 sm:p-10 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #005C4B 0%, #128C7E 50%, #25D366 100%)" }}>
+        <div className="animate-fade-in-up rounded-3xl p-8 sm:p-10 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #075E54 0%, #128C7E 50%, #25D366 100%)" }}>
           <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")" }} />
           <h2 className="text-2xl sm:text-3xl font-800 text-white mb-8 relative" style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif", fontWeight: 800 }}>
             东欧 COD 真正的成交公式
@@ -850,7 +850,7 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 gap-5 relative">
             <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-5">
               <h3 className="text-base font-700 text-white/90 mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>❌ 错误方式</h3>
-              <div className="space-y-2 text-white/60 text-sm">
+              <div className="space-y-2 text-white/75 text-sm">
                 {["一直介绍产品参数", "长篇介绍品牌故事", "只发价格", "等用户主动下单", "被拒收后情绪化回复"].map((t) => <p key={t}>{t}</p>)}
               </div>
             </div>
@@ -861,11 +861,11 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-white/20 text-center relative">
+          <div className="mt-8 pt-8 border-t border-white/25 text-center relative">
             <p className="text-2xl sm:text-3xl font-800 text-white" style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif", fontWeight: 800 }}>
               信任感 ＞ 产品参数
             </p>
-            <p className="text-lg mt-2 text-white/70" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
+            <p className="text-lg mt-2 text-white/75" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
               COD 安全感 ＞ 品牌故事 ＞ 价格优惠
             </p>
           </div>

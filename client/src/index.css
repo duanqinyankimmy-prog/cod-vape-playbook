@@ -41,50 +41,64 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Brand tokens */
-  --color-wa-green: #25D366;
-  --color-wa-dark-green: #128C7E;
-  --color-wa-bg: #0B141A;
-  --color-wa-surface: #111B21;
-  --color-wa-card: #1F2C33;
-  --color-wa-bubble-out: #005C4B;
-  --color-wa-bubble-in: #202C33;
+  /* Brand tokens — WhatsApp green on light */
+  --color-wa-green:       #128C7E;
+  --color-wa-bright:      #25D366;
+  --color-wa-bg:          #F0F2F5;
+  --color-wa-surface:     #FFFFFF;
+  --color-wa-card:        #FFFFFF;
+  --color-wa-bubble-out:  #D9FDD3;
+  --color-wa-bubble-in:   #FFFFFF;
 }
 
+/* ── Light theme (default) ── */
 :root {
   --radius: 0.75rem;
-  --primary: oklch(0.65 0.18 155);
-  --primary-foreground: oklch(0.98 0 0);
-  --background: oklch(0.10 0.012 220);
-  --foreground: oklch(0.92 0.005 65);
-  --card: oklch(0.14 0.012 220);
-  --card-foreground: oklch(0.92 0.005 65);
-  --popover: oklch(0.14 0.012 220);
-  --popover-foreground: oklch(0.92 0.005 65);
-  --secondary: oklch(0.18 0.012 220);
-  --secondary-foreground: oklch(0.75 0.005 65);
-  --muted: oklch(0.18 0.010 220);
-  --muted-foreground: oklch(0.55 0.010 220);
-  --accent: oklch(0.65 0.18 155);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
+
+  /* Primary = WhatsApp teal-green */
+  --primary:            oklch(0.52 0.14 168);
+  --primary-foreground: oklch(0.99 0 0);
+
+  /* Backgrounds */
+  --background:         oklch(0.97 0.003 250);   /* #F0F2F5 — WhatsApp light bg */
+  --foreground:         oklch(0.18 0.010 250);   /* near-black text */
+
+  --card:               oklch(1 0 0);            /* pure white cards */
+  --card-foreground:    oklch(0.18 0.010 250);
+
+  --popover:            oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.010 250);
+
+  --secondary:          oklch(0.94 0.004 250);
+  --secondary-foreground: oklch(0.30 0.010 250);
+
+  --muted:              oklch(0.93 0.004 250);
+  --muted-foreground:   oklch(0.50 0.010 250);
+
+  --accent:             oklch(0.52 0.14 168);
+  --accent-foreground:  oklch(0.99 0 0);
+
+  --destructive:        oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.65 0.18 155);
-  --chart-1: oklch(0.65 0.18 155);
-  --chart-2: oklch(0.55 0.15 155);
-  --chart-3: oklch(0.45 0.12 155);
-  --chart-4: oklch(0.35 0.09 155);
-  --chart-5: oklch(0.25 0.06 155);
-  --sidebar: oklch(0.12 0.012 220);
-  --sidebar-foreground: oklch(0.92 0.005 65);
-  --sidebar-primary: oklch(0.65 0.18 155);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.18 0.012 220);
-  --sidebar-accent-foreground: oklch(0.92 0.005 65);
-  --sidebar-border: oklch(1 0 0 / 8%);
-  --sidebar-ring: oklch(0.65 0.18 155);
+
+  --border:             oklch(0.88 0.005 250);
+  --input:              oklch(0.88 0.005 250);
+  --ring:               oklch(0.52 0.14 168);
+
+  --chart-1: oklch(0.52 0.14 168);
+  --chart-2: oklch(0.45 0.12 168);
+  --chart-3: oklch(0.38 0.10 168);
+  --chart-4: oklch(0.31 0.08 168);
+  --chart-5: oklch(0.24 0.06 168);
+
+  --sidebar:            oklch(1 0 0);
+  --sidebar-foreground: oklch(0.18 0.010 250);
+  --sidebar-primary:    oklch(0.52 0.14 168);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent:     oklch(0.94 0.004 250);
+  --sidebar-accent-foreground: oklch(0.18 0.010 250);
+  --sidebar-border:     oklch(0.88 0.005 250);
+  --sidebar-ring:       oklch(0.52 0.14 168);
 }
 
 @layer base {
@@ -143,9 +157,9 @@
     }
   }
 
-  /* ── WhatsApp bubble styles ── */
+  /* ── WhatsApp bubble styles (light mode) ── */
   .bubble-out {
-    background: #005C4B;
+    background: #D9FDD3;
     border-radius: 12px 0px 12px 12px;
     position: relative;
   }
@@ -156,14 +170,15 @@
     right: -7px;
     width: 0;
     height: 0;
-    border-left: 7px solid #005C4B;
+    border-left: 7px solid #D9FDD3;
     border-bottom: 7px solid transparent;
   }
 
   .bubble-in {
-    background: #202C33;
+    background: #FFFFFF;
     border-radius: 0px 12px 12px 12px;
     position: relative;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
   }
   .bubble-in::after {
     content: '';
@@ -172,7 +187,7 @@
     left: -7px;
     width: 0;
     height: 0;
-    border-right: 7px solid #202C33;
+    border-right: 7px solid #FFFFFF;
     border-bottom: 7px solid transparent;
   }
 
@@ -181,8 +196,8 @@
     width: 2.25rem;
     height: 2.25rem;
     border-radius: 50%;
-    background: #25D366;
-    color: #0B141A;
+    background: #128C7E;
+    color: #FFFFFF;
     font-weight: 800;
     font-size: 0.9rem;
     display: flex;
@@ -206,19 +221,19 @@
     width: 5px;
   }
   ::-webkit-scrollbar-track {
-    background: #0B141A;
+    background: #F0F2F5;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(37, 211, 102, 0.35);
+    background: rgba(18, 140, 126, 0.35);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(37, 211, 102, 0.6);
+    background: rgba(18, 140, 126, 0.6);
   }
 
   /* ── Textarea focus glow ── */
   textarea:focus {
-    box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.25);
+    box-shadow: 0 0 0 2px rgba(18, 140, 126, 0.20);
   }
 }
 
@@ -239,8 +254,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(37,211,102,0.3); }
-  50%       { box-shadow: 0 0 20px rgba(37,211,102,0.6); }
+  0%, 100% { box-shadow: 0 0 8px rgba(18,140,126,0.25); }
+  50%       { box-shadow: 0 0 20px rgba(18,140,126,0.50); }
 }
 
 .animate-fade-in-up {
@@ -273,10 +288,10 @@
 .progress-shimmer {
   background: linear-gradient(
     90deg,
-    #128C7E 0%,
-    #25D366 40%,
-    #4ade80 60%,
-    #25D366 100%
+    #075E54 0%,
+    #128C7E 40%,
+    #25D366 60%,
+    #128C7E 100%
   );
   background-size: 200% auto;
   animation: shimmer 2.5s linear infinite;
@@ -290,26 +305,9 @@
   }
   .step-card-grid > div {
     border-right: none !important;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
   }
   .step-card-grid > div:last-child {
     border-bottom: none;
   }
-}
-
-/* ── Language flag tooltip ── */
-[title]:hover::after {
-  content: attr(title);
-  position: absolute;
-  bottom: -1.8rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.8);
-  color: #fff;
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 50;
 }
