@@ -1,7 +1,7 @@
 /**
  * Design Philosophy: WhatsApp Immersive (方案 C) — v3 Full Expansion
  * - 6 languages: EN / RO / PL / HU / PT / CS + Chinese (ZH) reference column
- * - Expanded scripts: 10 main steps + 5 bonus scenarios
+ * - Expanded scripts: 10 main steps + 15 bonus scenarios (25 total)
  * - Each step shows: 实战逻辑 | 话术 (selected lang) | 中文对照
  * - Features: lang switcher, tag filter, search, progress tracker, script editor
  */
@@ -13,24 +13,8 @@ import {
   X, RotateCcw, Search, BookOpen,
 } from "lucide-react";
 import { toast } from "sonner";
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type LangKey = "en" | "ro" | "pl" | "hu" | "pt" | "cs";
-
-interface Section {
-  title: string;
-  subtitle: string;
-  content: string[];       // 实战逻辑
-  psychology?: string[];   // 用户心理
-  signals?: string[];      // 成交信号 / 核心目标
-  antipattern?: string;    // 错误方式说明
-  scripts: Record<LangKey, string>;
-  zh: string;              // Chinese reference translation
-  tag: string;
-  tagColor: string;
-  bonus?: boolean;         // bonus scenario flag
-}
+import { extraSections } from "./extraSections";
+import type { LangKey, Section } from "./sectionTypes";
 
 // ─── Language metadata ────────────────────────────────────────────────────────
 
@@ -388,7 +372,10 @@ const sections: Section[] = [
   },
 ];
 
-const ALL_TAGS = ["全部", "主流程", ...Array.from(new Set(sections.map((s) => s.tag)))];
+// Merge base sections with extra high-conversion scenarios
+const allSections: Section[] = [...sections, ...extraSections];
+
+const ALL_TAGS = ["全部", "主流程", ...Array.from(new Set(allSections.map((s) => s.tag)))];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -690,7 +677,7 @@ export default function Home() {
     toast.success("已恢复默认话术");
   }, []);
 
-  const filteredSections = sections
+  const filteredSections = allSections
     .map((s, i) => ({ ...s, originalIndex: i }))
     .filter((s) => {
       if (activeTag === "主流程") return !s.bonus;
@@ -715,7 +702,7 @@ export default function Home() {
           <div className="animate-fade-in-up flex justify-center mb-5">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#128C7E]/30 bg-[#128C7E]/10 text-[#128C7E] text-sm font-medium">
               <MessageCircle size={14} />
-              WhatsApp COD 实战手册 · 东欧市场 · 15套话术
+              WhatsApp COD 实战手册 · 东欧市场 · 25套话术
             </span>
           </div>
 
@@ -812,7 +799,7 @@ export default function Home() {
       {/* Main content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         <div className="mb-4">
-          <ProgressPanel completed={completedSteps.size} total={sections.length} onReset={() => { setCompletedSteps(new Set()); toast.success("进度已重置"); }} />
+          <ProgressPanel completed={completedSteps.size} total={allSections.length} onReset={() => { setCompletedSteps(new Set()); toast.success("进度已重置"); }} />
         </div>
 
         {filteredSections.length === 0 ? (
