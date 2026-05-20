@@ -704,7 +704,7 @@ export default function Home() {
           <div className="animate-fade-in-up flex justify-center mb-5">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#128C7E]/30 bg-[#128C7E]/10 text-[#128C7E] text-sm font-medium">
               <MessageCircle size={14} />
-              WhatsApp COD 实战手册 · 东欧市场 · 25套话术
+              WhatsApp COD 实战手册 · 东欧市场 · 31套话术
             </span>
           </div>
 
