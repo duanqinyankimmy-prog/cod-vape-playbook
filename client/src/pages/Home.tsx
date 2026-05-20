@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { extraSections } from "./extraSections";
 import type { LangKey, Section } from "./sectionTypes";
 import CancelRecovery from "./CancelRecovery";
+import RepurchaseModule from "./RepurchaseModule";
 
 // ─── Language metadata ────────────────────────────────────────────────────────
 
@@ -827,6 +828,9 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* Repurchase Activation Module */}
+      <RepurchaseModule lang={lang} showZh={showZh} />
 
       {/* Cancel Recovery Module */}
       <CancelRecovery lang={lang} showZh={showZh} />
