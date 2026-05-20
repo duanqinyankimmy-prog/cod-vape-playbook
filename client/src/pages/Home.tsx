@@ -15,6 +15,7 @@ import {
 import { toast } from "sonner";
 import { extraSections } from "./extraSections";
 import type { LangKey, Section } from "./sectionTypes";
+import CancelRecovery from "./CancelRecovery";
 
 // ─── Language metadata ────────────────────────────────────────────────────────
 
@@ -826,6 +827,9 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* Cancel Recovery Module */}
+      <CancelRecovery lang={lang} showZh={showZh} />
 
       {/* Formula footer */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
