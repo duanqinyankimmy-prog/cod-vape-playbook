@@ -1,7 +1,7 @@
 /**
  * Design Philosophy: WhatsApp Immersive (方案 C) — v3 Full Expansion
  * - 6 languages: EN / RO / PL / HU / PT / CS + Chinese (ZH) reference column
- * - Expanded scripts: 10 main steps + 15 bonus scenarios (25 total)
+ * - Expanded scripts: 10 main steps + 41 bonus scenarios (51 total)
  * - Each step shows: 实战逻辑 | 话术 (selected lang) | 中文对照
  * - Features: lang switcher, tag filter, search, progress tracker, script editor
  */
@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { extraSections } from "./extraSections";
+import { extraSections2 } from "./extraSections2";
 import type { LangKey, Section } from "./sectionTypes";
 import CancelRecovery from "./CancelRecovery";
 import RepurchaseModule from "./RepurchaseModule";
@@ -375,7 +376,7 @@ const sections: Section[] = [
 ];
 
 // Merge base sections with extra high-conversion scenarios
-const allSections: Section[] = [...sections, ...extraSections];
+const allSections: Section[] = [...sections, ...extraSections, ...extraSections2];
 
 const ALL_TAGS = ["全部", "主流程", ...Array.from(new Set(allSections.map((s) => s.tag)))];
 
@@ -704,7 +705,7 @@ export default function Home() {
           <div className="animate-fade-in-up flex justify-center mb-5">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#128C7E]/30 bg-[#128C7E]/10 text-[#128C7E] text-sm font-medium">
               <MessageCircle size={14} />
-              WhatsApp COD 实战手册 · 东欧市场 · 31套话术
+              WhatsApp COD 实战手册 · 东欧市场 · 51套话术
             </span>
           </div>
 

@@ -1,0 +1,532 @@
+import type { Section } from "./sectionTypes";
+
+/**
+ * Extra sections v2 — expanded scripts for all non-urgency modules
+ * Covers: 破冰 / 报价 / 信任 / 套餐 / 收单 / 确认 / 发货 / 提醒 / 复购 / 异议 / 拒收 / 验真 / 节促
+ */
+
+export const extraSections2: Section[] = [
+
+  // ─── 破冰 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "破冰V2：语音/视频破冰",
+    subtitle: "发一条15秒语音，信任感直接翻倍",
+    content: [
+      "文字容易被当成机器人，语音/视频立即建立真人感。",
+      "内容简单：自我介绍 + COD 保障 + 邀请提问。",
+      "语气轻松自然，不要念稿子。",
+    ],
+    psychology: ["真人还是机器人？", "这个商家在哪里？", "能不能信任？"],
+    signals: ["用户进入 WhatsApp 但没有回复文字消息"],
+    scripts: {
+      en: `Hi [Name]! 👋 I'm [Your Name] from CLOUD VAPE.\n\nJust wanted to say hi personally — we're a real team shipping from [City].\n\n✅ Everything is Cash on Delivery — no payment until it's in your hands.\n\nFeel free to ask me anything! What flavor are you looking for? 😊`,
+      ro: `Bună [Nume]! 👋 Sunt [Numele Tău] de la CLOUD VAPE.\n\nAm vrut să îți spun personal bun venit — suntem o echipă reală care expediază din [Oraș].\n\n✅ Totul este Plată la Livrare — nicio plată până nu e în mâinile tale.\n\nÎntreabă-mă orice! Ce aromă cauți? 😊`,
+      pl: `Cześć [Imię]! 👋 Jestem [Twoje Imię] z CLOUD VAPE.\n\nChciałem osobiście się przywitać — jesteśmy prawdziwym zespołem wysyłającym z [Miasto].\n\n✅ Wszystko jest Płatnością przy Odbiorze — żadnej płatności dopóki nie masz tego w rękach.\n\nZapytaj mnie o cokolwiek! Jakiego smaku szukasz? 😊`,
+      hu: `Szia [Név]! 👋 [A Te Neved] vagyok a CLOUD VAPE-től.\n\nSzemélyesen akartam köszönni — valódi csapat vagyunk, [Városból] szállítunk.\n\n✅ Minden Utánvétes fizetés — nincs fizetés amíg a kezedben nincs.\n\nBármit kérdezhetsz! Milyen ízt keresel? 😊`,
+      pt: `Olá [Nome]! 👋 Sou [O Teu Nome] da CLOUD VAPE.\n\nQueria dizer olá pessoalmente — somos uma equipa real a enviar de [Cidade].\n\n✅ Tudo é Pagamento na Entrega — sem pagamento até estar nas tuas mãos.\n\nPode perguntar-me qualquer coisa! Que sabor procuras? 😊`,
+      cs: `Ahoj [Jméno]! 👋 Jsem [Tvoje Jméno] z CLOUD VAPE.\n\nChtěl jsem osobně pozdravit — jsme skutečný tým odesílající z [Město].\n\n✅ Vše je Platba při Doručení — žádná platba dokud to nemáš v rukou.\n\nZeptej se mě na cokoliv! Jakou příchuť hledáš? 😊`,
+    },
+    zh: `嗨 [姓名]！👋 我是 CLOUD VAPE 的 [你的名字]。\n\n想亲自打个招呼——我们是从[城市]发货的真实团队。\n\n✅ 全部货到付款——收到货再付钱。\n\n有任何问题都可以问我！您在找什么口味？😊`,
+    tag: "破冰",
+    tagColor: "bg-emerald-500/20 text-emerald-400",
+    bonus: true,
+  },
+
+  {
+    title: "破冰V3：好评截图开场",
+    subtitle: "用真实买家好评截图作为第一条消息",
+    content: [
+      "发3张真实客户好评截图，比任何介绍都有力。",
+      "搭配一句简短的问候和邀请。",
+      "截图要包含：客户名字、星级、评价内容。",
+    ],
+    psychology: ["别人买过吗？", "真的好用吗？", "有没有被骗的风险？"],
+    scripts: {
+      en: `Hi [Name]! 👋\n\nBefore I say anything — here's what our customers say 👇\n\n[SCREENSHOT 1]\n[SCREENSHOT 2]\n[SCREENSHOT 3]\n\n✅ 500+ orders this month alone\n✅ Cash on Delivery — zero risk\n\nWhich flavor caught your eye? 😊`,
+      ro: `Bună [Nume]! 👋\n\nÎnainte să spun orice — iată ce spun clienții noștri 👇\n\n[CAPTURĂ 1]\n[CAPTURĂ 2]\n[CAPTURĂ 3]\n\n✅ 500+ comenzi doar luna aceasta\n✅ Plată la Livrare — zero risc\n\nCe aromă ți-a atras atenția? 😊`,
+      pl: `Cześć [Imię]! 👋\n\nZanim cokolwiek powiem — oto co mówią nasi klienci 👇\n\n[ZRZUT 1]\n[ZRZUT 2]\n[ZRZUT 3]\n\n✅ 500+ zamówień tylko w tym miesiącu\n✅ Płatność przy Odbiorze — zero ryzyka\n\nKtóry smak przykuł Twoją uwagę? 😊`,
+      hu: `Szia [Név]! 👋\n\nMielőtt bármit mondanék — íme mit mondanak a vevőink 👇\n\n[KÉPERNYŐKÉP 1]\n[KÉPERNYŐKÉP 2]\n[KÉPERNYŐKÉP 3]\n\n✅ 500+ rendelés csak ebben a hónapban\n✅ Utánvétes fizetés — nulla kockázat\n\nMelyik íz keltette fel a figyelmed? 😊`,
+      pt: `Olá [Nome]! 👋\n\nAntes de dizer qualquer coisa — vê o que os nossos clientes dizem 👇\n\n[CAPTURA 1]\n[CAPTURA 2]\n[CAPTURA 3]\n\n✅ 500+ encomendas só este mês\n✅ Pagamento na Entrega — zero risco\n\nQue sabor te chamou a atenção? 😊`,
+      cs: `Ahoj [Jméno]! 👋\n\nNež cokoliv řeknu — zde je co říkají naši zákazníci 👇\n\n[SNÍMEK 1]\n[SNÍMEK 2]\n[SNÍMEK 3]\n\n✅ 500+ objednávek jen tento měsíc\n✅ Platba při Doručení — nulové riziko\n\nKterá příchuť tě zaujala? 😊`,
+    },
+    zh: `嗨 [姓名]！👋\n\n在我说任何话之前——先看看我们客户怎么说 👇\n\n[好评截图1]\n[好评截图2]\n[好评截图3]\n\n✅ 本月已发500+单\n✅ 货到付款——零风险\n\n哪款口味吸引了您？😊`,
+    tag: "破冰",
+    tagColor: "bg-emerald-500/20 text-emerald-400",
+    bonus: true,
+  },
+
+  // ─── 报价 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "报价V2：口味菜单式报价",
+    subtitle: "先让用户选口味，再给价格，转化率更高",
+    content: [
+      "先问口味偏好，再给价格，用户参与感更强。",
+      "口味选择降低了用户的决策门槛。",
+      "选完口味后，自然过渡到套餐推荐。",
+    ],
+    psychology: ["我想要什么口味？", "有没有我喜欢的？", "选好了再考虑价格"],
+    signals: ["用户刚进来还没说具体需求"],
+    scripts: {
+      en: `Welcome! 😊 Let me help you find the perfect vape.\n\nFirst — what flavor do you prefer?\n\n🍉 Fruity (Watermelon, Mango, Strawberry)\n🍃 Minty (Mint, Menthol, Cool)\n🍬 Sweet (Candy, Bubblegum, Lychee)\n🚬 Classic (Tobacco, Coffee)\n\nJust pick one and I'll show you the best options! 👇`,
+      ro: `Bun venit! 😊 Lasă-mă să te ajut să găsești vape-ul perfect.\n\nÎntâi — ce aromă preferi?\n\n🍉 Fructat (Pepene, Mango, Căpșuni)\n🍃 Mentolat (Mentă, Mentol, Răcoritor)\n🍬 Dulce (Bomboane, Gumă, Lychee)\n🚬 Classic (Tutun, Cafea)\n\nAlege una și îți arăt cele mai bune opțiuni! 👇`,
+      pl: `Witaj! 😊 Pozwól, że pomogę Ci znaleźć idealny vape.\n\nNa początek — jaki smak preferujesz?\n\n🍉 Owocowy (Arbuz, Mango, Truskawka)\n🍃 Miętowy (Mięta, Mentol, Chłodny)\n🍬 Słodki (Cukierki, Guma, Lychee)\n🚬 Klasyczny (Tytoń, Kawa)\n\nWybierz jeden a pokażę Ci najlepsze opcje! 👇`,
+      hu: `Üdvözlünk! 😊 Hadd segítsek megtalálni a tökéletes vape-et.\n\nElőször — milyen ízt preferálsz?\n\n🍉 Gyümölcsös (Görögdinnye, Mangó, Eper)\n🍃 Mentás (Menta, Mentol, Hűsítő)\n🍬 Édes (Cukorka, Rágógumi, Lychee)\n🚬 Klasszikus (Dohány, Kávé)\n\nVálassz egyet és megmutatom a legjobb opciókat! 👇`,
+      pt: `Bem-vindo! 😊 Deixa-me ajudar a encontrar o vape perfeito.\n\nPrimeiro — que sabor preferes?\n\n🍉 Frutado (Melancia, Manga, Morango)\n🍃 Mentolado (Menta, Mentol, Fresco)\n🍬 Doce (Rebuçados, Pastilha, Lychee)\n🚬 Clássico (Tabaco, Café)\n\nEscolhe um e mostro-te as melhores opções! 👇`,
+      cs: `Vítej! 😊 Nech mě ti pomoci najít perfektní vape.\n\nNejprve — jakou příchuť preferuješ?\n\n🍉 Ovocná (Meloun, Mango, Jahoda)\n🍃 Mentolová (Máta, Mentol, Osvěžující)\n🍬 Sladká (Bonbóny, Žvýkačka, Lychee)\n🚬 Klasická (Tabák, Káva)\n\nVyber jednu a ukážu ti nejlepší možnosti! 👇`,
+    },
+    zh: `欢迎！😊 让我帮您找到完美的电子烟。\n\n首先——您偏好什么口味？\n\n🍉 水果系（西瓜、芒果、草莓）\n🍃 薄荷系（薄荷、冰凉、清爽）\n🍬 甜味系（糖果、泡泡糖、荔枝）\n🚬 经典系（烟草、咖啡）\n\n选一个，我来推荐最适合您的款！👇`,
+    tag: "报价",
+    tagColor: "bg-blue-500/20 text-blue-400",
+    bonus: true,
+  },
+
+  {
+    title: "报价V3：竞品对比报价",
+    subtitle: "用竞品价格对比，让自家产品显得超值",
+    content: [
+      "用竞品价格作为锚点，让自家价格显得划算。",
+      "强调同款正品，不是仿冒品。",
+      "COD 是竞品没有的优势，重点强调。",
+    ],
+    psychology: ["别家多少钱？", "这个价格合理吗？", "为什么选你们？"],
+    antipattern: "不要直接贬低竞品，只做客观价格对比。",
+    scripts: {
+      en: `Great question about price! 😊\n\nHere's a quick comparison:\n\n🏪 Local shop: €45-60 per piece\n🌐 Other online: €35-40 (often fake!)\n✅ CLOUD VAPE: €29 — 100% Original + COD\n\nSame product. Better price. Zero risk.\n\nAnd you only pay when it's in your hands 🤝`,
+      ro: `Întrebare bună despre preț! 😊\n\nIată o comparație rapidă:\n\n🏪 Magazin local: 180-250 lei bucata\n🌐 Alte online: 120-160 lei (adesea false!)\n✅ CLOUD VAPE: 149 lei — 100% Original + Plată la livrare\n\nAcelași produs. Preț mai bun. Zero risc.\n\nȘi plătești doar când e în mâinile tale 🤝`,
+      pl: `Dobre pytanie o cenę! 😊\n\nOto szybkie porównanie:\n\n🏪 Sklep lokalny: 180-250 zł za sztukę\n🌐 Inne online: 100-140 zł (często podróbki!)\n✅ CLOUD VAPE: 130 zł — 100% Oryginalny + Płatność przy odbiorze\n\nTen sam produkt. Lepsza cena. Zero ryzyka.\n\nI płacisz tylko gdy masz to w rękach 🤝`,
+      hu: `Jó kérdés az árról! 😊\n\nÍme egy gyors összehasonlítás:\n\n🏪 Helyi bolt: 15 000-20 000 Ft darabonként\n🌐 Más online: 8 000-11 000 Ft (gyakran hamis!)\n✅ CLOUD VAPE: 10 900 Ft — 100% Eredeti + Utánvétes fizetés\n\nUgyanaz a termék. Jobb ár. Nulla kockázat.\n\nÉs csak akkor fizetsz amikor a kezedben van 🤝`,
+      pt: `Boa pergunta sobre o preço! 😊\n\nAqui está uma comparação rápida:\n\n🏪 Loja local: €45-60 por unidade\n🌐 Outros online: €30-38 (muitas vezes falsos!)\n✅ CLOUD VAPE: €29 — 100% Original + Pagamento na entrega\n\nMesmo produto. Melhor preço. Zero risco.\n\nE só pagas quando está nas tuas mãos 🤝`,
+      cs: `Dobrá otázka ohledně ceny! 😊\n\nZde je rychlé srovnání:\n\n🏪 Místní obchod: 1 200-1 800 Kč za kus\n🌐 Jiné online: 800-1 000 Kč (často falzum!)\n✅ CLOUD VAPE: 720 Kč — 100% Originální + Platba při doručení\n\nStejný produkt. Lepší cena. Nulové riziko.\n\nA platíš jen když to máš v rukou 🤝`,
+    },
+    zh: `关于价格的好问题！😊\n\n简单对比一下：\n\n🏪 线下实体店：每个¥280-380\n🌐 其他网店：¥180-220（很多是仿品！）\n✅ CLOUD VAPE：¥210 — 100%正品 + 货到付款\n\n同款产品。更好价格。零风险。\n\n而且只有收到货才付钱 🤝`,
+    tag: "报价",
+    tagColor: "bg-blue-500/20 text-blue-400",
+    bonus: true,
+  },
+
+  // ─── 信任 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "信任V2：发仓库打包视频",
+    subtitle: "30秒真实打包视频，消除所有虚假顾虑",
+    content: [
+      "发一段15-30秒的仓库打包视频，真实感最强。",
+      "视频内容：产品展示 + 打包过程 + 快递单。",
+      "配上一句话说明，增加个人感。",
+    ],
+    psychology: ["这个商家是真实存在的吗？", "产品是真的吗？", "会不会收了钱不发货？"],
+    scripts: {
+      en: `[Send a 15-30 second warehouse packing video]\n\nHey [Name]! 👋\n\nJust packed your potential order — this is exactly what you'd receive.\n\n✅ 100% Original product\n✅ Sealed packaging\n✅ Ready to ship TODAY\n\nShall I add your name to the shipping list? 😊`,
+      ro: `[Trimite un video de 15-30 secunde din depozit]\n\nHei [Nume]! 👋\n\nTocmai am ambalat potențiala ta comandă — exact asta ai primi.\n\n✅ Produs 100% Original\n✅ Ambalaj sigilat\n✅ Gata de expediat AZI\n\nSă îți adaug numele pe lista de expediere? 😊`,
+      pl: `[Wyślij 15-30 sekundowe wideo z magazynu]\n\nHej [Imię]! 👋\n\nWłaśnie spakowałem Twoje potencjalne zamówienie — dokładnie to byś otrzymał.\n\n✅ 100% Oryginalny produkt\n✅ Zapieczętowane opakowanie\n✅ Gotowy do wysyłki DZIŚ\n\nMam dodać Twoje imię do listy wysyłkowej? 😊`,
+      hu: `[Küldj 15-30 másodperces raktári csomagolási videót]\n\nSzia [Név]! 👋\n\nÉpp becsomagoltam a potenciális rendelésedet — pontosan ezt kapnád.\n\n✅ 100% Eredeti termék\n✅ Lezárt csomagolás\n✅ MA szállításra kész\n\nHozzáadjam a neved a szállítási listához? 😊`,
+      pt: `[Envia um vídeo de 15-30 segundos do armazém]\n\nEi [Nome]! 👋\n\nAcabei de embalar a tua potencial encomenda — é exatamente isto que receberias.\n\n✅ Produto 100% Original\n✅ Embalagem selada\n✅ Pronto para enviar HOJE\n\nAdiciono o teu nome à lista de envio? 😊`,
+      cs: `[Pošli 15-30 sekundové video ze skladu]\n\nHej [Jméno]! 👋\n\nPrávě jsem zabalil tvou potenciální objednávku — přesně toto bys dostal.\n\n✅ 100% Originální produkt\n✅ Zapečetěné balení\n✅ Připraveno k odeslání DNES\n\nMám přidat tvé jméno na seznam zásilek? 😊`,
+    },
+    zh: `[发送15-30秒仓库打包视频]\n\n嗨 [姓名]！👋\n\n刚刚打包了您可能要的订单——这就是您会收到的东西。\n\n✅ 100%正品\n✅ 密封包装\n✅ 今天就可以发货\n\n要把您的名字加到发货单上吗？😊`,
+    tag: "信任",
+    tagColor: "bg-yellow-500/20 text-yellow-400",
+    bonus: true,
+  },
+
+  {
+    title: "信任V3：第三方平台背书",
+    subtitle: "用 TikTok/Instagram 主页链接建立公信力",
+    content: [
+      "发送品牌 TikTok/Instagram 主页链接，展示真实粉丝和内容。",
+      "有真实内容的社交媒体账号是最强的信任背书。",
+      "顺带提到粉丝数和好评数。",
+    ],
+    psychology: ["这个品牌真实存在吗？", "有没有其他人买过？", "能不能在网上找到他们？"],
+    scripts: {
+      en: `[Name], I totally get it — you want to make sure we're legit! 😊\n\nCheck us out:\n📱 TikTok: @CLOUDVAPE (127K followers)\n📸 Instagram: @cloudvape.official\n\n→ 2,400+ reviews\n→ 98% positive\n→ Shipping since 2021\n\nWe're not going anywhere 😄 Ready to order?`,
+      ro: `[Nume], înțeleg perfect — vrei să te asiguri că suntem legitimi! 😊\n\nVerifică-ne:\n📱 TikTok: @CLOUDVAPE (127K urmăritori)\n📸 Instagram: @cloudvape.official\n\n→ 2.400+ recenzii\n→ 98% pozitive\n→ Expediem din 2021\n\nNu dispărem nicăieri 😄 Gata să comanzi?`,
+      pl: `[Imię], doskonale rozumiem — chcesz się upewnić że jesteśmy legalni! 😊\n\nSprawdź nas:\n📱 TikTok: @CLOUDVAPE (127K obserwujących)\n📸 Instagram: @cloudvape.official\n\n→ 2 400+ recenzji\n→ 98% pozytywnych\n→ Wysyłamy od 2021\n\nNikąd nie znikamy 😄 Gotowy do zamówienia?`,
+      hu: `[Név], teljesen értem — meg akarod győződni hogy legálisak vagyunk! 😊\n\nNézz meg minket:\n📱 TikTok: @CLOUDVAPE (127K követő)\n📸 Instagram: @cloudvape.official\n\n→ 2 400+ értékelés\n→ 98% pozitív\n→ 2021 óta szállítunk\n\nSehova sem megyünk 😄 Készen állsz rendelni?`,
+      pt: `[Nome], percebo perfeitamente — queres ter a certeza que somos legítimos! 😊\n\nVê-nos:\n📱 TikTok: @CLOUDVAPE (127K seguidores)\n📸 Instagram: @cloudvape.official\n\n→ 2.400+ avaliações\n→ 98% positivas\n→ A enviar desde 2021\n\nNão vamos a lado nenhum 😄 Pronto para encomendar?`,
+      cs: `[Jméno], naprosto chápu — chceš se ujistit že jsme legitimní! 😊\n\nPodívej se na nás:\n📱 TikTok: @CLOUDVAPE (127K sledujících)\n📸 Instagram: @cloudvape.official\n\n→ 2 400+ recenzí\n→ 98% pozitivních\n→ Odesíláme od roku 2021\n\nNikam nezmizíme 😄 Připraven objednat?`,
+    },
+    zh: `[姓名]，我完全理解——您想确认我们是正规的！😊\n\n来看看我们：\n📱 TikTok：@CLOUDVAPE（12.7万粉丝）\n📸 Instagram：@cloudvape.official\n\n→ 2400+条评价\n→ 98%好评\n→ 2021年开始发货\n\n我们不会跑路的 😄 准备好下单了吗？`,
+    tag: "信任",
+    tagColor: "bg-yellow-500/20 text-yellow-400",
+    bonus: true,
+  },
+
+  // ─── 套餐 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "套餐V2：家庭/朋友拼单推荐",
+    subtitle: "引导用户帮朋友一起下单，提升客单价",
+    content: [
+      "东欧市场口耳相传效果极强，引导拼单很有效。",
+      "强调帮朋友买可以省运费，降低决策门槛。",
+      "顺带激活转介绍，一单变多单。",
+    ],
+    psychology: ["我朋友也想买", "一起买能省运费", "帮朋友买也是好事"],
+    signals: ["用户提到朋友或家人也在用电子烟"],
+    scripts: {
+      en: `By the way [Name] — do any of your friends vape too? 😊\n\nHere's a tip:\n\nIf you order together, you SHARE the shipping cost!\n\n📦 1 pcs = €29 + shipping\n📦 3 pcs = €49 (FREE shipping) ← best deal for 2-3 people\n\nMany of our customers order for themselves + a friend.\nSame delivery, everyone saves! 🎉`,
+      ro: `Apropo [Nume] — mai fumează și prietenii tăi vape? 😊\n\nUn sfat:\n\nDacă comandați împreună, ÎMPĂRȚIȚI costul de livrare!\n\n📦 1 buc = 149 lei + livrare\n📦 3 buc = 249 lei (livrare GRATUITĂ) ← cea mai bună ofertă pentru 2-3 persoane\n\nMulți clienți comandă pentru ei + un prieten.\nAceeași livrare, toată lumea economisește! 🎉`,
+      pl: `Przy okazji [Imię] — czy Twoi znajomi też używają vape'a? 😊\n\nPorada:\n\nJeśli zamówicie razem, DZIELICIE koszt wysyłki!\n\n📦 1 szt = 130 zł + wysyłka\n📦 3 szt = 210 zł (DARMOWA wysyłka) ← najlepsza oferta dla 2-3 osób\n\nWielu klientów zamawia dla siebie + przyjaciela.\nTa sama dostawa, wszyscy oszczędzają! 🎉`,
+      hu: `Egyébként [Név] — a barátaid is vapeznek? 😊\n\nEgy tipp:\n\nHa együtt rendeltek, MEGOSZTJÁTOK a szállítási költséget!\n\n📦 1 db = 10 900 Ft + szállítás\n📦 3 db = 18 900 Ft (INGYENES szállítás) ← legjobb ajánlat 2-3 embernek\n\nSok vevőnk rendel magának + egy barátjának.\nUgyanaz a szállítás, mindenki spórol! 🎉`,
+      pt: `A propósito [Nome] — os teus amigos também vapam? 😊\n\nUma dica:\n\nSe encomendarem juntos, PARTILHAM o custo de envio!\n\n📦 1 un = €29 + envio\n📦 3 un = €49 (envio GRÁTIS) ← melhor oferta para 2-3 pessoas\n\nMuitos clientes encomendam para si + um amigo.\nMesmo envio, toda a gente poupa! 🎉`,
+      cs: `Mimochodem [Jméno] — vapují i tvoji přátelé? 😊\n\nTip:\n\nPokud objednáte spolu, SDÍLÍTE náklady na dopravu!\n\n📦 1 ks = 720 Kč + doprava\n📦 3 ks = 1 220 Kč (ZDARMA doprava) ← nejlepší nabídka pro 2-3 lidi\n\nMnoho zákazníků objednává pro sebe + přítele.\nStejné doručení, všichni šetří! 🎉`,
+    },
+    zh: `顺便问一下 [姓名]——您的朋友也用电子烟吗？😊\n\n一个小技巧：\n\n如果一起下单，可以共享运费！\n\n📦 1个 = ¥210 + 运费\n📦 3个 = ¥350（免运费）← 2-3人最划算\n\n很多客户都是给自己 + 朋友一起买。\n同一次发货，大家都省钱！🎉`,
+    tag: "套餐",
+    tagColor: "bg-purple-500/20 text-purple-400",
+    bonus: true,
+  },
+
+  // ─── 收单 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "收单V2：地址确认复核",
+    subtitle: "收到地址后立即复核，减少因地址错误导致的拒收",
+    content: [
+      "收到地址后，复述一遍让客户确认。",
+      "特别确认门牌号和电话，这是拒收的两大主因。",
+      "给客户一种'已经在处理'的感觉。",
+    ],
+    psychology: ["我的地址填对了吗？", "快递员能找到我吗？", "我的电话是否正确？"],
+    antipattern: "不要直接进入发货，先复核地址，可以减少30%因地址错误导致的退件。",
+    scripts: {
+      en: `Perfect, got it! Let me confirm your details:\n\n👤 Name: [NAME]\n📱 Phone: [PHONE]\n🏠 Address: [ADDRESS]\n🏙️ City: [CITY] [POSTCODE]\n\n✅ Is everything correct?\n\nPlease reply YES to confirm and I'll process your order right away! 🚀`,
+      ro: `Perfect, am înțeles! Lasă-mă să confirm detaliile tale:\n\n👤 Nume: [NUME]\n📱 Telefon: [TELEFON]\n🏠 Adresă: [ADRESĂ]\n🏙️ Oraș: [ORAȘ] [COD POȘTAL]\n\n✅ Este totul corect?\n\nTe rog răspunde DA pentru a confirma și procesez comanda imediat! 🚀`,
+      pl: `Świetnie, rozumiem! Pozwól, że potwierdzę Twoje dane:\n\n👤 Imię: [IMIĘ]\n📱 Telefon: [TELEFON]\n🏠 Adres: [ADRES]\n🏙️ Miasto: [MIASTO] [KOD]\n\n✅ Czy wszystko się zgadza?\n\nProszę odpowiedz TAK aby potwierdzić i od razu przetworzę zamówienie! 🚀`,
+      hu: `Tökéletes, megértettem! Hadd erősítsem meg az adataidat:\n\n👤 Név: [NÉV]\n📱 Telefon: [TELEFON]\n🏠 Cím: [CÍM]\n🏙️ Város: [VÁROS] [IRÁNYÍTÓSZÁM]\n\n✅ Minden rendben van?\n\nKérlek válaszolj IGEN-nel a megerősítéshez és azonnal feldolgozom a rendelést! 🚀`,
+      pt: `Perfeito, percebi! Deixa-me confirmar os teus dados:\n\n👤 Nome: [NOME]\n📱 Telefone: [TELEFONE]\n🏠 Morada: [MORADA]\n🏙️ Cidade: [CIDADE] [CÓDIGO POSTAL]\n\n✅ Está tudo correto?\n\nPor favor responde SIM para confirmar e processo a encomenda imediatamente! 🚀`,
+      cs: `Perfektní, rozumím! Dovolte mi potvrdit vaše údaje:\n\n👤 Jméno: [JMÉNO]\n📱 Telefon: [TELEFON]\n🏠 Adresa: [ADRESA]\n🏙️ Město: [MĚSTO] [PSČ]\n\n✅ Je vše správně?\n\nProsím odpověz ANO pro potvrzení a okamžitě zpracuji objednávku! 🚀`,
+    },
+    zh: `好的，收到！让我确认一下您的信息：\n\n👤 姓名：[姓名]\n📱 电话：[电话]\n🏠 地址：[详细地址]\n🏙️ 城市：[城市] [邮编]\n\n✅ 信息都正确吗？\n\n请回复"是"确认，我马上处理您的订单！🚀`,
+    tag: "收单",
+    tagColor: "bg-emerald-500/20 text-emerald-400",
+    bonus: true,
+  },
+
+  // ─── 确认 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "确认V2：发货截图确认",
+    subtitle: "发真实快递单截图，让客户感受到真实发货",
+    content: [
+      "发货后截图快递单发给客户，真实感最强。",
+      "截图要包含：快递公司名、单号前几位（打码后几位）。",
+      "配上一句话，让客户知道下一步做什么。",
+    ],
+    psychology: ["真的发货了吗？", "什么时候能到？", "快递单号是真的吗？"],
+    scripts: {
+      en: `[Name]! Great news — your order just shipped! 📦✅\n\n[Send shipping label screenshot]\n\nCarrier: [CARRIER]\nTracking: [TRACKING_NUMBER]\n\n📅 Expected: [DATE]\n\nYou'll receive a call from the courier before delivery.\nPlease pick up — it's your vape! 😄`,
+      ro: `[Nume]! Vești bune — comanda ta tocmai a fost expediată! 📦✅\n\n[Trimite captură etichetă expediere]\n\nCurier: [CURIER]\nTracking: [NUMĂR_TRACKING]\n\n📅 Estimat: [DATA]\n\nVei primi un apel de la curier înainte de livrare.\nTe rog răspunde — e vape-ul tău! 😄`,
+      pl: `[Imię]! Świetne wieści — Twoje zamówienie właśnie zostało wysłane! 📦✅\n\n[Wyślij zrzut etykiety wysyłkowej]\n\nKurier: [KURIER]\nŚledzenie: [NUMER_ŚLEDZENIA]\n\n📅 Oczekiwane: [DATA]\n\nOtrzymasz telefon od kuriera przed dostawą.\nProszę odbierz — to Twój vape! 😄`,
+      hu: `[Név]! Jó hírek — a rendelésed épp feladásra került! 📦✅\n\n[Küldj szállítási címke képernyőképet]\n\nFutár: [FUTÁR]\nNyomkövetés: [NYOMKÖVETÉSI_SZÁM]\n\n📅 Várható: [DÁTUM]\n\nA futár hívni fog szállítás előtt.\nKérlek vedd fel — a te vape-ed az! 😄`,
+      pt: `[Nome]! Boas notícias — a tua encomenda acabou de ser enviada! 📦✅\n\n[Envia captura da etiqueta de envio]\n\nTransportadora: [TRANSPORTADORA]\nRastreamento: [NÚMERO_RASTREAMENTO]\n\n📅 Previsto: [DATA]\n\nReceberás uma chamada do estafeta antes da entrega.\nPor favor atende — é o teu vape! 😄`,
+      cs: `[Jméno]! Skvělé zprávy — tvoje objednávka právě odešla! 📦✅\n\n[Pošli snímek přepravního štítku]\n\nDopravce: [DOPRAVCE]\nSledování: [ČÍSLO_SLEDOVÁNÍ]\n\n📅 Očekáváno: [DATUM]\n\nDostaneš hovor od kurýra před doručením.\nProsím zvedni — je to tvůj vape! 😄`,
+    },
+    zh: `[姓名]！好消息——您的订单刚刚发货了！📦✅\n\n[发送快递单截图]\n\n快递公司：[快递公司]\n快递单号：[单号]\n\n📅 预计到达：[日期]\n\n快递员在派送前会给您打电话。\n请接听——那是您的电子烟！😄`,
+    tag: "确认",
+    tagColor: "bg-teal-500/20 text-teal-400",
+    bonus: true,
+  },
+
+  {
+    title: "确认V3：高风险订单电话确认",
+    subtitle: "首单/高客单价订单，电话确认可降低60%拒收率",
+    content: [
+      "首次购买或客单价超过€50的订单，必须电话确认。",
+      "电话前先发 WhatsApp 预告，提高接听率。",
+      "电话内容：核实姓名、地址、告知到货时间。",
+    ],
+    psychology: ["有人打电话来是不是骗局？", "先发消息预告，接听率提高40%"],
+    antipattern: "不要直接打电话不预告——接听率极低，还可能引起反感。",
+    scripts: {
+      en: `Hi [Name]! 👋\n\nYour order is confirmed and ready to ship!\n\nI'll give you a quick call in the next 5 minutes to verify your address — it takes less than 1 minute.\n\nPlease pick up — it's just a quick confirmation from CLOUD VAPE 😊\n\nSee you on the call! 📞`,
+      ro: `Bună [Nume]! 👋\n\nComanda ta este confirmată și gata de expediat!\n\nTe voi suna rapid în următoarele 5 minute pentru a verifica adresa — durează mai puțin de 1 minut.\n\nTe rog răspunde — e doar o confirmare rapidă de la CLOUD VAPE 😊\n\nNe auzim la telefon! 📞`,
+      pl: `Cześć [Imię]! 👋\n\nTwoje zamówienie jest potwierdzone i gotowe do wysyłki!\n\nZadzwonię do Ciebie szybko w ciągu następnych 5 minut, aby zweryfikować adres — zajmuje to mniej niż 1 minutę.\n\nProszę odbierz — to tylko szybkie potwierdzenie od CLOUD VAPE 😊\n\nDo usłyszenia! 📞`,
+      hu: `Szia [Név]! 👋\n\nA rendelésed megerősítve és szállításra kész!\n\nGyorsan felhívlak a következő 5 percben a cím ellenőrzéséhez — kevesebb mint 1 percet vesz igénybe.\n\nKérlek vedd fel — csak egy gyors megerősítés a CLOUD VAPE-től 😊\n\nHallunk egymást! 📞`,
+      pt: `Olá [Nome]! 👋\n\nA tua encomenda está confirmada e pronta para enviar!\n\nVou ligar-te rapidamente nos próximos 5 minutos para verificar a morada — demora menos de 1 minuto.\n\nPor favor atende — é só uma confirmação rápida da CLOUD VAPE 😊\n\nFalamos em breve! 📞`,
+      cs: `Ahoj [Jméno]! 👋\n\nTvoje objednávka je potvrzena a připravena k odeslání!\n\nZavolám ti rychle v příštích 5 minutách pro ověření adresy — trvá to méně než 1 minutu.\n\nProsím zvedni — je to jen rychlé potvrzení od CLOUD VAPE 😊\n\nUslyšíme se! 📞`,
+    },
+    zh: `嗨 [姓名]！👋\n\n您的订单已确认，准备发货！\n\n我将在接下来5分钟内给您打一个快速电话确认地址——不超过1分钟。\n\n请接听——只是 CLOUD VAPE 的快速确认 😊\n\n电话见！📞`,
+    tag: "确认",
+    tagColor: "bg-teal-500/20 text-teal-400",
+    bonus: true,
+  },
+
+  // ─── 发货 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "发货V2：延迟发货安抚",
+    subtitle: "遇到发货延迟时，主动告知并给出补偿",
+    content: [
+      "延迟发货必须主动告知，不要等客户来问。",
+      "给出具体的新发货时间，不要模糊。",
+      "提供小补偿（优惠码/赠品），维护客户关系。",
+    ],
+    psychology: ["为什么还没发货？", "是不是被骗了？", "我要不要取消？"],
+    antipattern: "不要等客户来催，主动告知延迟是最好的危机公关。",
+    scripts: {
+      en: `Hi [Name] 👋\n\nI wanted to reach out before you had to ask — your order has a slight delay.\n\n⏰ New shipping date: [DATE]\nReason: [BRIEF REASON]\n\nTo make up for the wait, I'm adding:\n🎁 1x FREE flavor sample to your package\n\nYour order will definitely ship by [DATE]. I'll send you tracking the moment it goes out.\n\nSorry for the inconvenience! 🙏`,
+      ro: `Bună [Nume] 👋\n\nAm vrut să te contactez înainte să fii nevoit să întrebi — comanda ta are o mică întârziere.\n\n⏰ Nouă dată de expediere: [DATA]\nMotiv: [MOTIV SCURT]\n\nPentru a compensa așteptarea, adaug:\n🎁 1x GRATUIT mostră de aromă în pachetul tău\n\nComanda ta va fi expediată cu siguranță până la [DATA]. Îți trimit tracking-ul imediat ce pleacă.\n\nScuze pentru inconveniență! 🙏`,
+      pl: `Cześć [Imię] 👋\n\nChciałem się odezwać zanim musiałbyś pytać — Twoje zamówienie ma małe opóźnienie.\n\n⏰ Nowa data wysyłki: [DATA]\nPowód: [KRÓTKI POWÓD]\n\nAby zrekompensować oczekiwanie, dodaję:\n🎁 1x GRATIS próbkę smaku do Twojej paczki\n\nTwoje zamówienie na pewno zostanie wysłane do [DATA]. Wyślę Ci śledzenie w momencie gdy wyjedzie.\n\nPrzeprasza za niedogodności! 🙏`,
+      hu: `Szia [Név] 👋\n\nMielőtt kérdezni kellett volna, fel akartam venni veled a kapcsolatot — a rendelésed kis késésben van.\n\n⏰ Új szállítási dátum: [DÁTUM]\nOk: [RÖVID OK]\n\nA várakozás kompenzálására hozzáadok:\n🎁 1x INGYENES ízmintát a csomagodhoz\n\nA rendelésed biztosan [DÁTUM]-ig kiszállításra kerül. Amint elmegy, küldöm a nyomkövetést.\n\nSajnálom a kellemetlenséget! 🙏`,
+      pt: `Olá [Nome] 👋\n\nQueria contactar-te antes de teres de perguntar — a tua encomenda tem um pequeno atraso.\n\n⏰ Nova data de envio: [DATA]\nMotivo: [MOTIVO BREVE]\n\nPara compensar a espera, estou a adicionar:\n🎁 1x amostra de sabor GRÁTIS ao teu pacote\n\nA tua encomenda será definitivamente enviada até [DATA]. Envio-te o rastreamento assim que sair.\n\nDesculpa o inconveniente! 🙏`,
+      cs: `Ahoj [Jméno] 👋\n\nChtěl jsem tě kontaktovat dříve než by ses musel ptát — tvoje objednávka má malé zpoždění.\n\n⏰ Nové datum odeslání: [DATUM]\nDůvod: [STRUČNÝ DŮVOD]\n\nPro kompenzaci čekání přidávám:\n🎁 1x ZDARMA vzorek příchutě do tvého balíčku\n\nTvoje objednávka bude určitě odeslána do [DATUM]. Pošlu ti sledování hned jak odejde.\n\nOmlouvám se za nepříjemnosti! 🙏`,
+    },
+    zh: `嗨 [姓名] 👋\n\n在您询问之前，我想主动告知您——您的订单有一点延迟。\n\n⏰ 新发货日期：[日期]\n原因：[简短原因]\n\n为了补偿等待，我会在包裹里加：\n🎁 1个免费口味试用装\n\n您的订单一定会在[日期]前发出。发出后我立即发快递单号给您。\n\n非常抱歉给您带来不便！🙏`,
+    tag: "发货",
+    tagColor: "bg-sky-500/20 text-sky-400",
+    bonus: true,
+  },
+
+  // ─── 提醒 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "提醒V2：快递员无法联系时",
+    subtitle: "快递员打不通电话时，WhatsApp 紧急通知",
+    content: [
+      "快递员打不通电话是拒收的主要原因之一。",
+      "立即发 WhatsApp 通知，让客户主动联系快递员。",
+      "给出快递员电话号码，降低沟通门槛。",
+    ],
+    psychology: ["不知道快递员来了", "不方便接陌生电话", "WhatsApp 比电话更容易回复"],
+    scripts: {
+      en: `URGENT [Name]! 🚨\n\nThe courier tried to reach you but couldn't get through!\n\nYour package is nearby — please call them NOW:\n📞 Courier: [PHONE_NUMBER]\n\nOr reply to this message and I'll help coordinate.\n\nDon't let it go back to the warehouse! 😟`,
+      ro: `URGENT [Nume]! 🚨\n\nCurierul a încercat să te contacteze dar nu a reușit!\n\nColetul tău este aproape — te rog sună-i ACUM:\n📞 Curier: [NUMĂR_TELEFON]\n\nSau răspunde la acest mesaj și te ajut să coordonez.\n\nNu lăsa să se întoarcă la depozit! 😟`,
+      pl: `PILNE [Imię]! 🚨\n\nKurier próbował się z Tobą skontaktować ale nie mógł dodzwonić!\n\nTwoja paczka jest w pobliżu — proszę zadzwoń do niego TERAZ:\n📞 Kurier: [NUMER_TELEFONU]\n\nLub odpowiedz na tę wiadomość a pomogę skoordynować.\n\nNie pozwól żeby wróciła do magazynu! 😟`,
+      hu: `SÜRGŐS [Név]! 🚨\n\nA futár megpróbált elérni de nem tudott átjutni!\n\nA csomagod a közelben van — kérlek hívd fel MOST:\n📞 Futár: [TELEFONSZÁM]\n\nVagy válaszolj erre az üzenetre és segítek koordinálni.\n\nNe hagyd hogy visszamenjen a raktárba! 😟`,
+      pt: `URGENTE [Nome]! 🚨\n\nO estafeta tentou contactar-te mas não conseguiu!\n\nO teu pacote está perto — por favor liga-lhes AGORA:\n📞 Estafeta: [NÚMERO_TELEFONE]\n\nOu responde a esta mensagem e ajudo a coordenar.\n\nNão deixes voltar para o armazém! 😟`,
+      cs: `URGENTNÍ [Jméno]! 🚨\n\nKurýr se tě pokoušel kontaktovat ale nemohl se dovolat!\n\nTvůj balíček je v blízkosti — prosím zavolej mu TEĎ:\n📞 Kurýr: [TELEFONNÍ_ČÍSLO]\n\nNebo odpověz na tuto zprávu a pomůžu koordinovat.\n\nNenech to vrátit do skladu! 😟`,
+    },
+    zh: `紧急通知 [姓名]！🚨\n\n快递员尝试联系您但没有接通！\n\n您的包裹就在附近——请立即拨打：\n📞 快递员：[电话号码]\n\n或者回复这条消息，我来帮您协调。\n\n不要让包裹退回仓库！😟`,
+    tag: "提醒",
+    tagColor: "bg-amber-500/20 text-amber-400",
+    bonus: true,
+  },
+
+  {
+    title: "提醒V3：二次派送预约",
+    subtitle: "首次派送失败后，预约第二次派送时间",
+    content: [
+      "首次派送失败后，立即发消息预约第二次。",
+      "给出具体时间段让客户选择，提高成功率。",
+      "强调包裹还在当地，没有退回仓库。",
+    ],
+    psychology: ["包裹退回去了吗？", "还能再送吗？", "我什么时候有空？"],
+    scripts: {
+      en: `Hi [Name] 👋\n\nThe courier couldn't deliver today — but don't worry, your package is still at the local depot!\n\nWhen can they try again?\n\n🕐 Option A: Tomorrow morning (9AM-12PM)\n🕑 Option B: Tomorrow afternoon (2PM-6PM)\n🕒 Option C: Day after tomorrow (any time)\n\nJust reply A, B, or C and I'll arrange it! 📦`,
+      ro: `Bună [Nume] 👋\n\nCurierul nu a putut livra azi — dar nu-ți face griji, coletul tău este încă la depozitul local!\n\nCând pot încerca din nou?\n\n🕐 Opțiunea A: Mâine dimineață (9:00-12:00)\n🕑 Opțiunea B: Mâine după-amiază (14:00-18:00)\n🕒 Opțiunea C: Poimâine (orice oră)\n\nRăspunde doar A, B sau C și aranjez! 📦`,
+      pl: `Cześć [Imię] 👋\n\nKurier nie mógł dostarczyć dziś — ale nie martw się, Twoja paczka jest nadal w lokalnym magazynie!\n\nKiedy mogą spróbować ponownie?\n\n🕐 Opcja A: Jutro rano (9:00-12:00)\n🕑 Opcja B: Jutro po południu (14:00-18:00)\n🕒 Opcja C: Pojutrze (dowolna godzina)\n\nOdpowiedz tylko A, B lub C a zorganizuję! 📦`,
+      hu: `Szia [Név] 👋\n\nA futár ma nem tudott kézbesíteni — de ne aggódj, a csomagod még a helyi raktárban van!\n\nMikor próbálhatják újra?\n\n🕐 A lehetőség: Holnap reggel (9:00-12:00)\n🕑 B lehetőség: Holnap délután (14:00-18:00)\n🕒 C lehetőség: Holnapután (bármikor)\n\nCsak válaszolj A, B vagy C-vel és elrendezem! 📦`,
+      pt: `Olá [Nome] 👋\n\nO estafeta não conseguiu entregar hoje — mas não te preocupes, o teu pacote ainda está no depósito local!\n\nQuando podem tentar novamente?\n\n🕐 Opção A: Amanhã de manhã (9h-12h)\n🕑 Opção B: Amanhã à tarde (14h-18h)\n🕒 Opção C: Depois de amanhã (qualquer hora)\n\nResponde apenas A, B ou C e trato disso! 📦`,
+      cs: `Ahoj [Jméno] 👋\n\nKurýr dnes nemohl doručit — ale neboj se, tvůj balíček je stále v místním skladu!\n\nKdy mohou zkusit znovu?\n\n🕐 Možnost A: Zítra ráno (9:00-12:00)\n🕑 Možnost B: Zítra odpoledne (14:00-18:00)\n🕒 Možnost C: Pozítří (kdykoliv)\n\nStačí odpovědět A, B nebo C a zařídím to! 📦`,
+    },
+    zh: `嗨 [姓名] 👋\n\n快递员今天没能送达——但别担心，您的包裹还在当地仓库！\n\n什么时候可以再次派送？\n\n🕐 选项A：明天上午（9:00-12:00）\n🕑 选项B：明天下午（14:00-18:00）\n🕒 选项C：后天（任意时间）\n\n只需回复A、B或C，我来安排！📦`,
+    tag: "提醒",
+    tagColor: "bg-amber-500/20 text-amber-400",
+    bonus: true,
+  },
+
+  // ─── 复购 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "复购V2：新品上架通知",
+    subtitle: "新口味上架时，第一时间通知老客户",
+    content: [
+      "新品上架是最自然的复购触发点。",
+      "给老客户优先购买权，制造专属感。",
+      "搭配限量感，让老客户感觉特别被重视。",
+    ],
+    psychology: ["有没有新口味？", "老客户有没有优先权？", "我喜欢尝试新东西"],
+    signals: ["上次购买已超过14天"],
+    scripts: {
+      en: `[Name]! 🎉 Exciting news!\n\nWe just got 3 NEW flavors in stock — and you're getting FIRST ACCESS before we announce to everyone:\n\n🆕 Peach Oolong Tea\n🆕 Blueberry Pomegranate\n🆕 Coconut Pineapple Ice\n\nAs a valued customer, you get 10% off until midnight tonight.\n\nWant to try one? 😊`,
+      ro: `[Nume]! 🎉 Vești interesante!\n\nTocmai am primit 3 AROME NOI în stoc — și tu primești ACCES PRIMUL înainte să anunțăm tuturor:\n\n🆕 Ceai Oolong cu Piersică\n🆕 Afine cu Rodie\n🆕 Nucă de Cocos cu Ananas și Gheață\n\nCa și client valoros, primești 10% reducere până la miezul nopții.\n\nVrei să încerci una? 😊`,
+      pl: `[Imię]! 🎉 Ekscytujące wieści!\n\nWłaśnie dostaliśmy 3 NOWE smaki na stanie — i Ty dostajesz PIERWSZY DOSTĘP zanim ogłosimy wszystkim:\n\n🆕 Herbata Oolong z Brzoskwinią\n🆕 Jagoda z Granatem\n🆕 Kokos z Ananasem i Lodem\n\nJako ceniony klient, dostajesz 10% zniżki do północy.\n\nChcesz spróbować? 😊`,
+      hu: `[Név]! 🎉 Izgalmas hírek!\n\nÉppen kaptunk 3 ÚJ ízt készletre — és te ELSŐKÉNT férsz hozzá mielőtt mindenkinek bejelentjük:\n\n🆕 Őszibarack Oolong Tea\n🆕 Áfonya Gránátalma\n🆕 Kókusz Ananász Jég\n\nMint értékes vevő, 10% kedvezményt kapsz éjfélig.\n\nSzeretné kipróbálni? 😊`,
+      pt: `[Nome]! 🎉 Notícias emocionantes!\n\nAcabámos de receber 3 NOVOS sabores em stock — e tu tens ACESSO PRIMEIRO antes de anunciarmos a todos:\n\n🆕 Chá Oolong de Pêssego\n🆕 Mirtilo com Romã\n🆕 Coco com Ananás e Gelo\n\nComo cliente valioso, tens 10% de desconto até à meia-noite.\n\nQueres experimentar? 😊`,
+      cs: `[Jméno]! 🎉 Vzrušující zprávy!\n\nPrávě jsme dostali 3 NOVÉ příchutě na sklad — a ty dostáváš PRVNÍ PŘÍSTUP před tím než to oznámíme všem:\n\n🆕 Broskvový Oolong Čaj\n🆕 Borůvka s Granátovým Jablkem\n🆕 Kokos s Ananasem a Ledem\n\nJako ceněný zákazník dostáváš 10% slevu do půlnoci.\n\nChceš vyzkoušet? 😊`,
+    },
+    zh: `[姓名]！🎉 令人兴奋的消息！\n\n我们刚到了3款新口味——您在我们向所有人宣布之前获得优先购买权：\n\n🆕 蜜桃乌龙茶\n🆕 蓝莓石榴\n🆕 椰子菠萝冰\n\n作为尊贵客户，今晚零点前享受9折优惠。\n\n想试试吗？😊`,
+    tag: "复购",
+    tagColor: "bg-rose-500/20 text-rose-400",
+    bonus: true,
+  },
+
+  {
+    title: "复购V3：转介绍激活",
+    subtitle: "让满意的老客户帮你带来新客户",
+    content: [
+      "满意的老客户是最好的销售员。",
+      "给推荐人和被推荐人都提供奖励，双赢机制。",
+      "让客户感觉推荐朋友是在帮朋友，而不是在帮你。",
+    ],
+    psychology: ["我的朋友也想要", "推荐朋友能得到什么？", "帮朋友省钱是好事"],
+    signals: ["客户表达了满意，或主动说朋友也感兴趣"],
+    scripts: {
+      en: `[Name], so glad you're loving it! 😊\n\nQuick question — do any friends want to try?\n\nHere's how our referral works:\n\n👥 You share your code: [REF_CODE]\n🎁 Your friend gets: 10% OFF first order\n🎁 You get: €5 credit for each friend who orders\n\nNo limits — refer 5 friends = €25 credit!\n\nWant me to send you the referral link? 🔗`,
+      ro: `[Nume], mă bucur că îți place! 😊\n\nÎntrebare rapidă — vreun prieten vrea să încerce?\n\nIată cum funcționează referral-ul nostru:\n\n👥 Împărtășești codul tău: [COD_REF]\n🎁 Prietenul tău primește: 10% REDUCERE la prima comandă\n🎁 Tu primești: 25 lei credit pentru fiecare prieten care comandă\n\nFără limite — recomandă 5 prieteni = 125 lei credit!\n\nVrei să îți trimit link-ul de referral? 🔗`,
+      pl: `[Imię], tak się cieszę że Ci się podoba! 😊\n\nSzybkie pytanie — czy jakiś znajomy chce spróbować?\n\nOto jak działa nasz program poleceń:\n\n👥 Udostępniasz swój kod: [KOD_REF]\n🎁 Twój znajomy dostaje: 10% ZNIŻKI na pierwsze zamówienie\n🎁 Ty dostajesz: 20 zł kredytu za każdego znajomego który zamówi\n\nBez limitów — poleć 5 znajomych = 100 zł kredytu!\n\nChcesz żebym wysłał Ci link polecający? 🔗`,
+      hu: `[Név], nagyon örülök hogy szereted! 😊\n\nGyors kérdés — valamelyik barátod szeretné kipróbálni?\n\nÍgy működik az ajánlói programunk:\n\n👥 Megosztod a kódodat: [REF_KÓD]\n🎁 A barátod kap: 10% KEDVEZMÉNYT az első rendelésre\n🎁 Te kapsz: 1 500 Ft kreditet minden barátért aki rendel\n\nNincs limit — ajánlj 5 barátot = 7 500 Ft kredit!\n\nSzeretné hogy elküldjük az ajánlói linket? 🔗`,
+      pt: `[Nome], fico tão contente que estás a gostar! 😊\n\nPergunta rápida — algum amigo quer experimentar?\n\nAqui está como funciona o nosso programa de referências:\n\n👥 Partilhas o teu código: [CÓD_REF]\n🎁 O teu amigo recebe: 10% DESCONTO na primeira encomenda\n🎁 Tu recebes: €5 de crédito por cada amigo que encomendar\n\nSem limites — refere 5 amigos = €25 de crédito!\n\nQueres que te envie o link de referência? 🔗`,
+      cs: `[Jméno], jsem tak rád že se ti líbí! 😊\n\nRychlá otázka — chce to zkusit někdo z přátel?\n\nTak funguje náš doporučovací program:\n\n👥 Sdílíš svůj kód: [REF_KÓD]\n🎁 Tvůj přítel dostane: 10% SLEVU na první objednávku\n🎁 Ty dostaneš: 120 Kč kredit za každého přítele který objedná\n\nBez limitů — doporuč 5 přátel = 600 Kč kredit!\n\nChceš abych ti poslal doporučovací odkaz? 🔗`,
+    },
+    zh: `[姓名]，很高兴您喜欢！😊\n\n快速问一下——有朋友想试试吗？\n\n我们的推荐机制是这样的：\n\n👥 分享您的专属码：[推荐码]\n🎁 您的朋友获得：首单9折\n🎁 您获得：每位下单的朋友给您¥35积分\n\n没有上限——推荐5位朋友 = ¥175积分！\n\n要我发推荐链接给您吗？🔗`,
+    tag: "复购",
+    tagColor: "bg-rose-500/20 text-rose-400",
+    bonus: true,
+  },
+
+  // ─── 异议 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "异议V2：用户说不需要",
+    subtitle: "温和探索真实原因，不强推",
+    content: [
+      "说'不需要'通常有隐藏原因，需要温和探索。",
+      "不要强推，用好奇心提问找出真实顾虑。",
+      "找到真实原因后，再针对性解决。",
+    ],
+    psychology: ["可能是价格问题", "可能是已经有了", "可能是时机不对"],
+    antipattern: "不要说'为什么不需要呢？'——显得咄咄逼人，让人反感。",
+    scripts: {
+      en: `No worries at all [Name]! 😊\n\nJust out of curiosity — is it because:\n\nA) You already have one?\nB) The price isn't right?\nC) Not the right time?\nD) Something else?\n\nNo pressure — I just want to understand so I can help better in the future 🙏`,
+      ro: `Nicio problemă [Nume]! 😊\n\nDoar din curiozitate — este pentru că:\n\nA) Ai deja unul?\nB) Prețul nu e potrivit?\nC) Nu e momentul potrivit?\nD) Altceva?\n\nFără presiune — vreau doar să înțeleg ca să pot ajuta mai bine în viitor 🙏`,
+      pl: `Żaden problem [Imię]! 😊\n\nTylko z ciekawości — czy to dlatego że:\n\nA) Już masz jeden?\nB) Cena nie jest odpowiednia?\nC) Nie jest odpowiedni czas?\nD) Coś innego?\n\nBez presji — chcę tylko zrozumieć żeby móc lepiej pomóc w przyszłości 🙏`,
+      hu: `Semmi gond [Név]! 😊\n\nCsak kíváncsiságból — azért mert:\n\nA) Már van egyed?\nB) Az ár nem megfelelő?\nC) Nem a megfelelő időpont?\nD) Valami más?\n\nSemmi nyomás — csak meg akarom érteni hogy a jövőben jobban segíthessek 🙏`,
+      pt: `Sem problema [Nome]! 😊\n\nSó por curiosidade — é porque:\n\nA) Já tens um?\nB) O preço não está certo?\nC) Não é o momento certo?\nD) Outra coisa?\n\nSem pressão — só quero perceber para poder ajudar melhor no futuro 🙏`,
+      cs: `Žádný problém [Jméno]! 😊\n\nJen ze zvědavosti — je to proto že:\n\nA) Už jeden máš?\nB) Cena není správná?\nC) Není správný čas?\nD) Něco jiného?\n\nŽádný tlak — jen chci pochopit abych mohl lépe pomoci v budoucnu 🙏`,
+    },
+    zh: `完全没问题 [姓名]！😊\n\n只是好奇——是因为：\n\nA) 您已经有一个了？\nB) 价格不合适？\nC) 时机不对？\nD) 其他原因？\n\n没有任何压力——我只是想了解，这样以后能更好地帮到您 🙏`,
+    tag: "异议",
+    tagColor: "bg-pink-500/20 text-pink-400",
+    bonus: true,
+  },
+
+  {
+    title: "异议V3：用户说要问家人",
+    subtitle: "尊重决策流程，同时给出帮助工具",
+    content: [
+      "东欧文化中家庭决策很重要，不要强行推进。",
+      "提供一个可以转发给家人的简短说明，帮助用户说服家人。",
+      "给出一个有效期，制造温和的时间感。",
+    ],
+    psychology: ["家人可能反对", "我需要别人的认可", "不想自己做决定"],
+    scripts: {
+      en: `Of course [Name], that's totally reasonable! 😊\n\nHere's a quick summary you can share with them:\n\n✅ Cash on Delivery — no upfront payment\n✅ Open the package first, then pay\n✅ If not satisfied, just refuse delivery\n✅ 100% Original product\n\nNo risk at all — they can see for themselves when it arrives!\n\nI'll hold the price for you until tomorrow evening 😊`,
+      ro: `Bineînțeles [Nume], e total rezonabil! 😊\n\nIată un rezumat rapid pe care îl poți împărtăși cu ei:\n\n✅ Plată la Livrare — fără plată în avans\n✅ Deschide pachetul mai întâi, apoi plătești\n✅ Dacă nu ești mulțumit, refuzi livrarea\n✅ Produs 100% Original\n\nFără niciun risc — pot vedea singuri când ajunge!\n\nÎți păstrez prețul până mâine seară 😊`,
+      pl: `Oczywiście [Imię], to całkowicie rozsądne! 😊\n\nOto krótkie podsumowanie które możesz im udostępnić:\n\n✅ Płatność przy Odbiorze — bez płatności z góry\n✅ Najpierw otwórz paczkę, potem płać\n✅ Jeśli nie jesteś zadowolony, odmów dostawy\n✅ 100% Oryginalny produkt\n\nBez żadnego ryzyka — sami zobaczą gdy dotrze!\n\nZatrzymam dla Ciebie cenę do jutro wieczór 😊`,
+      hu: `Persze [Név], ez teljesen ésszerű! 😊\n\nÍme egy gyors összefoglaló amit megoszthatsz velük:\n\n✅ Utánvétes fizetés — nincs előzetes fizetés\n✅ Először nyisd ki a csomagot, aztán fizetsz\n✅ Ha nem vagy elégedett, utasítsd vissza a kézbesítést\n✅ 100% Eredeti termék\n\nSemmi kockázat — maguk láthatják amikor megérkezik!\n\nMegtartom neked az árat holnap estig 😊`,
+      pt: `Claro [Nome], é totalmente razoável! 😊\n\nAqui está um resumo rápido que podes partilhar com eles:\n\n✅ Pagamento na Entrega — sem pagamento adiantado\n✅ Abre o pacote primeiro, depois pagas\n✅ Se não estiveres satisfeito, recusa a entrega\n✅ Produto 100% Original\n\nSem risco algum — podem ver por si mesmos quando chegar!\n\nGuardo o preço para ti até amanhã à noite 😊`,
+      cs: `Samozřejmě [Jméno], to je naprosto rozumné! 😊\n\nZde je rychlé shrnutí které jim můžeš sdílet:\n\n✅ Platba při Doručení — žádná platba předem\n✅ Nejprve otevři balíček, pak platíš\n✅ Pokud nejsi spokojený, odmítni doručení\n✅ 100% Originální produkt\n\nŽádné riziko — sami uvidí když dorazí!\n\nPodržím ti cenu do zítřejšího večera 😊`,
+    },
+    zh: `当然 [姓名]，这完全合理！😊\n\n这是一个简短说明，您可以转发给家人：\n\n✅ 货到付款——不需要提前付款\n✅ 先开箱检查，再付款\n✅ 如果不满意，直接拒收\n✅ 100%正品\n\n完全没有风险——他们收到货时可以亲眼看到！\n\n我帮您保留这个价格到明天晚上 😊`,
+    tag: "异议",
+    tagColor: "bg-pink-500/20 text-pink-400",
+    bonus: true,
+  },
+
+  // ─── 拒收 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "拒收V2：拒收后挽回（当天）",
+    subtitle: "拒收后1小时内联系，挽回成功率最高",
+    content: [
+      "拒收后1小时内联系，挽回率比24小时后高3倍。",
+      "不要指责，先了解原因。",
+      "提供部分退款或换货方案，降低损失。",
+    ],
+    psychology: ["我拒收了但可能后悔", "如果有更好的方案我可能接受", "不想被指责"],
+    antipattern: "不要说'你为什么拒收'——会激化矛盾，让挽回更难。",
+    scripts: {
+      en: `Hi [Name] 👋\n\nI just saw that the delivery wasn't accepted — no worries, I'm not upset!\n\nCan I ask what happened? Was it:\n\nA) Wrong product/flavor?\nB) Arrived damaged?\nC) Changed your mind?\nD) Something else?\n\nI want to make this right for you 🙏 Let me know and we'll find a solution together.`,
+      ro: `Bună [Nume] 👋\n\nTocmai am văzut că livrarea nu a fost acceptată — nicio grijă, nu sunt supărat!\n\nPot întreba ce s-a întâmplat? A fost:\n\nA) Produs/aromă greșit(ă)?\nB) A ajuns deteriorat?\nC) Ți-ai schimbat gândul?\nD) Altceva?\n\nVreau să rezolv asta pentru tine 🙏 Spune-mi și găsim o soluție împreună.`,
+      pl: `Cześć [Imię] 👋\n\nWłaśnie zobaczyłem że dostawa nie została przyjęta — żaden problem, nie jestem zły!\n\nCzy mogę zapytać co się stało? Czy to było:\n\nA) Zły produkt/smak?\nB) Przyszło uszkodzone?\nC) Zmieniłeś zdanie?\nD) Coś innego?\n\nChcę to naprawić dla Ciebie 🙏 Daj mi znać a znajdziemy razem rozwiązanie.`,
+      hu: `Szia [Név] 👋\n\nÉpp láttam hogy a szállítás nem lett elfogadva — semmi gond, nem vagyok dühös!\n\nMegkérdezhetem mi történt? Ez volt:\n\nA) Rossz termék/íz?\nB) Sérülten érkezett?\nC) Meggondoltad magad?\nD) Valami más?\n\nMeg akarom oldani ezt neked 🙏 Szólj és együtt találunk megoldást.`,
+      pt: `Olá [Nome] 👋\n\nAcabei de ver que a entrega não foi aceite — sem problema, não estou chateado!\n\nPosso perguntar o que aconteceu? Foi:\n\nA) Produto/sabor errado?\nB) Chegou danificado?\nC) Mudaste de ideias?\nD) Outra coisa?\n\nQuero resolver isto para ti 🙏 Diz-me e encontramos uma solução juntos.`,
+      cs: `Ahoj [Jméno] 👋\n\nPrávě jsem viděl že doručení nebylo přijato — žádný problém, nejsem naštvaný!\n\nMohu se zeptat co se stalo? Bylo to:\n\nA) Špatný produkt/příchuť?\nB) Dorazilo poškozené?\nC) Rozmyslel sis to?\nD) Něco jiného?\n\nChci to pro tebe napravit 🙏 Řekni mi a najdeme řešení společně.`,
+    },
+    zh: `嗨 [姓名] 👋\n\n我刚刚看到包裹没有被签收——没关系，我不生气！\n\n可以问一下发生了什么吗？是因为：\n\nA) 产品/口味不对？\nB) 到货时有损坏？\nC) 改变主意了？\nD) 其他原因？\n\n我想为您解决这个问题 🙏 告诉我，我们一起找到解决方案。`,
+    tag: "拒收",
+    tagColor: "bg-red-500/20 text-red-400",
+    bonus: true,
+  },
+
+  {
+    title: "拒收V3：预防性拒收阻断",
+    subtitle: "发货前主动发消息，将拒收率降低40%",
+    content: [
+      "发货后、派送前发一条'期待感'消息，可降低40%拒收率。",
+      "让客户对收货产生期待，而不是遗忘。",
+      "附上产品使用小贴士，增加价值感。",
+    ],
+    psychology: ["我订了什么？", "快到了吗？", "我还需要这个吗？"],
+    signals: ["订单发货后第2天，派送前1天"],
+    scripts: {
+      en: `[Name]! 🎉 Your vape is almost there!\n\nExpected delivery: TOMORROW 🚚\n\nWhile you wait, here are 3 tips to get the best experience:\n\n💡 Tip 1: First 5 puffs — take slow, gentle draws\n💡 Tip 2: Store upright to prevent leaking\n💡 Tip 3: Watermelon Ice tastes BEST at room temperature\n\nSo excited for you to try it! 🔥\n\nRemember: have [AMOUNT] cash ready for tomorrow! 💰`,
+      ro: `[Nume]! 🎉 Vape-ul tău e aproape acolo!\n\nLivrare estimată: MÂINE 🚚\n\nÎn timp ce aștepți, iată 3 sfaturi pentru cea mai bună experiență:\n\n💡 Sfat 1: Primele 5 pufuri — trage lent și ușor\n💡 Sfat 2: Depozitează vertical pentru a preveni scurgerea\n💡 Sfat 3: Pepene cu Gheață are cel mai bun gust la temperatura camerei\n\nSunt atât de entuziasmat pentru tine să îl încerci! 🔥\n\nAmintește-ți: pregătește [SUMĂ] lei cash pentru mâine! 💰`,
+      pl: `[Imię]! 🎉 Twój vape jest prawie na miejscu!\n\nOczekiwana dostawa: JUTRO 🚚\n\nPodczas gdy czekasz, oto 3 wskazówki dla najlepszego doświadczenia:\n\n💡 Wskazówka 1: Pierwsze 5 zaciągnięć — ciągnij powoli i delikatnie\n💡 Wskazówka 2: Przechowuj pionowo aby zapobiec wyciekom\n💡 Wskazówka 3: Arbuz z Lodem smakuje NAJLEPIEJ w temperaturze pokojowej\n\nJestem taki podekscytowany że to wypróbujesz! 🔥\n\nPamiętaj: przygotuj [KWOTA] zł gotówki na jutro! 💰`,
+      hu: `[Név]! 🎉 A vape-ed majdnem megérkezett!\n\nVárható szállítás: HOLNAP 🚚\n\nAmíg vársz, íme 3 tipp a legjobb élményhez:\n\n💡 Tipp 1: Első 5 szippantás — lassan, finoman húzz\n💡 Tipp 2: Tárold függőlegesen a szivárgás megelőzéséhez\n💡 Tipp 3: A Görögdinnye Jég LEGJOBBAN szobahőmérsékleten ízlik\n\nAnnyira izgatott vagyok hogy kipróbálod! 🔥\n\nNe feledd: készíts elő [ÖSSZEG] Ft készpénzt holnapra! 💰`,
+      pt: `[Nome]! 🎉 O teu vape está quase aí!\n\nEntrega prevista: AMANHÃ 🚚\n\nEnquanto esperas, aqui estão 3 dicas para a melhor experiência:\n\n💡 Dica 1: Primeiras 5 passadas — puxa devagar e suavemente\n💡 Dica 2: Guarda na vertical para evitar fugas\n💡 Dica 3: Melancia com Gelo tem MELHOR sabor à temperatura ambiente\n\nEstou tão animado para experimentares! 🔥\n\nLembra: tem [VALOR] € em dinheiro prontos para amanhã! 💰`,
+      cs: `[Jméno]! 🎉 Tvůj vape je skoro tady!\n\nOčekávané doručení: ZÍTRA 🚚\n\nZatímco čekáš, zde jsou 3 tipy pro nejlepší zážitek:\n\n💡 Tip 1: Prvních 5 potáhnutí — táhni pomalu a jemně\n💡 Tip 2: Uchovávej svisle aby nedocházelo k úniku\n💡 Tip 3: Meloun s Ledem chutná NEJLÉPE při pokojové teplotě\n\nJsem tak nadšený že to vyzkoušíš! 🔥\n\nNezapomeň: připrav [ČÁSTKA] Kč hotovost na zítra! 💰`,
+    },
+    zh: `[姓名]！🎉 您的电子烟快到了！\n\n预计到达：明天 🚚\n\n在等待的时候，这里有3个使用小贴士：\n\n💡 贴士1：前5口——慢慢地、轻轻地抽\n💡 贴士2：竖放存放，防止漏油\n💡 贴士3：西瓜冰在室温下口感最佳\n\n好期待您试用！🔥\n\n记得：明天准备好 [金额] 现金！💰`,
+    tag: "拒收",
+    tagColor: "bg-red-500/20 text-red-400",
+    bonus: true,
+  },
+
+  // ─── 验真 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "验真V2：官网验证码引导",
+    subtitle: "引导用户用官方验证码自行验证真伪",
+    content: [
+      "让用户自己验证，比你说100次'是正品'更有说服力。",
+      "引导用户刮开防伪码，访问官网验证。",
+      "验证成功后，顺势推动下单。",
+    ],
+    psychology: ["我怎么知道是真的？", "如果我自己能验证就好了", "官网验证最可信"],
+    scripts: {
+      en: `[Name], great question! Here's how to verify yourself 👇\n\nEvery authentic [BRAND] has a scratch-off code on the box.\n\n✅ Step 1: Scratch the silver panel on the box\n✅ Step 2: Visit: [BRAND_WEBSITE]/verify\n✅ Step 3: Enter the code\n✅ Step 4: See "AUTHENTIC PRODUCT" ✅\n\nAll our products pass this verification.\n\nWant me to send you a video of the verification process? 📱`,
+      ro: `[Nume], întrebare excelentă! Iată cum poți verifica singur 👇\n\nFiecare [BRAND] autentic are un cod de zgâriat pe cutie.\n\n✅ Pasul 1: Zgârie panoul argintiu de pe cutie\n✅ Pasul 2: Vizitează: [SITE_BRAND]/verify\n✅ Pasul 3: Introdu codul\n✅ Pasul 4: Vezi "PRODUS AUTENTIC" ✅\n\nToate produsele noastre trec această verificare.\n\nVrei să îți trimit un video al procesului de verificare? 📱`,
+      pl: `[Imię], świetne pytanie! Oto jak możesz zweryfikować sam 👇\n\nKażdy autentyczny [BRAND] ma kod do zdrapania na pudełku.\n\n✅ Krok 1: Zdrap srebrny panel na pudełku\n✅ Krok 2: Odwiedź: [STRONA_BRAND]/verify\n✅ Krok 3: Wprowadź kod\n✅ Krok 4: Zobacz "AUTENTYCZNY PRODUKT" ✅\n\nWszystkie nasze produkty przechodzą tę weryfikację.\n\nChcesz żebym wysłał Ci wideo procesu weryfikacji? 📱`,
+      hu: `[Név], nagyszerű kérdés! Így ellenőrizheted magad 👇\n\nMinden hiteles [BRAND]-nek van kaparható kódja a dobozon.\n\n✅ 1. lépés: Kapard le az ezüst panelt a dobozon\n✅ 2. lépés: Látogasd meg: [BRAND_WEBOLDAL]/verify\n✅ 3. lépés: Add meg a kódot\n✅ 4. lépés: Lásd "HITELES TERMÉK" ✅\n\nMinden termékünk átmegy ezen az ellenőrzésen.\n\nSzeretné hogy küldjem az ellenőrzési folyamat videóját? 📱`,
+      pt: `[Nome], ótima pergunta! Aqui está como verificar tu mesmo 👇\n\nCada [MARCA] autêntico tem um código raspável na caixa.\n\n✅ Passo 1: Raspa o painel prateado na caixa\n✅ Passo 2: Visita: [SITE_MARCA]/verify\n✅ Passo 3: Insere o código\n✅ Passo 4: Vê "PRODUTO AUTÊNTICO" ✅\n\nTodos os nossos produtos passam nesta verificação.\n\nQueres que te envie um vídeo do processo de verificação? 📱`,
+      cs: `[Jméno], skvělá otázka! Zde je jak ověřit sám 👇\n\nKaždý autentický [BRAND] má stírací kód na krabičce.\n\n✅ Krok 1: Setři stříbrný panel na krabičce\n✅ Krok 2: Navštiv: [WEB_BRAND]/verify\n✅ Krok 3: Zadej kód\n✅ Krok 4: Uvidíš "AUTENTICKÝ PRODUKT" ✅\n\nVšechny naše produkty projdou tímto ověřením.\n\nChceš abych ti poslal video procesu ověření? 📱`,
+    },
+    zh: `[姓名]，好问题！这是您自己验证的方法 👇\n\n每个正品 [品牌] 的包装盒上都有防伪刮码。\n\n✅ 第1步：刮开包装盒上的银色涂层\n✅ 第2步：访问：[品牌官网]/verify\n✅ 第3步：输入防伪码\n✅ 第4步：看到"正品验证通过" ✅\n\n我们所有产品都能通过这个验证。\n\n要我发给您一个验证过程的视频吗？📱`,
+    tag: "验真",
+    tagColor: "bg-cyan-500/20 text-cyan-400",
+    bonus: true,
+  },
+
+  // ─── 节促 ─────────────────────────────────────────────────────────────────
+
+  {
+    title: "节促V2：发薪日促销",
+    subtitle: "东欧发薪日（每月1日/15日）前后是最佳促销时机",
+    content: [
+      "东欧大多数国家在每月1日或15日发薪，这是最佳促销时机。",
+      "提前2-3天预热，发薪当天推送优惠。",
+      "强调'刚发薪就犒劳自己'的情感共鸣。",
+    ],
+    psychology: ["刚发薪，可以买点好的犒劳自己", "这时候买不心疼", "发薪日特别优惠感觉很划算"],
+    signals: ["每月1日前后2-3天，或15日前后"],
+    scripts: {
+      en: `[Name]! 💰 Payday special just for you!\n\nWe know it's payday week — so we're celebrating with you! 🎉\n\n🔥 PAYDAY DEAL (48 hours only):\n📦 3-pack: €49 → €39 (save €10!)\n🎁 + FREE carrying case\n🚚 + Priority shipping\n\nYou work hard — you deserve the good stuff! 😄\n\nReply YES to grab this deal before it's gone! 👇`,
+      ro: `[Nume]! 💰 Ofertă specială de ziua de salariu!\n\nȘtim că e săptămâna de salariu — deci sărbătorim cu tine! 🎉\n\n🔥 OFERTĂ SALARIU (doar 48 ore):\n📦 3 buc: 249 lei → 199 lei (economisești 50 lei!)\n🎁 + Husă de transport GRATUITĂ\n🚚 + Expediere prioritară\n\nMuncești din greu — meriți lucruri bune! 😄\n\nRăspunde DA pentru a profita de ofertă înainte să dispară! 👇`,
+      pl: `[Imię]! 💰 Specjalna oferta na dzień wypłaty!\n\nWiemy że to tydzień wypłaty — więc świętujemy razem z Tobą! 🎉\n\n🔥 OFERTA WYPŁATA (tylko 48 godzin):\n📦 3 szt: 210 zł → 170 zł (oszczędzasz 40 zł!)\n🎁 + DARMOWE etui\n🚚 + Wysyłka priorytetowa\n\nCiężko pracujesz — zasługujesz na dobre rzeczy! 😄\n\nOdpowiedz TAK żeby skorzystać z oferty zanim zniknie! 👇`,
+      hu: `[Név]! 💰 Fizetési nap különleges ajánlat csak neked!\n\nTudjuk hogy fizetési hét van — szóval együtt ünneplünk! 🎉\n\n🔥 FIZETÉSI NAP AJÁNLAT (csak 48 óra):\n📦 3 db: 18 900 Ft → 14 900 Ft (megtakarítasz 4 000 Ft-ot!)\n🎁 + INGYENES hordtáska\n🚚 + Elsőbbségi szállítás\n\nKeményen dolgozol — megérdemled a jó dolgokat! 😄\n\nVálaszolj IGEN-nel hogy megszerezd az ajánlatot mielőtt eltűnik! 👇`,
+      pt: `[Nome]! 💰 Especial dia de pagamento só para ti!\n\nSabemos que é semana de pagamento — por isso celebramos contigo! 🎉\n\n🔥 OFERTA DIA DE PAGAMENTO (apenas 48 horas):\n📦 3 un: €49 → €39 (poupa €10!)\n🎁 + Estojo de transporte GRÁTIS\n🚚 + Envio prioritário\n\nTrabalhas muito — mereces as coisas boas! 😄\n\nResponde SIM para aproveitar esta oferta antes que desapareça! 👇`,
+      cs: `[Jméno]! 💰 Speciální nabídka na den výplaty jen pro tebe!\n\nVíme že je týden výplaty — takže slavíme s tebou! 🎉\n\n🔥 NABÍDKA VÝPLATNÍ DEN (pouze 48 hodin):\n📦 3 ks: 1 220 Kč → 980 Kč (ušetříš 240 Kč!)\n🎁 + ZDARMA přenosné pouzdro\n🚚 + Prioritní doručení\n\nTvrdě pracuješ — zasloužíš si dobré věci! 😄\n\nOdpověz ANO pro využití nabídky než zmizí! 👇`,
+    },
+    zh: `[姓名]！💰 发薪日专属特惠！\n\n我们知道这是发薪周——所以一起庆祝！🎉\n\n🔥 发薪日特惠（仅限48小时）：\n📦 3件装：¥350 → ¥280（省¥70！）\n🎁 + 免费便携收纳盒\n🚚 + 优先发货\n\n您辛苦工作——值得犒劳自己！😄\n\n回复"是"在优惠消失前抢到！👇`,
+    tag: "节促",
+    tagColor: "bg-indigo-500/20 text-indigo-400",
+    bonus: true,
+  },
+
+];
