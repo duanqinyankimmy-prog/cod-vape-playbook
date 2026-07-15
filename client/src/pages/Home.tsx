@@ -22,17 +22,17 @@ import RepurchaseModule from "./RepurchaseModule";
 // ─── Language metadata ────────────────────────────────────────────────────────
 
 const LANG_META: Record<LangKey, { label: string; flag: string; market: string }> = {
-  en: { label: "English",    flag: "🇬🇧", market: "通用" },
-  ro: { label: "Română",     flag: "🇷🇴", market: "罗马尼亚" },
-  pl: { label: "Polski",     flag: "🇵🇱", market: "波兰" },
-  hu: { label: "Magyar",     flag: "🇭🇺", market: "匈牙利" },
-  pt: { label: "Português",  flag: "🇵🇹", market: "葡萄牙" },
-  cs: { label: "Čeština",    flag: "🇨🇿", market: "捷克" },
-  es: { label: "Español",    flag: "🇪🇸", market: "西班牙" },
-  hr: { label: "Hrvatski",   flag: "🇭🇷", market: "克罗地亚" },
-  sk: { label: "Slovenčina", flag: "🇸🇰", market: "斯洛伐克" },
-  lt: { label: "Lietuvių",   flag: "🇱🇹", market: "立陶宛" },
-  lv: { label: "Latviešu",   flag: "🇱🇻", market: "拉脱维亚" },
+  en: { label: "英语",     flag: "🇬🇧", market: "通用" },
+  ro: { label: "罗马尼亚语", flag: "🇷🇴", market: "罗马尼亚" },
+  pl: { label: "波兰语",   flag: "🇵🇱", market: "波兰" },
+  hu: { label: "匈牙利语", flag: "🇭🇺", market: "匈牙利" },
+  pt: { label: "葡萄牙语", flag: "🇵🇹", market: "葡萄牙" },
+  cs: { label: "捷克语",   flag: "🇨🇿", market: "捷克" },
+  es: { label: "西班牙语", flag: "🇪🇸", market: "西班牙" },
+  hr: { label: "克罗地亚语", flag: "🇭🇷", market: "克罗地亚" },
+  sk: { label: "斯洛伐克语", flag: "🇸🇰", market: "斯洛伐克" },
+  lt: { label: "立陶宛语", flag: "🇱🇹", market: "立陶宛" },
+  lv: { label: "拉脱维亚语", flag: "🇱🇻", market: "拉脱维亚" },
 };
 
 // ─── All sections ─────────────────────────────────────────────────────────────
@@ -822,32 +822,18 @@ export default function Home() {
             <div className="flex flex-wrap gap-2 items-center">
               {/* Language switcher — two rows */}
               <div className="flex flex-col gap-1 bg-white border border-slate-200 rounded-xl p-1.5 shadow-sm">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 flex-wrap">
                   <Globe size={12} className="text-slate-400 ml-0.5 mr-0.5 flex-shrink-0" />
-                  {(["en", "ro", "pl", "hu", "pt", "cs"] as LangKey[]).map((l) => (
+                  {(["en", "ro", "pl", "hu", "pt", "cs", "es", "hr", "sk", "lt", "lv"] as LangKey[]).map((l) => (
                     <button
                       key={l}
                       onClick={() => setLang(l)}
-                      className={`px-2 py-1 rounded-lg text-xs font-600 transition-all duration-150 flex items-center gap-1 ${lang === l ? "bg-[#128C7E] text-white" : "text-slate-500 hover:text-slate-700 hover:bg-slate-100"}`}
-                      style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                      className={`px-2 py-1 rounded-lg text-xs font-600 transition-all duration-150 flex items-center gap-1 whitespace-nowrap ${lang === l ? "bg-[#128C7E] text-white" : "text-slate-500 hover:text-slate-700 hover:bg-slate-100"}`}
+                      style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
                       title={LANG_META[l].market}
                     >
                       <span>{LANG_META[l].flag}</span>
-                      <span className="hidden sm:inline">{LANG_META[l].label}</span>
-                    </button>
-                  ))}
-                </div>
-                <div className="flex items-center gap-1 pl-5">
-                  {(["es", "hr", "sk", "lt", "lv"] as LangKey[]).map((l) => (
-                    <button
-                      key={l}
-                      onClick={() => setLang(l)}
-                      className={`px-2 py-1 rounded-lg text-xs font-600 transition-all duration-150 flex items-center gap-1 ${lang === l ? "bg-[#128C7E] text-white" : "text-slate-500 hover:text-slate-700 hover:bg-slate-100"}`}
-                      style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                      title={LANG_META[l].market}
-                    >
-                      <span>{LANG_META[l].flag}</span>
-                      <span className="hidden sm:inline">{LANG_META[l].label}</span>
+                      <span>{LANG_META[l].label}</span>
                     </button>
                   ))}
                 </div>
