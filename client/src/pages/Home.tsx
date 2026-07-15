@@ -820,21 +820,37 @@ export default function Home() {
           <div className="animate-fade-in-up stagger-3 space-y-3">
             {/* Row 1: language + ZH toggle + search */}
             <div className="flex flex-wrap gap-2 items-center">
-              {/* Language switcher */}
-              <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
-                <Globe size={12} className="text-slate-400 ml-1.5 mr-0.5 flex-shrink-0" />
-                {(["en", "ro", "pl", "hu", "pt", "cs"] as LangKey[]).map((l) => (
-                  <button
-                    key={l}
-                    onClick={() => setLang(l)}
-                    className={`px-2.5 py-1.5 rounded-lg text-xs font-600 transition-all duration-150 flex items-center gap-1 ${lang === l ? "bg-[#128C7E] text-white" : "text-slate-500 hover:text-slate-700 hover:bg-slate-100"}`}
-                    style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                    title={LANG_META[l].market}
-                  >
-                    <span>{LANG_META[l].flag}</span>
-                    <span className="hidden sm:inline">{LANG_META[l].label}</span>
-                  </button>
-                ))}
+              {/* Language switcher — two rows */}
+              <div className="flex flex-col gap-1 bg-white border border-slate-200 rounded-xl p-1.5 shadow-sm">
+                <div className="flex items-center gap-1">
+                  <Globe size={12} className="text-slate-400 ml-0.5 mr-0.5 flex-shrink-0" />
+                  {(["en", "ro", "pl", "hu", "pt", "cs"] as LangKey[]).map((l) => (
+                    <button
+                      key={l}
+                      onClick={() => setLang(l)}
+                      className={`px-2 py-1 rounded-lg text-xs font-600 transition-all duration-150 flex items-center gap-1 ${lang === l ? "bg-[#128C7E] text-white" : "text-slate-500 hover:text-slate-700 hover:bg-slate-100"}`}
+                      style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                      title={LANG_META[l].market}
+                    >
+                      <span>{LANG_META[l].flag}</span>
+                      <span className="hidden sm:inline">{LANG_META[l].label}</span>
+                    </button>
+                  ))}
+                </div>
+                <div className="flex items-center gap-1 pl-5">
+                  {(["es", "hr", "sk", "lt", "lv"] as LangKey[]).map((l) => (
+                    <button
+                      key={l}
+                      onClick={() => setLang(l)}
+                      className={`px-2 py-1 rounded-lg text-xs font-600 transition-all duration-150 flex items-center gap-1 ${lang === l ? "bg-[#128C7E] text-white" : "text-slate-500 hover:text-slate-700 hover:bg-slate-100"}`}
+                      style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                      title={LANG_META[l].market}
+                    >
+                      <span>{LANG_META[l].flag}</span>
+                      <span className="hidden sm:inline">{LANG_META[l].label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* ZH toggle */}
