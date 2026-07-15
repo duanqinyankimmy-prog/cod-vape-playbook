@@ -316,7 +316,13 @@ function CopyBtn({ text }: { text: string }) {
   );
 }
 
-function NodeCard({ node, lang, showZh, isLast }: { node: RepurchaseNode; lang: LangKey; showZh: boolean; isLast: boolean }) {
+function applyBrand(text: string, brand: string): string {
+  const DEFAULT_BRAND = "CLOUD VAPE";
+  if (!brand.trim() || brand.trim() === DEFAULT_BRAND) return text;
+  return text.replace(/CLOUD VAPE/g, brand.trim());
+}
+
+function NodeCard({ node, lang, showZh, isLast, brandName }: { node: RepurchaseNode; lang: LangKey; showZh: boolean; isLast: boolean; brandName: string }) {
   const [expanded, setExpanded] = useState(false);
   const c = COLOR_MAP[node.color];
 
@@ -394,14 +400,14 @@ function NodeCard({ node, lang, showZh, isLast }: { node: RepurchaseNode; lang: 
                   <h4 className={`text-[10px] font-600 uppercase tracking-widest ${c.icon}`}>
                     {LANG_META[lang].flag} {LANG_META[lang].label} 话术
                   </h4>
-                  <CopyBtn text={node.scripts[lang]} />
+                  <CopyBtn text={applyBrand(node.scripts[lang], brandName)} />
                 </div>
                 <div className="rounded-xl overflow-hidden bg-[#F0F2F5] border border-slate-200">
                   <div className="flex items-center gap-2 px-3 py-2 bg-[#128C7E]">
                     <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
                       <MessageCircle size={10} className="text-white" />
                     </div>
-                    <span className="text-xs text-white/90 font-medium">CLOUD VAPE</span>
+                    <span className="text-xs text-white/90 font-medium">{brandName.trim() || "CLOUD VAPE"}</span>
                     <div className="ml-auto flex items-center gap-1">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#25D366]" />
                       <span className="text-[10px] text-green-300">online</span>
@@ -411,7 +417,7 @@ function NodeCard({ node, lang, showZh, isLast }: { node: RepurchaseNode; lang: 
                     <div className="flex justify-end">
                       <div className="bubble-out max-w-[90%] px-3 py-2">
                         <pre className="text-xs text-slate-800 whitespace-pre-wrap leading-relaxed" style={{ fontFamily: "'JetBrains Mono', 'Noto Sans SC', monospace" }}>
-                          {node.scripts[lang]}
+                          {applyBrand(node.scripts[lang], brandName)}
                         </pre>
                         <div className="flex justify-end mt-1"><span className="text-[10px] text-slate-400">✓✓</span></div>
                       </div>
@@ -424,7 +430,7 @@ function NodeCard({ node, lang, showZh, isLast }: { node: RepurchaseNode; lang: 
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-[10px] font-600 uppercase tracking-widest text-amber-400">🇨🇳 中文对照</h4>
-                    <CopyBtn text={node.zh} />
+                    <CopyBtn text={applyBrand(node.zh, brandName)} />
                   </div>
                   <div className="rounded-xl overflow-hidden bg-[#F0F2F5] border border-slate-200">
                     <div className="flex items-center gap-2 px-3 py-2 bg-amber-500">
@@ -437,7 +443,7 @@ function NodeCard({ node, lang, showZh, isLast }: { node: RepurchaseNode; lang: 
                       <div className="flex justify-start">
                         <div className="bubble-in max-w-[90%] px-3 py-2">
                           <pre className="text-xs text-slate-700 whitespace-pre-wrap leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
-                            {node.zh}
+                            {applyBrand(node.zh, brandName)}
                           </pre>
                         </div>
                       </div>
@@ -455,7 +461,7 @@ function NodeCard({ node, lang, showZh, isLast }: { node: RepurchaseNode; lang: 
 
 // ─── Main Export ──────────────────────────────────────────────────────────────
 
-export default function RepurchaseModule({ lang, showZh }: { lang: LangKey; showZh: boolean }) {
+export default function RepurchaseModule({ lang, showZh, brandName }: { lang: LangKey; showZh: boolean; brandName: string }) {
   return (
     <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
       {/* Section header */}
@@ -501,7 +507,7 @@ export default function RepurchaseModule({ lang, showZh }: { lang: LangKey; show
       {/* Timeline */}
       <div className="pl-0">
         {repurchaseNodes.map((node, i) => (
-          <NodeCard key={node.id} node={node} lang={lang} showZh={showZh} isLast={i === repurchaseNodes.length - 1} />
+          <NodeCard key={node.id} node={node} lang={lang} showZh={showZh} isLast={i === repurchaseNodes.length - 1} brandName={brandName} />
         ))}
       </div>
 

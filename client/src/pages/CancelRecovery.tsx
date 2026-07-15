@@ -251,7 +251,13 @@ const RISK_STYLE = {
   low:    { badge: "bg-yellow-100 text-yellow-700 border-yellow-200", bar: "bg-yellow-400", dot: "bg-yellow-400", border: "border-yellow-200 hover:border-yellow-300" },
 };
 
-function RecoveryCard({ rc, lang, showZh }: { rc: RecoveryCase; lang: LangKey; showZh: boolean }) {
+function applyBrand(text: string, brand: string): string {
+  const DEFAULT_BRAND = "CLOUD VAPE";
+  if (!brand.trim() || brand.trim() === DEFAULT_BRAND) return text;
+  return text.replace(/CLOUD VAPE/g, brand.trim());
+}
+
+function RecoveryCard({ rc, lang, showZh, brandName }: { rc: RecoveryCase; lang: LangKey; showZh: boolean; brandName: string }) {
   const [expanded, setExpanded] = useState(false);
   const style = RISK_STYLE[rc.risk];
 
@@ -321,14 +327,14 @@ function RecoveryCard({ rc, lang, showZh }: { rc: RecoveryCase; lang: LangKey; s
                 <h4 className="text-[10px] font-600 uppercase tracking-widest text-[#128C7E]">
                   {LANG_META[lang].flag} {LANG_META[lang].label} 挽回话术
                 </h4>
-                <CopyBtn text={rc.scripts[lang]} />
+                <CopyBtn text={applyBrand(rc.scripts[lang], brandName)} />
               </div>
               <div className="rounded-xl overflow-hidden bg-[#F0F2F5] border border-slate-200">
                 <div className="flex items-center gap-2 px-3 py-2 bg-[#128C7E]">
                   <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
                     <MessageCircle size={10} className="text-white" />
                   </div>
-                  <span className="text-xs text-white/90 font-medium">CLOUD VAPE</span>
+                  <span className="text-xs text-white/90 font-medium">{brandName.trim() || "CLOUD VAPE"}</span>
                   <div className="ml-auto flex items-center gap-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#25D366]" />
                     <span className="text-[10px] text-green-300">online</span>
@@ -338,7 +344,7 @@ function RecoveryCard({ rc, lang, showZh }: { rc: RecoveryCase; lang: LangKey; s
                   <div className="flex justify-end">
                     <div className="bubble-out max-w-[90%] px-3 py-2">
                       <pre className="text-xs text-slate-800 whitespace-pre-wrap leading-relaxed" style={{ fontFamily: "'JetBrains Mono', 'Noto Sans SC', monospace" }}>
-                        {rc.scripts[lang]}
+                        {applyBrand(rc.scripts[lang], brandName)}
                       </pre>
                       <div className="flex justify-end mt-1"><span className="text-[10px] text-slate-400">✓✓</span></div>
                     </div>
@@ -352,7 +358,7 @@ function RecoveryCard({ rc, lang, showZh }: { rc: RecoveryCase; lang: LangKey; s
               <div className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="text-[10px] font-600 uppercase tracking-widest text-amber-400">🇨🇳 中文对照</h4>
-                  <CopyBtn text={rc.zh} />
+                  <CopyBtn text={applyBrand(rc.zh, brandName)} />
                 </div>
                 <div className="rounded-xl overflow-hidden bg-[#F0F2F5] border border-slate-200">
                   <div className="flex items-center gap-2 px-3 py-2 bg-amber-500">
@@ -365,7 +371,7 @@ function RecoveryCard({ rc, lang, showZh }: { rc: RecoveryCase; lang: LangKey; s
                     <div className="flex justify-start">
                       <div className="bubble-in max-w-[90%] px-3 py-2">
                         <pre className="text-xs text-slate-700 whitespace-pre-wrap leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
-                          {rc.zh}
+                          {applyBrand(rc.zh, brandName)}
                         </pre>
                       </div>
                     </div>
@@ -382,7 +388,7 @@ function RecoveryCard({ rc, lang, showZh }: { rc: RecoveryCase; lang: LangKey; s
 
 // ─── Main Export ──────────────────────────────────────────────────────────────
 
-export default function CancelRecovery({ lang, showZh }: { lang: LangKey; showZh: boolean }) {
+export default function CancelRecovery({ lang, showZh, brandName }: { lang: LangKey; showZh: boolean; brandName: string }) {
   const [activeRisk, setActiveRisk] = useState<"全部" | "high" | "medium" | "low">("全部");
 
   const filtered = recoveryCases.filter((rc) => activeRisk === "全部" || rc.risk === activeRisk);
@@ -460,7 +466,7 @@ export default function CancelRecovery({ lang, showZh }: { lang: LangKey; showZh
       {/* Recovery cards */}
       <div className="space-y-3">
         {filtered.map((rc) => (
-          <RecoveryCard key={rc.id} rc={rc} lang={lang} showZh={showZh} />
+          <RecoveryCard key={rc.id} rc={rc} lang={lang} showZh={showZh} brandName={brandName} />
         ))}
       </div>
 

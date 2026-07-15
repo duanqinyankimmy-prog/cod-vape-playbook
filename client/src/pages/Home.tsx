@@ -10,7 +10,7 @@ import { useState, useCallback } from "react";
 import {
   Check, Copy, MessageCircle, TrendingUp, Shield, Zap,
   ChevronDown, ChevronUp, Globe, BarChart2, Edit3,
-  X, RotateCcw, Search, BookOpen,
+  X, RotateCcw, Search, BookOpen, Tag as TagIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import { extraSections } from "./extraSections";
@@ -485,6 +485,12 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
+const DEFAULT_BRAND = "CLOUD VAPE";
+function applyBrand(text: string, brand: string): string {
+  if (!brand.trim() || brand.trim() === DEFAULT_BRAND) return text;
+  return text.replace(/CLOUD VAPE/g, brand.trim());
+}
+
 interface StepCardProps {
   section: Section;
   index: number;
@@ -495,14 +501,17 @@ interface StepCardProps {
   customScript: string | null;
   onSaveScript: (s: string) => void;
   onResetScript: () => void;
+  brandName: string;
 }
 
-function StepCard({ section, index, lang, showZh, completed, onToggleComplete, customScript, onSaveScript, onResetScript }: StepCardProps) {
+function StepCard({ section, index, lang, showZh, completed, onToggleComplete, customScript, onSaveScript, onResetScript, brandName }: StepCardProps) {
   const [expanded, setExpanded] = useState(true);
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState("");
 
-  const displayScript = customScript ?? section.scripts[lang];
+  const rawScript = customScript ?? section.scripts[lang];
+  const displayScript = applyBrand(rawScript, brandName);
+  const displayZh = applyBrand(section.zh, brandName);
 
   const startEdit = () => { setDraft(displayScript); setEditing(true); };
   const saveEdit = () => { onSaveScript(draft); setEditing(false); toast.success("话术已保存"); };
@@ -635,7 +644,7 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
                   <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
                     <MessageCircle size={10} className="text-white" />
                   </div>
-                  <span className="text-xs text-white/90 font-medium">CLOUD VAPE</span>
+                  <span className="text-xs text-white/90 font-medium">{brandName.trim() || DEFAULT_BRAND}</span>
                   <div className="ml-auto flex items-center gap-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#25D366]" />
                     <span className="text-[10px] text-green-300">online</span>
@@ -679,7 +688,7 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
               <div className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-[10px] font-600 uppercase tracking-widest text-amber-400">🇨🇳 中文对照</h3>
-                  <CopyButton text={section.zh} />
+                  <CopyButton text={displayZh} />
                 </div>
                 <div className="rounded-xl overflow-hidden bg-[#F0F2F5] border border-slate-200">
                   <div className="flex items-center gap-2 px-3 py-2 bg-amber-500 border-b border-amber-400/20">
@@ -692,7 +701,7 @@ function StepCard({ section, index, lang, showZh, completed, onToggleComplete, c
                     <div className="flex justify-start">
                       <div className="bubble-in max-w-[90%] px-3 py-2">
                         <pre className="text-xs text-slate-700 whitespace-pre-wrap leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
-                          {section.zh}
+                          {displayZh}
                         </pre>
                       </div>
                     </div>
@@ -742,6 +751,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
   const [customScripts, setCustomScripts] = useState<Record<number, string>>({});
+  const [brandName, setBrandName] = useState(DEFAULT_BRAND);
 
   const toggleComplete = useCallback((idx: number) => {
     setCompletedSteps((prev) => {
@@ -848,6 +858,22 @@ export default function Home() {
                 🇨🇳 中文对照 {showZh ? "开" : "关"}
               </button>
 
+              {/* Brand name input */}
+              <div className="flex items-center gap-2 bg-white border border-[#128C7E]/40 rounded-xl px-3 py-2 min-w-[160px] max-w-[200px] shadow-sm">
+                <TagIcon size={12} className="text-[#128C7E] flex-shrink-0" />
+                <input
+                  type="text"
+                  placeholder="品牌名称…"
+                  value={brandName}
+                  onChange={(e) => setBrandName(e.target.value)}
+                  className="bg-transparent text-xs text-slate-700 placeholder-slate-300 outline-none w-full font-medium"
+                  style={{ fontFamily: "'Space Grotesk', 'Noto Sans SC', sans-serif" }}
+                />
+                {brandName !== DEFAULT_BRAND && (
+                  <button onClick={() => setBrandName(DEFAULT_BRAND)} className="text-slate-300 hover:text-slate-500" title="恢复默认"><X size={11} /></button>
+                )}
+              </div>
+
               {/* Search */}
               <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-3 py-2 flex-1 min-w-[160px] max-w-xs shadow-sm">
                 <Search size={12} className="text-slate-400 flex-shrink-0" />
@@ -906,6 +932,7 @@ export default function Home() {
                 customScript={customScripts[section.originalIndex] ?? null}
                 onSaveScript={(s) => saveScript(section.originalIndex, s)}
                 onResetScript={() => resetScript(section.originalIndex)}
+                brandName={brandName}
               />
             ))}
           </div>
@@ -913,10 +940,10 @@ export default function Home() {
       </div>
 
       {/* Repurchase Activation Module */}
-      <RepurchaseModule lang={lang} showZh={showZh} />
+      <RepurchaseModule lang={lang} showZh={showZh} brandName={brandName} />
 
       {/* Cancel Recovery Module */}
-      <CancelRecovery lang={lang} showZh={showZh} />
+      <CancelRecovery lang={lang} showZh={showZh} brandName={brandName} />
 
       {/* Formula footer */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
